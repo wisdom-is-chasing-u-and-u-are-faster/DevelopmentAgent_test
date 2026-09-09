@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Aura Cosmetics</title>
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+================================================================================
+/ ART DIRECTION: THEME & DESIGN SYSTEM
+/ ==============================================================================
+/ Personality:  Modern, clean, luxurious, minimalist for beauty consumers.
+/
+/ Colors:       A sophisticated neutral palette with a single elegant accent.
+/               - Primary: Soft neutrals (Alabaster, Soft Black)
+/               - Accent: Dusty Rose
+/               - Semantics: Muted Green (Success), Muted Red (Error)
+/
+/ Typography:   'Manrope' - a clean, modern sans-serif.
+/               - Scale: Display, h1-h4, Body, Caption. Tight tracking on headings.
+/
+/ Spacing:      8pt grid system (Tailwind's default scale is 4px based).
+/
+/ Components:   Defined classes for Buttons, Cards, Inputs, etc. to ensure
+/               consistency and reusability, adhering to Tailwind's philosophy.
+/ ==============================================================================
+*/
+
+@layer base {
+  :root, :host {
+    /* Color Palette */
+    --color-background: 248 245 242; /* #F8F5F2 */
+    --color-surface: 255 255 255; /* #FFFFFF */
+    --color-primary: 45 45 45; /* #2d2d2d */
+    --color-secondary: 130 130 130; /* #828282 */
+    --color-accent: 216 178 169; /* #D8B2A9 */
+    --color-accent-hover: 200 160 150; /* Darker accent for hover */
+    --color-border: 229 229 229; /* #E5E5E5 */
+
+    --color-success: 95 138 122; /* #5F8A7A */
+    --color-error: 209 122 122; /* #D17A7A */
+    --color-warning: 229 192 123; /* #E5C07B */
+
+    /* Typography */
+    --font-sans: 'Manrope', sans-serif;
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  [data-theme='dark'] {
+    --color-background: 28 28 30; /* #1C1C1E */
+    --color-surface: 44 44 46; /* #2C2C2E */
+    --color-primary: 242 242 247; /* #F2F2F7 */
+    --color-secondary: 142 142 147; /* #8E8E93 */
+    --color-accent: 224 184 174; /* Lighter accent for dark mode */
+    --color-accent-hover: 230 195 185;
+    --color-border: 72 72 74; /* #48484A */
+
+    --color-success: 109 201 166; /* #6DC9A6 */
+    --color-error: 255 129 129; /* #FF8181 */
+    --color-warning: 255 214 102; /* #FFD666 */
+  }
+
+  html {
+    @apply font-sans;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-primary));
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 { @apply font-semibold tracking-tight; }
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl -tracking-[0.03em]; }
+  h2 { @apply text-3xl md:text-4xl -tracking-[0.02em]; }
+  h3 { @apply text-2xl md:text-3xl -tracking-[0.01em]; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  section {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+}
+
+@layer components {
+  /* =========================================
+   * Container
+   * ========================================= */
+  .container {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* =========================================
+   * Buttons
+   * ========================================= */
+  .btn {
+    @apply inline-flex items-center justify-center font-semibold text-center whitespace-nowrap rounded-md text-base px-6 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-accent;
+  }
+  .btn-primary {
+    @apply bg-accent text-white hover:bg-accent-hover shadow-md hover:shadow-lg;
+    background-color: rgb(var(--color-accent));
+    color: white; /* Needs to be specified for contrast */
+  }
+  .btn-primary:hover {
+     background-color: rgb(var(--color-accent-hover));
+  }
+  .btn-secondary {
+    @apply bg-transparent border border-accent text-accent hover:bg-accent hover:text-white;
+    border-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+  }
+  .btn-secondary:hover {
+    background-color: rgb(var(--color-accent));
+    color: white;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-primary hover:bg-surface shadow-none;
+    color: rgb(var(--color-primary));
+  }
+  .btn-ghost:hover {
+    background-color: rgb(var(--color-surface));
+  }
+
+  .btn-sm { @apply px-4 py-2 text-sm rounded-sm; }
+  .btn-lg { @apply px-8 py-4 text-lg; }
+
+  /* =========================================
+   * Forms & Inputs
+   * ========================================= */
+  .form-input {
+    @apply block w-full rounded-md border text-base py-3 px-4;
+    @apply border-border bg-surface placeholder:text-secondary;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
+    border-color: rgb(var(--color-border));
+    background-color: rgb(var(--color-surface));
+    color: rgb(var(--color-primary));
+  }
+  .form-label {
+    @apply block text-sm font-medium mb-2;
+    color: rgb(var(--color-primary));
+  }
+  .form-select {
+    @apply form-input;
+    /* Add custom arrow */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* =========================================
+   * Cards
+   * ========================================= */
+  .card {
+    @apply rounded-lg shadow-md transition-all duration-300 ease-in-out;
+    background-color: rgb(var(--color-surface));
+    box-shadow: var(--shadow-md);
+  }
+  .card-interactive {
+    @apply hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* =========================================
+   * Badges / Pills
+   * ========================================= */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  .badge-accent {
+    @apply bg-accent text-white;
+    background-color: rgb(var(--color-accent));
+    color: white;
+  }
+  .badge-neutral {
+    background-color: rgb(var(--color-border));
+    color: rgb(var(--color-secondary));
+  }
+  .badge-success {
+    background-color: rgb(var(--color-success) / 0.1);
+    color: rgb(var(--color-success));
+  }
+  .badge-error {
+    background-color: rgb(var(--color-error) / 0.1);
+    color: rgb(var(--color-error));
+  }
+
+  /* =========================================
+   * Gradient Text (For Hero)
+   * ========================================= */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, rgb(var(--color-accent)), rgb(var(--color-accent-hover)));
+  }
+
+  /* =========================================
+   * Skip to Content Link
+   * ========================================= */
+  .skip-to-content {
+      @apply absolute left-4 -translate-y-full p-3 bg-surface text-primary shadow-lg rounded-b-md transition-transform duration-300 z-50 focus:translate-y-0;
+  }
+}
+
+/* Helper to combine Tailwind with custom properties */
+.bg-background { background-color: rgb(var(--color-background)); }
+.bg-surface { background-color: rgb(var(--color-surface)); }
+.text-primary { color: rgb(var(--color-primary)); }
+.text-secondary { color: rgb(var(--color-secondary)); }
+.bg-accent { background-color: rgb(var(--color-accent)); }
+.border-accent { border-color: rgb(var(--color-accent)); }
+.text-accent { color: rgb(var(--color-accent)); }
+.hover\:bg-accent-hover:hover { background-color: rgb(var(--color-accent-hover)); }
+.border-border { border-color: rgb(var(--color-border)); }
+.focus\:ring-accent:focus { --tw-ring-color: rgb(var(--color-accent)); }
+.focus\:ring-offset-background:focus { --tw-ring-offset-color: rgb(var(--color-background)); }
+
+</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { background: 'rgb(var(--color-background) / <alpha-value>)', surface: 'rgb(var(--color-surface) / <alpha-value>)', primary: 'rgb(var(--color-primary) / <alpha-value>)', secondary: 'rgb(var(--color-secondary) / <alpha-value>)', accent: 'rgb(var(--color-accent) / <alpha-value>)', 'accent-hover': 'rgb(var(--color-accent-hover) / <alpha-value>)', border: 'rgb(var(--color-border) / <alpha-value>)' },
+                    fontFamily: { sans: ['var(--font-sans)', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-primary">
+    <!-- Minimal Header for Checkout -->
+    <header class="border-b border-border"><div class="container mx-auto h-20 flex justify-center items-center"><a href="home.html" class="text-2xl font-bold text-primary">AURA</a></div></header>
+
+    <main id="main-content">
+        <div class="container mx-auto max-w-screen-xl py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Left Side: Shipping & Payment Forms -->
+                <div class="lg:col-span-1">
+                    <!-- REQ-F-008: One-click tokenized checkout -->
+                    <div class="mb-8 card p-6 bg-surface shadow-sm" id="one-click-checkout">
+                        <h2 class="text-xl font-semibold mb-4">Welcome back, Jane!</h2>
+                        <p class="text-secondary mb-2">Your details are saved for a faster checkout.</p>
+                        <div class="border border-border rounded-lg p-4 mb-4">
+                            <p><strong>Shipping to:</strong> 123 Beauty Lane, Los Angeles, CA 90210</p>
+                            <p><strong>Payment with:</strong> Visa ending in 1234</p>
+                        </div>
+                        <button class="btn btn-primary w-full btn-lg">Complete Order with 1-Click</button>
+                    </div>
+
+                    <div class="flex items-center justify-center my-4"><span class="w-full border-t border-border"></span><span class="px-4 text-secondary bg-background -mt-3">OR</span><span class="w-full border-t border-border"></span></div>
+                    
+                    <!-- Contact Information & Shipping Address -->
+                    <div>
+                        <h2 class="text-2xl font-semibold">Contact Information</h2>
+                        <div class="mt-4"><input type="email" id="email" class="form-input" placeholder="Email Address"></div>
+
+                        <h2 class="text-2xl font-semibold mt-8">Shipping Address</h2>
+                        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <input type="text" placeholder="First name" class="form-input">
+                            <input type="text" placeholder="Last name" class="form-input">
+                            <div class="sm:col-span-2"><input type="text" placeholder="Address" class="form-input"></div>
+                            <div class="sm:col-span-2"><input type="text" placeholder="Apartment, suite, etc. (optional)" class="form-input"></div>
+                            <input type="text" placeholder="City" class="form-input">
+                            <select class="form-select"><option>United States</option></select>
+                            <select class="form-select"><option>California</option></select>
+                            <input type="text" placeholder="ZIP code" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <!-- Shipping Method -->
+                    <div class="mt-10">
+                        <h2 class="text-2xl font-semibold">Shipping Method</h2>
+                        <div class="mt-4 space-y-4">
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer border-accent ring-2 ring-accent"><input type="radio" name="shipping" class="h-4 w-4 text-accent focus:ring-accent" checked><span class="ml-4 flex justify-between w-full"><span class="font-medium">Standard Shipping</span><span>$5.00</span></span></label>
+                            <label class="flex items-center p-4 border border-border rounded-lg cursor-pointer"><input type="radio" name="shipping" class="h-4 w-4 text-accent focus:ring-accent"><span class="ml-4 flex justify-between w-full"><span class="font-medium">Express Shipping</span><span>$15.00</span></span></label>
+                        </div>
+                    </div>
+
+                    <!-- REQ-F-009 & REQ-F-010: Payment Section -->
+                    <div class="mt-10">
+                        <h2 class="text-2xl font-semibold">Payment</h2>
+                        <p class="text-secondary mt-1">All transactions are secure and encrypted.</p>
+
+                        <div class="mt-4 p-6 bg-surface border border-border rounded-lg">
+                           <!-- Payment Method Selectors -->
+                           <div class="flex flex-wrap gap-2 mb-6 border-b border-border pb-6">
+                                <button class="flex-1 py-2 px-4 text-center border-b-2 border-accent text-accent font-semibold">Credit Card</button>
+                                <button class="flex-1 py-2 px-4 text-center text-secondary"><img src="https://www.stripe.com/img/v3/home/social-image.png" class="h-6 mx-auto" alt="Stripe Logo"></button>
+                                <button class="flex-1 py-2 px-4 text-center text-secondary"><img src="https://developer.apple.com/assets/elements/buttons/apple-pay-logo-black.svg" class="h-6 mx-auto" alt="Apple Pay Logo"></button>
+                                <button class="flex-1 py-2 px-4 text-center text-secondary"><img src="https://www.gstatic.com/instantbuy/svg/dark_gpay.svg" class="h-6 mx-auto" alt="Google Pay Logo"></button>
+                                <button class="flex-1 py-2 px-4 text-center text-secondary"><img src="https://www.klarna.com/assets/sites/2/2020/02/18103112/klarna-logo-black.png" class="h-5 mx-auto" alt="Klarna Logo"></button>
+                           </div>
+
+                            <!-- Stripe Elements iFrame Placeholders -->
+                            <div class="space-y-4">
+                                <div id="card-number-element" class="form-input"></div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div id="card-expiry-element" class="form-input"></div>
+                                    <div id="card-cvc-element" class="form-input"></div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-secondary mt-2">Payment fields are securely hosted by Stripe.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <a href="order_confirmation.html" class="btn btn-primary w-full btn-lg">Pay Now</a>
+                    </div>
+                </div>
+
+                <!-- Right Side: Order Summary -->
+                <div class="lg:col-span-1">
+                    <div class="bg-surface p-6 rounded-lg shadow-md sticky top-28">
+                        <h2 class="text-lg font-medium">Order Summary</h2>
+                        <!-- Items -->
+                        <ul role="list" class="my-6 divide-y divide-border">
+                            <li class="flex py-4">
+                                <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border"><img src="https://placehold.co/100x100/F8F5F2/2d2d2d?text=P1" class="h-full w-full object-cover"></div>
+                                <div class="ml-4 flex flex-1 flex-col"><div><div class="flex justify-between font-medium"><h3 class="text-sm">Aura Glow Foundation</h3><p class="ml-4 text-sm">$45.00</p></div><p class="mt-1 text-sm text-secondary">Shade: 130W</p></div><p class="flex flex-1 items-end text-sm text-secondary">Qty: 1</p></div>
+                            </li>
+                            <li class="flex py-4">
+                                <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border"><img src="https://placehold.co/100x100/F8F5F2/2d2d2d?text=P2" class="h-full w-full object-cover"></div>
+                                <div class="ml-4 flex flex-1 flex-col"><div><div class="flex justify-between font-medium"><h3 class="text-sm">Matte Velvet Lipstick</h3><p class="ml-4 text-sm">$23.80</p></div><p class="mt-1 text-sm text-secondary">Subscription</p></div><p class="flex flex-1 items-end text-sm text-secondary">Qty: 1</p></div>
+                            </li>
+                        </ul>
+                        <!-- Totals -->
+                        <div class="border-t border-border pt-4 space-y-2">
+                            <div class="flex justify-between text-sm"><p class="text-secondary">Subtotal</p><p>$68.80</p></div>
+                            <div class="flex justify-between text-sm"><p class="text-secondary">Shipping</p><p>$5.00</p></div>
+                            <div class="flex justify-between text-sm"><p class="text-secondary">Taxes</p><p>$5.92</p></div>
+                            <div class="flex justify-between text-base font-semibold border-t border-border pt-4 mt-2"><p>Total</p><p>USD $79.72</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

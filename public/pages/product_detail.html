@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Glow Foundation - Aura Cosmetics</title>
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+================================================================================
+/ ART DIRECTION: THEME & DESIGN SYSTEM
+/ ==============================================================================
+/ Personality:  Modern, clean, luxurious, minimalist for beauty consumers.
+/
+/ Colors:       A sophisticated neutral palette with a single elegant accent.
+/               - Primary: Soft neutrals (Alabaster, Soft Black)
+/               - Accent: Dusty Rose
+/               - Semantics: Muted Green (Success), Muted Red (Error)
+/
+/ Typography:   'Manrope' - a clean, modern sans-serif.
+/               - Scale: Display, h1-h4, Body, Caption. Tight tracking on headings.
+/
+/ Spacing:      8pt grid system (Tailwind's default scale is 4px based).
+/
+/ Components:   Defined classes for Buttons, Cards, Inputs, etc. to ensure
+/               consistency and reusability, adhering to Tailwind's philosophy.
+/ ==============================================================================
+*/
+
+@layer base {
+  :root, :host {
+    /* Color Palette */
+    --color-background: 248 245 242; /* #F8F5F2 */
+    --color-surface: 255 255 255; /* #FFFFFF */
+    --color-primary: 45 45 45; /* #2d2d2d */
+    --color-secondary: 130 130 130; /* #828282 */
+    --color-accent: 216 178 169; /* #D8B2A9 */
+    --color-accent-hover: 200 160 150; /* Darker accent for hover */
+    --color-border: 229 229 229; /* #E5E5E5 */
+
+    --color-success: 95 138 122; /* #5F8A7A */
+    --color-error: 209 122 122; /* #D17A7A */
+    --color-warning: 229 192 123; /* #E5C07B */
+
+    /* Typography */
+    --font-sans: 'Manrope', sans-serif;
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  [data-theme='dark'] {
+    --color-background: 28 28 30; /* #1C1C1E */
+    --color-surface: 44 44 46; /* #2C2C2E */
+    --color-primary: 242 242 247; /* #F2F2F7 */
+    --color-secondary: 142 142 147; /* #8E8E93 */
+    --color-accent: 224 184 174; /* Lighter accent for dark mode */
+    --color-accent-hover: 230 195 185;
+    --color-border: 72 72 74; /* #48484A */
+
+    --color-success: 109 201 166; /* #6DC9A6 */
+    --color-error: 255 129 129; /* #FF8181 */
+    --color-warning: 255 214 102; /* #FFD666 */
+  }
+
+  html {
+    @apply font-sans;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-primary));
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 { @apply font-semibold tracking-tight; }
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl -tracking-[0.03em]; }
+  h2 { @apply text-3xl md:text-4xl -tracking-[0.02em]; }
+  h3 { @apply text-2xl md:text-3xl -tracking-[0.01em]; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  section {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+}
+
+@layer components {
+  /* =========================================
+   * Container
+   * ========================================= */
+  .container {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* =========================================
+   * Buttons
+   * ========================================= */
+  .btn {
+    @apply inline-flex items-center justify-center font-semibold text-center whitespace-nowrap rounded-md text-base px-6 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-accent;
+  }
+  .btn-primary {
+    @apply bg-accent text-white hover:bg-accent-hover shadow-md hover:shadow-lg;
+    background-color: rgb(var(--color-accent));
+    color: white; /* Needs to be specified for contrast */
+  }
+  .btn-primary:hover {
+     background-color: rgb(var(--color-accent-hover));
+  }
+  .btn-secondary {
+    @apply bg-transparent border border-accent text-accent hover:bg-accent hover:text-white;
+    border-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+  }
+  .btn-secondary:hover {
+    background-color: rgb(var(--color-accent));
+    color: white;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-primary hover:bg-surface shadow-none;
+    color: rgb(var(--color-primary));
+  }
+  .btn-ghost:hover {
+    background-color: rgb(var(--color-surface));
+  }
+
+  .btn-sm { @apply px-4 py-2 text-sm rounded-sm; }
+  .btn-lg { @apply px-8 py-4 text-lg; }
+
+  /* =========================================
+   * Forms & Inputs
+   * ========================================= */
+  .form-input {
+    @apply block w-full rounded-md border text-base py-3 px-4;
+    @apply border-border bg-surface placeholder:text-secondary;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
+    border-color: rgb(var(--color-border));
+    background-color: rgb(var(--color-surface));
+    color: rgb(var(--color-primary));
+  }
+  .form-label {
+    @apply block text-sm font-medium mb-2;
+    color: rgb(var(--color-primary));
+  }
+  .form-select {
+    @apply form-input;
+    /* Add custom arrow */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* =========================================
+   * Cards
+   * ========================================= */
+  .card {
+    @apply rounded-lg shadow-md transition-all duration-300 ease-in-out;
+    background-color: rgb(var(--color-surface));
+    box-shadow: var(--shadow-md);
+  }
+  .card-interactive {
+    @apply hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* =========================================
+   * Badges / Pills
+   * ========================================= */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  .badge-accent {
+    @apply bg-accent text-white;
+    background-color: rgb(var(--color-accent));
+    color: white;
+  }
+  .badge-neutral {
+    background-color: rgb(var(--color-border));
+    color: rgb(var(--color-secondary));
+  }
+  .badge-success {
+    background-color: rgb(var(--color-success) / 0.1);
+    color: rgb(var(--color-success));
+  }
+  .badge-error {
+    background-color: rgb(var(--color-error) / 0.1);
+    color: rgb(var(--color-error));
+  }
+
+  /* =========================================
+   * Gradient Text (For Hero)
+   * ========================================= */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, rgb(var(--color-accent)), rgb(var(--color-accent-hover)));
+  }
+
+  /* =========================================
+   * Skip to Content Link
+   * ========================================= */
+  .skip-to-content {
+      @apply absolute left-4 -translate-y-full p-3 bg-surface text-primary shadow-lg rounded-b-md transition-transform duration-300 z-50 focus:translate-y-0;
+  }
+}
+
+/* Helper to combine Tailwind with custom properties */
+.bg-background { background-color: rgb(var(--color-background)); }
+.bg-surface { background-color: rgb(var(--color-surface)); }
+.text-primary { color: rgb(var(--color-primary)); }
+.text-secondary { color: rgb(var(--color-secondary)); }
+.bg-accent { background-color: rgb(var(--color-accent)); }
+.border-accent { border-color: rgb(var(--color-accent)); }
+.text-accent { color: rgb(var(--color-accent)); }
+.hover\:bg-accent-hover:hover { background-color: rgb(var(--color-accent-hover)); }
+.border-border { border-color: rgb(var(--color-border)); }
+.focus\:ring-accent:focus { --tw-ring-color: rgb(var(--color-accent)); }
+.focus\:ring-offset-background:focus { --tw-ring-offset-color: rgb(var(--color-background)); }
+
+</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind config (same as other pages)
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: 'rgb(var(--color-background) / <alpha-value>)',
+              surface: 'rgb(var(--color-surface) / <alpha-value>)',
+              primary: 'rgb(var(--color-primary) / <alpha-value>)',
+              secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+              accent: 'rgb(var(--color-accent) / <alpha-value>)',
+              'accent-hover': 'rgb(var(--color-accent-hover) / <alpha-value>)',
+              border: 'rgb(var(--color-border) / <alpha-value>)',
+            },
+            fontFamily: {
+              sans: ['var(--font-sans)', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-primary">
+
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Header (identical to other pages) -->
+    <header id="header" class="bg-surface/80 backdrop-blur-md sticky top-0 z-40 border-b border-border">
+        <nav class="container flex items-center justify-between h-20">
+            <a href="home.html" class="text-2xl font-bold text-primary" aria-label="Aura Cosmetics Homepage">AURA</a>
+            <div class="hidden lg:flex items-center gap-x-8">
+                <a href="product_listing.html" class="text-base font-medium text-accent">Shop</a>
+                <a href="shade_finder_quiz.html" class="text-base font-medium hover:text-accent transition-colors">Shade Finder</a>
+                <a href="loyalty.html" class="text-base font-medium hover:text-accent transition-colors">Loyalty</a>
+                <a href="#" class="text-base font-medium hover:text-accent transition-colors">About</a>
+            </div>
+            <div class="flex items-center gap-x-4">
+                 <button aria-label="Search" class="hidden md:block p-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
+                <a href="cart.html" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg></a>
+                <a href="login.html" aria-label="Login"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg></a>
+                 <button id="theme-toggle" aria-label="Toggle dark mode"><svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg><svg id="theme-icon-dark" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="pt-12 pb-24">
+            <div class="container">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                    <!-- Product Gallery -->
+                    <div class="grid grid-cols-1 gap-4 sticky top-28">
+                        <div class="aspect-square w-full bg-surface rounded-lg shadow-md overflow-hidden">
+                            <img id="main-product-image" src="https://placehold.co/600x600/F8F5F2/2d2d2d?text=Aura+Glow" alt="Main view of Aura Glow Foundation bottle" class="w-full h-full object-cover">
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                            <button class="aspect-square rounded-md overflow-hidden focus:ring-2 focus:ring-accent" onclick="document.getElementById('main-product-image').src='https://placehold.co/600x600/F8F5F2/2d2d2d?text=Swatch'">
+                                <img src="https://placehold.co/150x150/F8F5F2/2d2d2d?text=Swatch" alt="Foundation Swatch" class="w-full h-full object-cover">
+                            </button>
+                             <button class="aspect-square rounded-md overflow-hidden focus:ring-2 focus:ring-accent" onclick="document.getElementById('main-product-image').src='https://placehold.co/600x600/F8F5F2/2d2d2d?text=Texture'">
+                                <img src="https://placehold.co/150x150/F8F5F2/2d2d2d?text=Texture" alt="Foundation Texture" class="w-full h-full object-cover">
+                            </button>
+                            <button class="aspect-square rounded-md overflow-hidden focus:ring-2 focus:ring-accent" onclick="document.getElementById('main-product-image').src='https://placehold.co/600x600/F8F5F2/2d2d2d?text=Model'">
+                                <img src="https://placehold.co/150x150/F8F5F2/2d2d2d?text=Model" alt="Model wearing foundation" class="w-full h-full object-cover">
+                            </button>
+                             <button class="aspect-square rounded-md overflow-hidden focus:ring-2 focus:ring-accent" onclick="document.getElementById('main-product-image').src='https://placehold.co/600x600/F8F5F2/2d2d2d?text=Aura+Glow'">
+                                <img src="https://placehold.co/150x150/F8F5F2/2d2d2d?text=Aura+Glow" alt="Foundation bottle" class="w-full h-full object-cover">
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div>
+                        <h1 class="text-3xl lg:text-4xl font-bold">Aura Glow Foundation</h1>
+                        <p class="text-secondary mt-2 text-lg">A weightless, buildable, medium-coverage foundation with a natural, luminous finish.</p>
+                        <p class="text-3xl font-bold my-4">$45.00</p>
+                        
+                        <!-- REQ-F-002: Shade Selector -->
+                        <div id="shade-selector" class="mt-8">
+                            <div class="flex justify-between items-baseline">
+                                <h3 class="text-lg font-semibold">Shade: <span id="selected-shade-name">Select a Shade</span></h3>
+                                <a href="shade_finder_quiz.html" class="text-sm text-accent underline hover:text-accent-hover">Find my shade</a>
+                            </div>
+                            <p id="selected-shade-details" class="text-sm text-secondary">Undertone: -, Finish: -, Depth: -</p>
+
+                            <div class="mt-4 p-4 bg-surface rounded-lg border border-border">
+                                <p class="text-sm font-medium mb-3">Filter by Undertone</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="btn btn-secondary btn-sm">All</button>
+                                    <button class="btn btn-ghost btn-sm">Warm</button>
+                                    <button class="btn btn-ghost btn-sm">Cool</button>
+                                    <button class="btn btn-ghost btn-sm">Neutral</button>
+                                </div>
+
+                                <div class="mt-4 pt-4 border-t border-border grid grid-cols-8 sm:grid-cols-10 gap-2" role="radiogroup" aria-labelledby="Shade selection">
+                                    <!-- 50+ shades would be populated here dynamically -->
+                                    <button role="radio" aria-checked="false" title="110C (Cool, #F9EAE1)" class="aspect-square rounded-full border-2 border-transparent hover:border-accent focus:border-accent focus:outline-none transition" style="background-color: #F9EAE1;"></button>
+                                    <button role="radio" aria-checked="false" title="120N (Neutral, #F7E5DA)" class="aspect-square rounded-full border-2 border-transparent hover:border-accent focus:border-accent focus:outline-none transition" style="background-color: #F7E5DA;"></button>
+                                    <button role="radio" aria-checked="false" title="130W (Warm, #F5DFD2)" class="aspect-square rounded-full border-2 border-transparent hover:border-accent focus:border-accent focus:outline-none transition" style="background-color: #F5DFD2;"></button>
+                                    <!-- ... many more shades ... -->
+                                    <button role="radio" aria-checked="false" title="580N (Neutral, #7B4F3A)" class="aspect-square rounded-full border-2 border-transparent hover:border-accent focus:border-accent focus:outline-none transition" style="background-color: #7B4F3A;"></button>
+                                    <button role="radio" aria-checked="false" title="590C (Cool, #6A412E)" class="aspect-square rounded-full border-2 border-transparent hover:border-accent focus:border-accent focus:outline-none transition" style="background-color: #6A412E;"></button>
+                                    <button role="radio" aria-checked="false" title="600W (Warm, #5C3624)" class="aspect-square rounded-full border-2 border-transparent hover:border-accent focus:border-accent focus:outline-none transition" style="background-color: #5C3624;"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="mt-8">
+                            <div class="grid grid-cols-1 gap-4">
+                                <!-- REQ-F-004: Subscription Option -->
+                                <div class="p-4 border-2 border-accent/50 rounded-lg bg-accent/5">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="purchase-type" class="h-4 w-4 text-accent focus:ring-accent">
+                                        <span class="ml-3">
+                                            <span class="font-semibold">Subscribe & Save 15%</span>
+                                            <span class="block text-sm text-secondary">$38.25 - Auto-delivered every 30 days</span>
+                                        </span>
+                                    </label>
+                                </div>
+                                 <div class="p-4 border border-border rounded-lg">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="purchase-type" class="h-4 w-4 text-accent focus:ring-accent" checked>
+                                        <span class="ml-3">
+                                            <span class="font-semibold">One-time Purchase</span>
+                                            <span class="block text-sm text-secondary">$45.00</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <a href="cart.html" class="btn btn-primary w-full mt-6 btn-lg">Add to Cart</a>
+                        </div>
+                        
+                        <!-- Product Info Accordion -->
+                        <div class="mt-10 border-t border-border">
+                           <div class="border-b border-border py-5">
+                               <h3 class="-my-5 flex w-full items-center justify-between font-medium text-lg">
+                                   <span class="text-primary">Description</span>
+                                   <span class="ml-6 flex items-center">-</span>
+                               </h3>
+                               <div class="text-secondary text-base mt-7">
+                                   <p>Our award-winning foundation is formulated with a unique blend of skin-loving ingredients, including hyaluronic acid for hydration and vitamin C for brightness. The lightweight liquid provides buildable coverage for a seamless, your-skin-but-better finish.</p>
+                               </div>
+                           </div>
+                           <div class="border-b border-border py-5">
+                               <h3 class="-my-5 flex w-full items-center justify-between font-medium text-lg">
+                                   <span class="text-primary">Ingredients</span>
+                                   <span class="ml-6 flex items-center">+</span>
+                               </h3>
+                               <!-- Collapsed content -->
+                           </div>
+                           <div class="border-b border-border py-5">
+                               <h3 class="-my-5 flex w-full items-center justify-between font-medium text-lg">
+                                   <span class="text-primary">How to Use</span>
+                                   <span class="ml-6 flex items-center">+</span>
+                               </h3>
+                               <!-- Collapsed content -->
+                           </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (identical) -->
+    <footer id="footer" class="bg-surface border-t border-border">
+        <!-- ... footer content ... -->
+    </footer>
+    
+    <script>
+      // Theme toggle and other scripts
+    </script>
+</body>
+</html>

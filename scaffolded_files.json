@@ -1,0 +1,26 @@
+{
+  "ticket_key": "ARCH-1141",
+  "language": "python",
+  "files": [
+    {"path": "db/schema.sql", "action": "create", "kind": "source"},
+    {"path": "db/seed.sql", "action": "create", "kind": "source"},
+    {"path": "app/db/session.py", "action": "create", "kind": "source"},
+    {"path": "app/db/init_db.py", "action": "create", "kind": "source"},
+    {"path": "app/models/cosmetics.py", "action": "create", "kind": "source"},
+    {"path": "app/api/products.py", "action": "create", "kind": "source"},
+    {"path": "app/api/shade_finder.py", "action": "create", "kind": "source"},
+    {"path": "app/api/cart.py", "action": "create", "kind": "source"},
+    {"path": "app/api/checkout.py", "action": "create", "kind": "source"},
+    {"path": "app/api/subscriptions.py", "action": "create", "kind": "source"},
+    {"path": "app/api/account.py", "action": "create", "kind": "source"},
+    {"path": "app/main.py", "action": "create", "kind": "source"},
+    {"path": "public/js/api.js", "action": "create", "kind": "source"},
+    {"path": "public/index.html", "action": "create", "kind": "source"},
+    {"path": "requirements.txt", "action": "create", "kind": "config"},
+    {"path": "tests/test_db.py", "action": "create", "kind": "test"},
+    {"path": "tests/test_api_products.py", "action": "create", "kind": "test"},
+    {"path": "tests/test_api_shade_finder.py", "action": "create", "kind": "test"},
+    {"path": "tests/test_api_cart_checkout.py", "action": "create", "kind": "test"},
+    {"path": "tests/test_e2e.py", "action": "create", "kind": "test"}
+  ]
+}

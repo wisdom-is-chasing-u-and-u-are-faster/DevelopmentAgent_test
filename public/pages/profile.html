@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - LabMarkt</title>
+    <style>
+
+/*
+================================================================================
+|                              ART DIRECTION (CSS)                             |
+================================================================================
+*/
+
+/*------------------------------------*\
+  #ROOT & THEME
+\*------------------------------------*/
+:root {
+  /* Personality: Professional, Trustworthy, Modern (B2B Lab Equipment) */
+
+  /* Color Palette */
+  --color-primary: #192A56;
+  --color-accent: #27AE60;
+  --color-gradient: linear-gradient(90deg, var(--color-primary) 0%, #27ae60 100%);
+  --color-surface-1: #FFFFFF;
+  --color-surface-2: #F0F2F5;
+  --color-text-primary: #333333;
+  --color-text-secondary: #555555;
+  --color-text-on-primary: #FFFFFF;
+  --color-border: #E0E0E0;
+
+  /* Semantic Colors */
+  --color-success: #27AE60;
+  --color-warning: #E67E22;
+  --color-danger: #C0392B;
+  --color-info: #2980B9;
+
+  /* Typography */
+  --font-family-headings: 'Lato', sans-serif;
+  --font-family-body: 'Roboto', sans-serif;
+
+  --type-scale-display: 4.5rem;   /* 72px */
+  --type-scale-h1: 3rem;        /* 48px */
+  --type-scale-h2: 2.25rem;     /* 36px */
+  --type-scale-h3: 1.5rem;      /* 24px */
+  --type-scale-h4: 1.125rem;    /* 18px */
+  --type-scale-body: 1rem;      /* 16px */
+  --type-scale-caption: 0.875rem; /* 14px */
+
+  /* Spacing (8pt Grid) */
+  --space-1: 0.5rem;  /* 8px */
+  --space-2: 1rem;    /* 16px */
+  --space-3: 1.5rem;  /* 24px */
+  --space-4: 2rem;    /* 32px */
+  --space-5: 2.5rem;  /* 40px */
+  --space-6: 3rem;    /* 48px */
+  --space-8: 4rem;    /* 64px */
+  --space-12: 6rem;   /* 96px */
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(39, 174, 96, 0.4);
+
+  /* Motion */
+  --transition-fast: all 150ms ease-in-out;
+  --transition-std: all 300ms ease-in-out;
+
+  /* Layout */
+  --container-width: 1200px;
+  --container-padding: var(--space-4);
+}
+
+/* Dark Mode - WIP/Example */
+/* @media (prefers-color-scheme: dark) { ... } */
+
+
+/*------------------------------------*\
+  #BASE & RESET
+\*------------------------------------*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family-body);
+  font-size: var(--type-scale-body);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-headings);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-2);
+}
+
+h1 { font-size: var(--type-scale-h1); }
+h2 { font-size: var(--type-scale-h2); }
+h3 { font-size: var(--type-scale-h3); }
+h4 { font-size: var(--type-scale-h4); }
+
+p {
+  margin-bottom: var(--space-2);
+  max-width: 75ch;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+.skip-to-content {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.skip-to-content:focus {
+    position: static;
+    width: auto;
+    height: auto;
+}
+
+/*------------------------------------*\
+  #LAYOUT
+\*------------------------------------*/
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+/* Screen visibility for single-page nav */
+main section {
+    display: none;
+}
+main section:first-child {
+    display: block;
+}
+main section:target {
+    display: block;
+}
+main section:not(:target) ~ section:not(:target){
+    display: none;
+}
+
+
+/*------------------------------------*\
+  #REUSABLE COMPONENTS
+\*------------------------------------*/
+
+/* --- Header / Navbar --- */
+.main-header {
+  background-color: var(--color-surface-1);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-2) 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.main-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.logo:hover {
+  text-decoration: none;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.main-nav a {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  padding: var(--space-1) 0;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition-fast);
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--color-primary);
+  text-decoration: none;
+  border-bottom-color: var(--color-primary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --- Footer --- */
+.main-footer {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: var(--space-6) 0;
+}
+
+.main-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.footer-about, .footer-links, .footer-contact {
+  flex: 1;
+  min-width: 200px;
+}
+
+.main-footer h4 {
+  color: var(--color-surface-1);
+  margin-bottom: var(--space-2);
+  font-size: var(--type-scale-h4);
+}
+
+.main-footer a {
+  color: #a7b0c9;
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.main-footer a:hover {
+  color: var(--color-surface-1);
+  text-decoration: none;
+}
+
+.footer-bottom {
+  border-top: 1px solid #304473;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  text-align: center;
+  font-size: var(--type-scale-caption);
+  color: #a7b0c9;
+}
+
+
+/* --- Buttons --- */
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  font-size: var(--type-scale-body);
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  transition: var(--transition-std);
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-primary);
+}
+.btn-primary:hover {
+  background-color: #101c3a;
+  border-color: #101c3a;
+  color: var(--color-text-on-primary);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn-secondary:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-accent);
+}
+.btn-accent:hover {
+    background-color: #218c4e;
+    border-color: #218c4e;
+    color: var(--color-text-on-primary);
+}
+
+
+/* --- Cards --- */
+.card {
+  background-color: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: var(--transition-std);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: var(--space-3);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: var(--type-scale-h4);
+  margin-bottom: var(--space-1);
+  color: var(--color-primary);
+}
+
+.card-text {
+  font-size: var(--type-scale-caption);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  flex-grow: 1;
+}
+
+.card-footer {
+    padding: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    background-color: #fafafa;
+}
+
+/* --- Forms & Inputs --- */
+.form-group {
+  margin-bottom: var(--space-3);
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+  font-size: var(--type-scale-caption);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: var(--space-2);
+  font-size: var(--type-scale-body);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.form-control::placeholder {
+  color: #999;
+}
+
+.search-bar {
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+}
+.search-bar .form-control {
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.search-bar .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+
+/* --- Grid System --- */
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+
+/* --- Hero Section --- */
+.hero {
+    background-color: var(--color-surface-2);
+    padding: var(--space-12) 0;
+    text-align: center;
+}
+.hero-eyebrow {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    background-color: var(--color-accent);
+    color: var(--color-text-on-primary);
+    border-radius: 999px;
+    font-size: var(--type-scale-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+}
+
+.hero-title {
+    font-size: var(--type-scale-display);
+    letter-spacing: -2px;
+    margin-bottom: var(--space-3);
+}
+
+.hero-title .gradient-text {
+    background: var(--color-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: var(--type-scale-h3);
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+    margin: 0 auto var(--space-5);
+}
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+
+/* --- Section --- */
+.section {
+    padding: var(--space-8) 0;
+}
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+.section-title {
+    font-size: var(--type-scale-h2);
+}
+
+
+/* --- Utility Classes --- */
+.text-center { text-align: center; }
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-success { color: var(--color-success); }
+.text-danger { color: var(--color-danger); }
+.font-bold { font-weight: 700; }
+
+.d-flex { display: flex; }
+.align-items-center { align-items: center; }
+.justify-content-between { justify-content: space-between; }
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+
+/*------------------------------------*\
+  #PAGE-SPECIFIC STYLES
+\*------------------------------------*/
+
+/* Browse/Search Page */
+.browse-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-6);
+}
+.filters-sidebar .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+/* Product Detail Page */
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+}
+.product-images .main-image {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: var(--space-2);
+}
+.product-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+}
+.product-thumbnails img {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.product-thumbnails img:hover,
+.product-thumbnails img.active {
+    border-color: var(--color-primary);
+}
+.product-info .price {
+    font-size: var(--type-scale-h2);
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+}
+.product-info .condition,
+.product-info .seller {
+    margin-bottom: var(--space-3);
+}
+
+/* Login/Register Page */
+.auth-card {
+    max-width: 450px;
+    margin: 0 auto;
+}
+.auth-card .card-body {
+    padding: var(--space-6);
+}
+.auth-tabs {
+    display: flex;
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+}
+.auth-tabs a {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-2);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+}
+.auth-tabs a.active, .auth-tabs a:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom-color: var(--color-primary);
+}
+
+
+/* User Profile Page */
+.profile-header {
+    background: var(--color-surface-2);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+}
+.profile-header h2 {
+    margin: 0;
+}
+.profile-tabs table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.profile-tabs th, .profile-tabs td {
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+}
+.profile-tabs th {
+    background-color: var(--color-surface-2);
+    font-weight: 600;
+}
+
+
+/*------------------------------------*\
+  #RESPONSIVE
+\*------------------------------------*/
+
+@media (max-width: 1024px) {
+    .grid-cols-4 { grid-template-columns: repeat(3, 1fr); }
+    .browse-layout { grid-template-columns: 240px 1fr; }
+    .product-detail-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --type-scale-display: 3rem;
+    --type-scale-h1: 2.25rem;
+    --type-scale-h2: 1.75rem;
+    --type-scale-h3: 1.25rem;
+  }
+  .main-nav {
+      display: none; /* Simplification for this example. A real app would use a hamburger menu. */
+  }
+  .header-actions {
+      flex-grow: 1;
+      justify-content: flex-end;
+  }
+  .search-bar {
+      display: none; /* Hide in header, show in page content */
+  }
+  .grid-cols-3, .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .browse-layout { grid-template-columns: 1fr; }
+  .filters-sidebar { margin-bottom: var(--space-4); }
+  .hero { padding: var(--space-8) 0; }
+}
+
+@media (max-width: 480px) {
+  .container {
+      padding-left: var(--space-2);
+      padding-right: var(--space-2);
+  }
+  .grid-cols-2, .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.5rem; letter-spacing: -1px; }
+  .hero-subtitle { font-size: var(--type-scale-h4); }
+  .hero-actions { flex-direction: column; }
+  .footer .container {
+      flex-direction: column;
+      text-align: center;
+  }
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="#main" class="skip-to-content">Skip to main content</a>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="home.html" class="logo">LabMarkt</a>
+            <nav class="main-nav">
+                <a href="browse.html">Browse</a>
+                <a href="#">Sell</a>
+                <a href="#">About</a>
+            </nav>
+            <div class="header-actions">
+                <!-- Logged-in state -->
+                <a href="profile.html" class="btn btn-primary">My Profile</a>
+                <a href="home.html" class="btn btn-secondary">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main" class="main-content">
+        <div class="container">
+            <div class="profile-header">
+                <h2>Welcome, Dr. Evelyn Reed</h2>
+            </div>
+
+            <!-- REQ-F-007: Profile page with listings and bids -->
+            <div class="profile-tabs">
+                <div class="auth-tabs" style="margin-bottom: var(--space-4);">
+                    <a href="#listings" class="active">My Active Listings</a>
+                    <a href="#bids">My Active Bids</a>
+                </div>
+
+                <div id="listings">
+                    <h3>My Active Listings</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Current Bid</th>
+                                <th>Time Left</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="product.html">Refrigerated Centrifuge</a></td>
+                                <td>$4,500.00</td>
+                                <td>1 day, 2 hours</td>
+                                <td class="text-success">Active</td>
+                            </tr>
+                            <tr>
+                                <td><a href="product.html">PCR Machine</a></td>
+                                <td>$2,100.00</td>
+                                <td>5 days, 8 hours</td>
+                                <td class="text-success">Active</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="bids" style="display: none;">
+                    <h3>My Active Bids</h3>
+                     <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>My Bid</th>
+                                <th>Current Bid</th>
+                                <th>Time Left</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="product.html">Electron Microscope</a></td>
+                                <td class="font-bold">$15,600.00 (Winning)</td>
+                                <td>$15,600.00</td>
+                                <td>3 days, 4 hours</td>
+                            </tr>
+                            <tr>
+                                <td><a href="product.html">HPLC System</a></td>
+                                <td>$17,500.00 (Outbid)</td>
+                                <td>$18,000.00</td>
+                                <td>10 hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script>
+        // Simple tab functionality
+        const tabs = document.querySelectorAll('.auth-tabs a');
+        const tabContents = {
+            'listings': document.getElementById('listings'),
+            'bids': document.getElementById('bids'),
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', e => {
+                e.preventDefault();
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                Object.values(tabContents).forEach(content => content.style.display = 'none');
+                const targetId = tab.getAttribute('href').substring(1);
+                tabContents[targetId].style.display = 'block';
+            });
+        });
+    </script>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-about">
+                <h4>About LabMarkt</h4>
+                <p>The leading B2B marketplace for certified used and refurbished lab equipment.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="browse.html">Browse Equipment</a></li>
+                    <li><a href="#">Sell Equipment</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>Email: support@labmarkt.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 LabMarkt. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Compliance Reporting</title>
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Color Palette (REQ-N-001, REQ-N-002, REQ-N-003) */
+    --color-primary: #0052CC;
+    --color-primary-light: #E6F0FF;
+    --color-background: #F4F5F7;
+    --color-surface: #FFFFFF;
+    --color-text-primary: #172B4D;
+    --color-text-secondary: #5E6C84;
+    --color-border: #DFE1E6;
+    --color-success: #36B37E;
+    --color-warning: #FFAB00;
+    --color-danger: #DE350B;
+
+    /* Typography (REQ-N-004, REQ-N-005) */
+    --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-size-display: 3rem; /* 48px */
+    --font-size-h1: 2rem; /* 32px */
+    --font-size-h2: 1.5rem; /* 24px */
+    --font-size-h3: 1.125rem; /* 18px */
+    --font-size-body: 1rem; /* 16px */
+    --font-size-caption: 0.875rem; /* 14px */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Spacing (8pt system) */
+    --space-1: 0.25rem; /* 4px */
+    --space-2: 0.5rem;  /* 8px */
+    --space-3: 1rem;    /* 16px */
+    --space-4: 1.5rem;  /* 24px */
+    --space-5: 2rem;    /* 32px */
+    --space-6: 3rem;    /* 48px */
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    /* Elevation / Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* Transitions */
+    --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base & Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+}
+
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.content-area {
+    padding: var(--space-5);
+    flex: 1;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+    animation: fadeIn var(--transition-slow);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header (REQ-F-001) */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    height: 64px;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-header__title { /* (REQ-F-002) */
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* User Profile (REQ-F-003) */
+.user-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+}
+
+.user-profile__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-medium);
+}
+
+.user-profile__menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    width: 180px;
+    list-style: none;
+    padding: var(--space-2) 0;
+    z-index: 110;
+}
+
+.user-profile:focus-within .user-profile__menu,
+.user-profile:hover .user-profile__menu {
+    display: block;
+}
+
+.user-profile__menu-item a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-caption);
+}
+.user-profile__menu-item a:hover {
+    background-color: var(--color-background);
+}
+
+
+/* Navigation (REQ-F-004) */
+.app-nav {
+    width: 260px;
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+    transition: width var(--transition-slow);
+    display: flex;
+    flex-direction: column;
+}
+
+.app-nav.collapsed {
+    width: 80px;
+}
+
+.app-nav.collapsed .nav-link__text,
+.app-nav.collapsed .nav-header__title,
+.app-nav.collapsed .nav-toggle__icon--open {
+    display: none;
+}
+
+.app-nav:not(.collapsed) .nav-toggle__icon--closed {
+    display: none;
+}
+
+.nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4) var(--space-4);
+}
+
+.nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: var(--space-1);
+}
+
+.nav-toggle:hover {
+    color: var(--color-text-primary);
+}
+
+
+.nav-menu {
+    list-style: none;
+    flex-grow: 1;
+}
+
+.nav-link { /* (REQ-F-010) */
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    border-left: 4px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.app-nav.collapsed .nav-link {
+    justify-content: center;
+    padding: var(--space-3) 0;
+}
+
+.nav-link:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+}
+
+.nav-link.active {
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+}
+
+.app-nav.collapsed .nav-link.active {
+    border-left-color: transparent;
+    border-top: 4px solid var(--color-primary);
+    background-color: var(--color-primary-light);
+}
+
+.nav-link__icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Footer */
+.app-footer {
+    text-align: center;
+    padding: var(--space-4);
+    font-size: var(--font-size-caption);
+    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+/* Card Component */
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-4);
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.card__header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.card__title {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Key Metric Cards (REQ-F-011, REQ-F-012, REQ-F-013) */
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.metric-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-card__title {
+    font-size: var(--font-size-caption);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-2);
+}
+
+.metric-card__value {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+}
+
+/* Table Component (REQ-F-014) */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-caption);
+}
+
+.data-table th, .data-table td {
+    padding: var(--space-3);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.data-table thead th {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    background-color: #FAFBFC;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.status-badge--complete {
+    background-color: #E3FCEF;
+    color: #006644;
+}
+
+.status-badge--pending {
+    background-color: #FFF0B3;
+    color: #7F5F01;
+}
+
+.status-badge--failed {
+    background-color: #FFEBE6;
+    color: #BF2600;
+}
+
+/* Button Component */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-caption);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    gap: var(--space-2);
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* (REQ-N-006) */
+.btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.btn--primary:hover {
+    opacity: 0.9;
+    color: var(--color-surface);
+}
+
+/* (REQ-N-007) */
+.btn--secondary {
+    background-color: #F4F5F7;
+    color: #42526E;
+    border: 1px solid #DFE1E6;
+}
+
+.btn--secondary:hover {
+    background-color: #EBECF0;
+    color: #42526E;
+}
+
+.btn--link {
+    background: none;
+    color: var(--color-primary);
+    padding: 0;
+    border: none;
+}
+.btn--link:hover {
+    text-decoration: underline;
+    color: var(--color-primary);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .app-nav {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 200;
+        transform: translateX(-100%);
+        transition: transform var(--transition-slow);
+    }
+    .app-nav:not(.collapsed) {
+        transform: translateX(0);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .app-nav.collapsed {
+        transform: translateX(-100%);
+        width: 260px; /* Keep width for when it opens */
+    }
+
+    .main-content {
+        width: 100%;
+    }
+
+    .content-area {
+        padding: var(--space-4);
+    }
+
+    .nav-toggle {
+        display: block !important;
+    }
+}
+
+</style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="app-nav">
+             <div class="nav-header">
+                <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
+                    <svg class="nav-toggle__icon--open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link">
+                    <svg class="nav-link__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <span class="nav-link__text">Dashboard</span>
+                </a></li>
+                <li><a href="reports.html" class="nav-link">
+                     <svg class="nav-link__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 17l4 4 4-4m-4-5v9"></path><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path></svg>
+                    <span class="nav-link__text">Reports</span>
+                </a></li>
+                <li><a href="alerts.html" class="nav-link">
+                   <svg class="nav-link__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span class="nav-link__text">Alerts</span>
+                </a></li>
+                <li><a href="settings.html" class="nav-link active">
+                    <svg class="nav-link__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <span class="nav-link__text">Settings</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="app-header">
+                <h1 class="app-header__title">Compliance Reporting Dashboard</h1>
+                 <div class="user-profile" tabindex="0">
+                    <div class="user-profile__avatar">JD</div>
+                    <ul class="user-profile__menu">
+                        <li class="user-profile__menu-item"><a href="#">Profile</a></li>
+                        <li class="user-profile__menu-item"><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </header>
+
+            <div id="settings" class="content-area screen active">
+                <h2>Settings</h2>
+                <div class="card">
+                    <p>This is the settings page. User preferences, notification settings, and other application configurations would be available here.</p>
+                </div>
+            </div>
+
+            <footer class="app-footer">
+                <p>&copy; 2024 Compliance Reporting Dashboard. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+    <script>
+        const navToggle = document.getElementById('nav-toggle');
+        const nav = document.querySelector('.app-nav');
+        if (navToggle && nav) {
+            navToggle.addEventListener('click', () => {
+                nav.classList.toggle('collapsed');
+            });
+        }
+    </script>
+</body>
+</html>
