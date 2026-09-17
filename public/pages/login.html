@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register - Aura Cosmetics</title>
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+================================================================================
+/ ART DIRECTION: THEME & DESIGN SYSTEM
+/ ==============================================================================
+/ Personality:  Modern, clean, luxurious, minimalist for beauty consumers.
+/
+/ Colors:       A sophisticated neutral palette with a single elegant accent.
+/               - Primary: Soft neutrals (Alabaster, Soft Black)
+/               - Accent: Dusty Rose
+/               - Semantics: Muted Green (Success), Muted Red (Error)
+/
+/ Typography:   'Manrope' - a clean, modern sans-serif.
+/               - Scale: Display, h1-h4, Body, Caption. Tight tracking on headings.
+/
+/ Spacing:      8pt grid system (Tailwind's default scale is 4px based).
+/
+/ Components:   Defined classes for Buttons, Cards, Inputs, etc. to ensure
+/               consistency and reusability, adhering to Tailwind's philosophy.
+/ ==============================================================================
+*/
+
+@layer base {
+  :root, :host {
+    /* Color Palette */
+    --color-background: 248 245 242; /* #F8F5F2 */
+    --color-surface: 255 255 255; /* #FFFFFF */
+    --color-primary: 45 45 45; /* #2d2d2d */
+    --color-secondary: 130 130 130; /* #828282 */
+    --color-accent: 216 178 169; /* #D8B2A9 */
+    --color-accent-hover: 200 160 150; /* Darker accent for hover */
+    --color-border: 229 229 229; /* #E5E5E5 */
+
+    --color-success: 95 138 122; /* #5F8A7A */
+    --color-error: 209 122 122; /* #D17A7A */
+    --color-warning: 229 192 123; /* #E5C07B */
+
+    /* Typography */
+    --font-sans: 'Manrope', sans-serif;
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  [data-theme='dark'] {
+    --color-background: 28 28 30; /* #1C1C1E */
+    --color-surface: 44 44 46; /* #2C2C2E */
+    --color-primary: 242 242 247; /* #F2F2F7 */
+    --color-secondary: 142 142 147; /* #8E8E93 */
+    --color-accent: 224 184 174; /* Lighter accent for dark mode */
+    --color-accent-hover: 230 195 185;
+    --color-border: 72 72 74; /* #48484A */
+
+    --color-success: 109 201 166; /* #6DC9A6 */
+    --color-error: 255 129 129; /* #FF8181 */
+    --color-warning: 255 214 102; /* #FFD666 */
+  }
+
+  html {
+    @apply font-sans;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-primary));
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 { @apply font-semibold tracking-tight; }
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl -tracking-[0.03em]; }
+  h2 { @apply text-3xl md:text-4xl -tracking-[0.02em]; }
+  h3 { @apply text-2xl md:text-3xl -tracking-[0.01em]; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  section {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+}
+
+@layer components {
+  /* =========================================
+   * Container
+   * ========================================= */
+  .container {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* =========================================
+   * Buttons
+   * ========================================= */
+  .btn {
+    @apply inline-flex items-center justify-center font-semibold text-center whitespace-nowrap rounded-md text-base px-6 py-3 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-accent;
+  }
+  .btn-primary {
+    @apply bg-accent text-white hover:bg-accent-hover shadow-md hover:shadow-lg;
+    background-color: rgb(var(--color-accent));
+    color: white; /* Needs to be specified for contrast */
+  }
+  .btn-primary:hover {
+     background-color: rgb(var(--color-accent-hover));
+  }
+  .btn-secondary {
+    @apply bg-transparent border border-accent text-accent hover:bg-accent hover:text-white;
+    border-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+  }
+  .btn-secondary:hover {
+    background-color: rgb(var(--color-accent));
+    color: white;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-primary hover:bg-surface shadow-none;
+    color: rgb(var(--color-primary));
+  }
+  .btn-ghost:hover {
+    background-color: rgb(var(--color-surface));
+  }
+
+  .btn-sm { @apply px-4 py-2 text-sm rounded-sm; }
+  .btn-lg { @apply px-8 py-4 text-lg; }
+
+  /* =========================================
+   * Forms & Inputs
+   * ========================================= */
+  .form-input {
+    @apply block w-full rounded-md border text-base py-3 px-4;
+    @apply border-border bg-surface placeholder:text-secondary;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
+    border-color: rgb(var(--color-border));
+    background-color: rgb(var(--color-surface));
+    color: rgb(var(--color-primary));
+  }
+  .form-label {
+    @apply block text-sm font-medium mb-2;
+    color: rgb(var(--color-primary));
+  }
+  .form-select {
+    @apply form-input;
+    /* Add custom arrow */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* =========================================
+   * Cards
+   * ========================================= */
+  .card {
+    @apply rounded-lg shadow-md transition-all duration-300 ease-in-out;
+    background-color: rgb(var(--color-surface));
+    box-shadow: var(--shadow-md);
+  }
+  .card-interactive {
+    @apply hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* =========================================
+   * Badges / Pills
+   * ========================================= */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  .badge-accent {
+    @apply bg-accent text-white;
+    background-color: rgb(var(--color-accent));
+    color: white;
+  }
+  .badge-neutral {
+    background-color: rgb(var(--color-border));
+    color: rgb(var(--color-secondary));
+  }
+  .badge-success {
+    background-color: rgb(var(--color-success) / 0.1);
+    color: rgb(var(--color-success));
+  }
+  .badge-error {
+    background-color: rgb(var(--color-error) / 0.1);
+    color: rgb(var(--color-error));
+  }
+
+  /* =========================================
+   * Gradient Text (For Hero)
+   * ========================================= */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, rgb(var(--color-accent)), rgb(var(--color-accent-hover)));
+  }
+
+  /* =========================================
+   * Skip to Content Link
+   * ========================================= */
+  .skip-to-content {
+      @apply absolute left-4 -translate-y-full p-3 bg-surface text-primary shadow-lg rounded-b-md transition-transform duration-300 z-50 focus:translate-y-0;
+  }
+}
+
+/* Helper to combine Tailwind with custom properties */
+.bg-background { background-color: rgb(var(--color-background)); }
+.bg-surface { background-color: rgb(var(--color-surface)); }
+.text-primary { color: rgb(var(--color-primary)); }
+.text-secondary { color: rgb(var(--color-secondary)); }
+.bg-accent { background-color: rgb(var(--color-accent)); }
+.border-accent { border-color: rgb(var(--color-accent)); }
+.text-accent { color: rgb(var(--color-accent)); }
+.hover\:bg-accent-hover:hover { background-color: rgb(var(--color-accent-hover)); }
+.border-border { border-color: rgb(var(--color-border)); }
+.focus\:ring-accent:focus { --tw-ring-color: rgb(var(--color-accent)); }
+.focus\:ring-offset-background:focus { --tw-ring-offset-color: rgb(var(--color-background)); }
+
+</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind config (same as other pages)
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: 'rgb(var(--color-background) / <alpha-value>)',
+              surface: 'rgb(var(--color-surface) / <alpha-value>)',
+              primary: 'rgb(var(--color-primary) / <alpha-value>)',
+              secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+              accent: 'rgb(var(--color-accent) / <alpha-value>)',
+              'accent-hover': 'rgb(var(--color-accent-hover) / <alpha-value>)',
+              border: 'rgb(var(--color-border) / <alpha-value>)',
+            },
+            fontFamily: {
+              sans: ['var(--font-sans)', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-surface">
+    <div class="flex min-h-screen">
+        <!-- Left side: Image -->
+        <div class="hidden lg:block w-1/2 bg-cover" style="background-image: url('https://placehold.co/800x1200/F8F5F2/2d2d2d?text=AURA')"></div>
+
+        <!-- Right side: Form -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12 bg-background">
+            <div class="w-full max-w-md">
+                <a href="home.html" class="text-2xl font-bold text-primary absolute top-8 right-8">AURA</a>
+                
+                <!-- Login Form -->
+                <div id="login-form">
+                    <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
+                    <p class="text-secondary mb-8">Sign in to access your account, orders, and rewards.</p>
+                    <form action="account_dashboard.html">
+                        <div class="space-y-6">
+                            <div>
+                                <label for="login-email" class="form-label">Email address</label>
+                                <input id="login-email" type="email" class="form-input" required placeholder="you@example.com">
+                            </div>
+                            <div>
+                                <div class="flex justify-between">
+                                    <label for="login-password" class="form-label">Password</label>
+                                    <a href="#" class="text-sm text-accent hover:underline">Forgot?</a>
+                                </div>
+                                <input id="login-password" type="password" class="form-input" required placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <button type="submit" class="btn btn-primary w-full btn-lg">Sign In</button>
+                        </div>
+                    </form>
+                    <p class="text-center text-secondary mt-6">
+                        Don't have an account? 
+                        <button id="show-register" class="font-semibold text-accent hover:underline">Sign Up</button>
+                    </p>
+                </div>
+
+                <!-- Register Form (hidden by default) -->
+                <div id="register-form" style="display: none;">
+                    <h1 class="text-3xl font-bold mb-2">Create an Account</h1>
+                    <p class="text-secondary mb-8">Join Aura to start your personalized beauty journey.</p>
+                    <form action="account_dashboard.html">
+                        <div class="space-y-6">
+                             <div>
+                                <label for="register-name" class="form-label">Full Name</label>
+                                <input id="register-name" type="text" class="form-input" required placeholder="Jane Doe">
+                            </div>
+                            <div>
+                                <label for="register-email" class="form-label">Email address</label>
+                                <input id="register-email" type="email" class="form-input" required placeholder="you@example.com">
+                            </div>
+                            <div>
+                                <label for="register-password" class="form-label">Password</label>
+                                <input id="register-password" type="password" class="form-input" required placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <button type="submit" class="btn btn-primary w-full btn-lg">Create Account</button>
+                        </div>
+                    </form>
+                    <p class="text-center text-secondary mt-6">
+                        Already have an account? 
+                        <button id="show-login" class="font-semibold text-accent hover:underline">Sign In</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterBtn = document.getElementById('show-register');
+        const showLoginBtn = document.getElementById('show-login');
+
+        showRegisterBtn.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+
+        showLoginBtn.addEventListener('click', () => {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
