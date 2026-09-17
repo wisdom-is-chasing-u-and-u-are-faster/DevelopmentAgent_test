@@ -17,6 +17,7 @@
     {"path": "public/js/api.js", "action": "create", "kind": "source"},
     {"path": "public/index.html", "action": "create", "kind": "source"},
     {"path": "requirements.txt", "action": "create", "kind": "config"},
+    {"path": "README.md", "action": "create", "kind": "doc"},
     {"path": "tests/test_db.py", "action": "create", "kind": "test"},
     {"path": "tests/test_api_products.py", "action": "create", "kind": "test"},
     {"path": "tests/test_api_shade_finder.py", "action": "create", "kind": "test"},
