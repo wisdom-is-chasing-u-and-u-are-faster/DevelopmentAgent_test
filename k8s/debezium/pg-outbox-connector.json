@@ -1,0 +1,16 @@
+{
+  "name": "cosmetics-postgres-outbox-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "plugin.name": "pgoutput",
+    "database.hostname": "${POSTGRES_HOST}",
+    "database.port": "5432",
+    "database.user": "${POSTGRES_USER}",
+    "database.password": "${POSTGRES_PASSWORD}",
+    "database.dbname": "cosmetics",
+    "database.server.name": "commerce-db",
+    "table.include.list": "public.transactional_outbox",
+    "tombstones.on.delete": "false"
+  }
+}
