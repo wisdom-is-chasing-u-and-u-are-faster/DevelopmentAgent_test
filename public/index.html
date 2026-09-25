@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Ticketing - Service Intake</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span>🎫</span> Enterprise Ticketing System
+    </a>
+    <div class="nav-links">
+      <a href="/" class="active">Submit Ticket</a>
+      <a href="/dashboard.html">Triage Queue</a>
+      <a href="/workbench.html">Agent Workbench</a>
+      <a href="/search.html">Global Search</a>
+      <a href="/audit.html">Audit Ledger</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>Submit a Support Request or Incident</h2>
+      </div>
+
+      <div id="alertBox" class="hidden" style="margin-bottom: 1rem; padding: 1rem; border-radius: 4px;"></div>
+
+      <form id="ticketForm">
+        <div class="form-group">
+          <label for="department">Target Department *</label>
+          <select id="department" class="form-control" required>
+            <option value="">-- Select Department --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category *</label>
+          <select id="category" class="form-control" required>
+            <option value="">-- Select Category --</option>
+            <option value="HARDWARE">Hardware / Equipment</option>
+            <option value="SOFTWARE">Software / Application Bug</option>
+            <option value="NETWORK">Network / VPN Connectivity</option>
+            <option value="ACCESS">Access Control / IAM Permissions</option>
+            <option value="SECURITY">Security Incident</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priority">Urgency / Priority *</label>
+          <select id="priority" class="form-control" required>
+            <option value="P3" selected>P3 - Medium (2h Ack / 24h Resolve)</option>
+            <option value="P1">P1 - Critical Outage (15m Ack / 4h Resolve)</option>
+            <option value="P2">P2 - High Severity (30m Ack / 8h Resolve)</option>
+            <option value="P4">P4 - Low / Inconvenience (4h Ack / 72h Resolve)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="title">Title / Summary *</label>
+          <input type="text" id="title" class="form-control" placeholder="E.g., Production database latency spike" required minlength="3">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Detailed Description *</label>
+          <textarea id="description" class="form-control" rows="5" placeholder="Provide full details, steps to reproduce, or affected systems..." required minlength="5"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="reset" class="btn btn-secondary">Clear</button>
+          <button type="submit" id="submitBtn" class="btn btn-primary">Submit Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/intake_form.js"></script>
+</body>
+</html>
