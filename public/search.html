@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Search & Discovery Console</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span>🎫</span> Enterprise Ticketing System
+    </a>
+    <div class="nav-links">
+      <a href="/">Submit Ticket</a>
+      <a href="/dashboard.html">Triage Queue</a>
+      <a href="/workbench.html">Agent Workbench</a>
+      <a href="/search.html" class="active">Global Search</a>
+      <a href="/audit.html">Audit Ledger</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>Global Search & Discovery Console</h2>
+      </div>
+
+      <form id="searchForm" style="display: grid; grid-template-columns: 3fr 1fr 1fr auto; gap: 1rem; align-items: end; margin-bottom: 1.5rem;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="searchQuery">Keywords / Ticket #</label>
+          <input type="text" id="searchQuery" class="form-control" placeholder="Search title, description, or ticket number...">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="searchStatus">Status</label>
+          <select id="searchStatus" class="form-control">
+            <option value="">All Statuses</option>
+            <option value="SUBMITTED">SUBMITTED</option>
+            <option value="TRIAGED">TRIAGED</option>
+            <option value="ASSIGNED">ASSIGNED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="PENDING_CUSTOMER">PENDING_CUSTOMER</option>
+            <option value="RESOLVED">RESOLVED</option>
+            <option value="CLOSED">CLOSED</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="searchPriority">Priority</label>
+          <select id="searchPriority" class="form-control">
+            <option value="">All Priorities</option>
+            <option value="P1">P1</option>
+            <option value="P2">P2</option>
+            <option value="P3">P3</option>
+            <option value="P4">P4</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">🔍 Search</button>
+      </form>
+
+      <div id="resultsCount" style="margin-bottom: 1rem; font-weight: 500; color: var(--text-muted);"></div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ticket #</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="searchResultsBody">
+          <tr><td colspan="6" style="text-align: center;">Enter search query above.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module" src="/js/search.js"></script>
+</body>
+</html>
