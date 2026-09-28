@@ -1,81 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enterprise Ticketing - Service Intake</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Ticketing Management System (ETMS)</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <a href="/" class="brand">
-      <span>🎫</span> Enterprise Ticketing System
-    </a>
-    <div class="nav-links">
-      <a href="/" class="active">Submit Ticket</a>
-      <a href="/dashboard.html">Triage Queue</a>
-      <a href="/workbench.html">Agent Workbench</a>
-      <a href="/search.html">Global Search</a>
-      <a href="/audit.html">Audit Ledger</a>
+    <header class="header">
+        <div class="logo-group">
+            <span class="logo-icon">🛡️</span>
+            <div>
+                <div class="system-title">Enterprise Ticketing Management Platform</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Serverless Event-Driven Core &middot; v1.0.0</div>
+            </div>
+        </div>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="tab-dashboard">📊 Command Center</button>
+            <button class="tab-btn" data-tab="tab-intake">📝 Requester Intake</button>
+            <button class="tab-btn" data-tab="tab-workbench">🛠️ Agent Workbench</button>
+            <button class="tab-btn" data-tab="tab-search">🔍 Global Search</button>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div id="app-banner" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem;"></div>
+
+        <!-- 1. Command Center / Triage Dashboard (ARCH-1534) -->
+        <section id="tab-dashboard" class="tab-content active">
+            <div class="card">
+                <div class="card-title">Live Incident & Outage Queue</div>
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                    <div class="form-group">
+                        <label for="filter-query">Filter Keyword</label>
+                        <input type="text" id="filter-query" placeholder="Search by title, number...">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-status">Filter Status</label>
+                        <select id="filter-status">
+                            <option value="">All Statuses</option>
+                            <option value="SUBMITTED">SUBMITTED</option>
+                            <option value="TRIAGED">TRIAGED</option>
+                            <option value="ASSIGNED">ASSIGNED</option>
+                            <option value="IN_PROGRESS">IN_PROGRESS</option>
+                            <option value="PENDING_CUSTOMER">PENDING_CUSTOMER</option>
+                            <option value="RESOLVED">RESOLVED</option>
+                            <option value="CLOSED">CLOSED</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-priority">Filter Priority</label>
+                        <select id="filter-priority">
+                            <option value="">All Priorities</option>
+                            <option value="P1">P1 - Critical</option>
+                            <option value="P2">P2 - Major</option>
+                            <option value="P3">P3 - Moderate</option>
+                            <option value="P4">P4 - Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ticket #</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned Agent</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-table-body">
+                            <!-- Injected dynamically via app.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Requester Intake Form (ARCH-1527) -->
+        <section id="tab-intake" class="tab-content">
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+                <div class="card-title">Submit New Incident or Service Request</div>
+                <form id="ticket-intake-form">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="intake-title">Incident Title *</label>
+                            <input type="text" id="intake-title" required placeholder="e.g. Production Database High Latency">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="intake-category">Category & Department *</label>
+                            <select id="intake-category" required>
+                                <option value="">Loading categories...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="intake-priority">Priority *</label>
+                            <select id="intake-priority" required>
+                                <option value="P1">P1 - Critical (2h Resolution SLA)</option>
+                                <option value="P2">P2 - Major (6h Resolution SLA)</option>
+                                <option value="P3" selected>P3 - Moderate (24h Resolution SLA)</option>
+                                <option value="P4">P4 - Low (72h Resolution SLA)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="intake-email">Requester Corporate Email *</label>
+                            <input type="email" id="intake-email" required value="requester@enterprise.internal">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="intake-description">Detailed Description & Reproduction Steps *</label>
+                            <textarea id="intake-description" rows="5" required placeholder="Describe symptoms, impacted services, and error codes..."></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="intake-tags">Tags (Comma-separated)</label>
+                            <input type="text" id="intake-tags" placeholder="e.g. database, cloud-sql, p1">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; text-align: right;">
+                        <button type="submit" class="btn btn-primary" id="intake-submit-btn">🚀 Submit Incident Request</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. Agent Workbench & Status Transitions (ARCH-1532, ARCH-1546) -->
+        <section id="tab-workbench" class="tab-content">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div>
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                            <div class="card-title" style="margin-bottom:0;">
+                                <span id="wb-ticket-number">Select a ticket</span>
+                            </div>
+                            <div>
+                                <span class="badge badge-submitted" id="wb-status">STATUS</span>
+                                <span class="badge badge-p1" id="wb-priority" style="margin-left:0.5rem;">PRIORITY</span>
+                            </div>
+                        </div>
+
+                        <h2 id="wb-title" style="font-size:1.25rem; margin-bottom:0.75rem;">No ticket selected. Choose a ticket from Command Center.</h2>
+                        <p id="wb-description" style="color:var(--text-muted); margin-bottom:1.5rem; white-space:pre-wrap;"></p>
+
+                        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; padding:1rem; background:var(--bg-primary); border-radius:0.5rem; margin-bottom:1.5rem;">
+                            <div><strong style="color:var(--text-muted); font-size:0.8rem;">Category:</strong> <div id="wb-category">-</div></div>
+                            <div><strong style="color:var(--text-muted); font-size:0.8rem;">Assigned Agent:</strong> <div id="wb-assigned">-</div></div>
+                            <div><strong style="color:var(--text-muted); font-size:0.8rem;">Version (Lock):</strong> <div id="wb-version">-</div></div>
+                        </div>
+
+                        <div class="card-title">Lifecycle State Transitions</div>
+                        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;">
+                            <button class="btn btn-secondary wb-transition-btn" data-status="TRIAGED">Mark Triaged</button>
+                            <button class="btn btn-secondary wb-transition-btn" data-status="ASSIGNED">Mark Assigned</button>
+                            <button class="btn btn-warning wb-transition-btn" data-status="IN_PROGRESS">Start Work</button>
+                            <button class="btn btn-secondary wb-transition-btn" data-status="PENDING_CUSTOMER">Pending Info</button>
+                            <button class="btn btn-success wb-transition-btn" data-status="RESOLVED">Resolve Ticket</button>
+                            <button class="btn btn-secondary wb-transition-btn" data-status="CLOSED">Close</button>
+                            <button class="btn btn-primary" id="wb-route-btn">🤖 Auto-Route (Skills Match)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- SLA Tracking Widget -->
+                    <div class="card">
+                        <div class="card-title">⏱️ SLA Target Tracking</div>
+                        <div id="wb-sla-status"><em>Select ticket to inspect SLA</em></div>
+                    </div>
+
+                    <!-- Cryptographic Audit Ledger Drawer -->
+                    <div class="card">
+                        <div class="card-title">📜 Cryptographic Audit Ledger</div>
+                        <div id="wb-audit-list"><em>Select ticket to inspect audit trail</em></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Global Search & Discovery Console (ARCH-1543) -->
+        <section id="tab-search" class="tab-content">
+            <div class="card">
+                <div class="card-title">Faceted Incident Search Engine</div>
+                <div class="form-grid" style="margin-bottom:1rem;">
+                    <div class="form-group" style="grid-column: 1 / -2;">
+                        <label for="search-input">Search Keywords (Full Text)</label>
+                        <input type="text" id="search-input" placeholder="Type query to filter across incidents, error codes, tags...">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-category">Filter Category</label>
+                        <select id="filter-category">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="search-meta" style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;"></div>
+                <div id="search-results"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Concurrency Conflict Modal Dialog (ARCH-1532) -->
+    <div id="conflict-modal" class="modal-backdrop">
+        <div class="modal">
+            <h3 style="color:var(--danger); margin-bottom:1rem;">⚠️ Optimistic Concurrency Conflict (HTTP 409)</h3>
+            <p id="conflict-modal-message" style="margin-bottom:1.5rem; color:var(--text-muted);"></p>
+            <div style="text-align:right;">
+                <button class="btn btn-primary" onclick="closeConflictModal()">🔄 Reload Latest Ticket State</button>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <div class="container">
-    <div class="card">
-      <div class="card-header">
-        <h2>Submit a Support Request or Incident</h2>
-      </div>
-
-      <div id="alertBox" class="hidden" style="margin-bottom: 1rem; padding: 1rem; border-radius: 4px;"></div>
-
-      <form id="ticketForm">
-        <div class="form-group">
-          <label for="department">Target Department *</label>
-          <select id="department" class="form-control" required>
-            <option value="">-- Select Department --</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="category">Category *</label>
-          <select id="category" class="form-control" required>
-            <option value="">-- Select Category --</option>
-            <option value="HARDWARE">Hardware / Equipment</option>
-            <option value="SOFTWARE">Software / Application Bug</option>
-            <option value="NETWORK">Network / VPN Connectivity</option>
-            <option value="ACCESS">Access Control / IAM Permissions</option>
-            <option value="SECURITY">Security Incident</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="priority">Urgency / Priority *</label>
-          <select id="priority" class="form-control" required>
-            <option value="P3" selected>P3 - Medium (2h Ack / 24h Resolve)</option>
-            <option value="P1">P1 - Critical Outage (15m Ack / 4h Resolve)</option>
-            <option value="P2">P2 - High Severity (30m Ack / 8h Resolve)</option>
-            <option value="P4">P4 - Low / Inconvenience (4h Ack / 72h Resolve)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="title">Title / Summary *</label>
-          <input type="text" id="title" class="form-control" placeholder="E.g., Production database latency spike" required minlength="3">
-        </div>
-
-        <div class="form-group">
-          <label for="description">Detailed Description *</label>
-          <textarea id="description" class="form-control" rows="5" placeholder="Provide full details, steps to reproduce, or affected systems..." required minlength="5"></textarea>
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
-          <button type="reset" class="btn btn-secondary">Clear</button>
-          <button type="submit" id="submitBtn" class="btn btn-primary">Submit Ticket</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script type="module" src="/js/intake_form.js"></script>
+    <script type="module" src="/js/api.js"></script>
+    <script type="module" src="/js/app.js"></script>
 </body>
 </html>
