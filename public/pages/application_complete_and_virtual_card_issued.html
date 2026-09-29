@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Complete & Virtual Card Issued</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand-container">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: inherit;">
+                <div class="brand-logo">🏦</div>
+                <div class="brand-title">Enterprise Digital Bank</div>
+            </a>
+        </div>
+        <div class="badge-stp">Step 6 of 6 — Complete</div>
+    </header>
+
+    <div class="main-container">
+        <div class="card-box" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+            <h1 class="card-title">Virtual Debit Card Issued</h1>
+            <p class="card-subtitle">Your savings account is open and your virtual card is ready for digital wallet tokenization.</p>
+
+            <div class="virtual-card-wrapper">
+                <div class="virtual-card">
+                    <div class="card-top">
+                        <div class="card-chip"></div>
+                        <div class="card-network">VISA</div>
+                    </div>
+                    <div class="card-pan" id="p-card-pan">4111 •••• •••• 9012</div>
+                    <div class="card-bottom">
+                        <div>
+                            <div style="font-size: 0.65rem; opacity: 0.8;">Card Holder</div>
+                            <div class="card-holder" id="p-card-holder">ALEXANDER HAMILTON</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.65rem; opacity: 0.8;">Expires</div>
+                            <div class="card-exp">09/30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-direction: column; margin-top: 1.5rem;">
+                <button type="button" class="btn btn-apple-wallet btn-block" id="p-btn-apple"> Add to Apple Wallet</button>
+                <button type="button" class="btn btn-google-pay btn-block" id="p-btn-google">GPay Add to Google Pay</button>
+                <a href="/" class="btn btn-secondary btn-block">Return to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const session = BankingAPI.getSession();
+            if (session.virtual_card) {
+                document.getElementById("p-card-pan").textContent = session.virtual_card.masked_pan || "4111 •••• •••• 9012";
+                document.getElementById("p-card-holder").textContent = session.virtual_card.card_holder_name || "ALEXANDER HAMILTON";
+            }
+
+            document.getElementById("p-btn-apple").addEventListener("click", async () => {
+                const card = session.virtual_card || { card_id: "crd_demo_001" };
+                try {
+                    await BankingAPI.pushTokenize({ card_id: card.card_id, wallet_provider: "APPLE_PAY" });
+                    alert("✓ Card successfully added to Apple Wallet!");
+                } catch (err) {
+                    alert(err.message);
+                }
+            });
+
+            document.getElementById("p-btn-google").addEventListener("click", async () => {
+                const card = session.virtual_card || { card_id: "crd_demo_001" };
+                try {
+                    await BankingAPI.pushTokenize({ card_id: card.card_id, wallet_provider: "GOOGLE_PAY" });
+                    alert("✓ Card successfully added to Google Pay!");
+                } catch (err) {
+                    alert(err.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

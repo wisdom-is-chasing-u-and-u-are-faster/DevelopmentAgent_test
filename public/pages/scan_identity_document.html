@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Identity Document — Digital Savings Account Opening</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand-container">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: inherit;">
+                <div class="brand-logo">🏦</div>
+                <div class="brand-title">Enterprise Digital Bank</div>
+            </a>
+        </div>
+        <div class="badge-stp">Step 2 of 6</div>
+    </header>
+
+    <div class="main-container">
+        <div class="card-box">
+            <h1 class="card-title">Scan Identity Document</h1>
+            <p class="card-subtitle">Real-time OCR extraction with ICAO Doc 9303 MRZ checksum validation.</p>
+
+            <div class="viewfinder-box">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🪪</div>
+                <div style="font-weight: 600;">Position ID in frame</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="page-doc-type">Document Type</label>
+                <select id="page-doc-type" class="form-control">
+                    <option value="PASSPORT">Passport</option>
+                    <option value="NATIONAL_ID">National ID</option>
+                    <option value="DRIVER_LICENSE">Driver's License</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="page-doc-num">Document Number</label>
+                <input type="text" id="page-doc-num" class="form-control" value="P987654321">
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-page-ocr">Scan & Validate Document →</button>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script>
+        document.getElementById("btn-page-ocr").addEventListener("click", async () => {
+            const session = BankingAPI.getSession();
+            const docType = document.getElementById("page-doc-type").value;
+            const docNum = document.getElementById("page-doc-num").value;
+            try {
+                await BankingAPI.scanOCR({
+                    session_id: session.session_id || "sess_demo_001",
+                    document_type: docType,
+                    document_number: docNum,
+                    first_name: "Alexander",
+                    last_name: "Hamilton"
+                });
+                window.location.href = "/pages/verify_personal_information.html";
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+    </script>
+</body>
+</html>

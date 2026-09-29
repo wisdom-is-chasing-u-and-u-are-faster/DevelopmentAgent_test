@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biometric Liveness Check — Digital Savings Account Opening</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand-container">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: inherit;">
+                <div class="brand-logo">🏦</div>
+                <div class="brand-title">Enterprise Digital Bank</div>
+            </a>
+        </div>
+        <div class="badge-stp">Step 4 of 6</div>
+    </header>
+
+    <div class="main-container">
+        <div class="card-box">
+            <h1 class="card-title">3D Passive Biometric Liveness</h1>
+            <p class="card-subtitle">Selfie verification and facial anti-spoofing defense.</p>
+
+            <div class="viewfinder-box" style="height: 280px;">
+                <div class="viewfinder-oval"></div>
+                <div style="margin-top: 170px; font-size: 0.85rem; color: #38bdf8; font-weight: 600;">
+                    Position your face within the frame
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-page-bio">Verify Liveness & Face Match →</button>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script>
+        document.getElementById("btn-page-bio").addEventListener("click", async () => {
+            const session = BankingAPI.getSession();
+            try {
+                await BankingAPI.verifyBiometrics({
+                    session_id: session.session_id || "sess_demo_001",
+                    selfie_base64: "simulated_selfie"
+                });
+                window.location.href = "/pages/application_review_and_submit.html";
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+    </script>
+</body>
+</html>
