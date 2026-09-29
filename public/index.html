@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Savings Account Opening Platform</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand-container">
+            <div class="brand-logo">🏦</div>
+            <div class="brand-title">Enterprise Digital Bank</div>
+        </div>
+        <div class="badge-stp">⚡ STP Onboarding (< 300s)</div>
+    </header>
+
+    <div class="main-container">
+        <!-- Stepper Navigation -->
+        <div class="stepper-container" id="stepper">
+            <div class="step-item active" data-step="1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Consent</div>
+            </div>
+            <div class="step-item" data-step="2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Scan ID</div>
+            </div>
+            <div class="step-item" data-step="3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Personal Info</div>
+            </div>
+            <div class="step-item" data-step="4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Liveness</div>
+            </div>
+            <div class="step-item" data-step="5">
+                <div class="step-circle">5</div>
+                <div class="step-label">Review</div>
+            </div>
+            <div class="step-item" data-step="6">
+                <div class="step-circle">6</div>
+                <div class="step-label">Virtual Card</div>
+            </div>
+        </div>
+
+        <!-- Notification Bar -->
+        <div id="notification-box" style="display: none;" class="alert alert-info"></div>
+
+        <!-- ================================================================= -->
+        <!-- Step 1: Welcome & Consent -->
+        <!-- ================================================================= -->
+        <div class="card-box" id="step-1">
+            <h1 class="card-title">Open Your High-Yield Savings Account</h1>
+            <p class="card-subtitle">Experience straight-through digital onboarding in under 3 minutes with instant virtual debit card issuance.</p>
+
+            <form id="consent-form">
+                <div class="form-group">
+                    <label class="form-label" for="applicant-email">Email Address</label>
+                    <input type="email" id="applicant-email" class="form-control" placeholder="alex.hamilton@enterprise.com" required value="alex.hamilton@enterprise.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="applicant-phone">Mobile Phone Number</label>
+                    <input type="tel" id="applicant-phone" class="form-control" placeholder="+1 (555) 019-2834" required value="+15550192834">
+                </div>
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                        <input type="checkbox" id="consent-check" checked required style="margin-top: 0.2rem;">
+                        <span>I consent to real-time optical character recognition (OCR), 3D biometric liveness verification, automated AML/PEP watchlist screening, and Core Banking account creation under Bank Terms & Conditions.</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;" id="btn-start-onboarding">
+                    Get Started Now →
+                </button>
+            </form>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- Step 2: Scan Identity Document -->
+        <!-- ================================================================= -->
+        <div class="card-box" id="step-2" style="display: none;">
+            <h1 class="card-title">Scan Identity Document</h1>
+            <p class="card-subtitle">Position your official ID document inside the frame for real-time OCR extraction and MRZ checksum validation.</p>
+
+            <div class="viewfinder-box">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🪪</div>
+                <div style="font-weight: 600;">AI Optical Document Scanner</div>
+                <div style="font-size: 0.8rem; color: #94a3b8;">ICAO Doc 9303 MRZ Engine Ready</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="doc-type">Document Type</label>
+                <select id="doc-type" class="form-control">
+                    <option value="PASSPORT">Passport (MRZ 2-Line / 3-Line)</option>
+                    <option value="NATIONAL_ID">National Identity Card</option>
+                    <option value="DRIVER_LICENSE">Driver's License</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="doc-number">Document Number</label>
+                <input type="text" id="doc-number" class="form-control" value="P987654321">
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-scan-ocr">
+                Extract Document Details (OCR) ⚡
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- Step 3: Verify Personal Information -->
+        <!-- ================================================================= -->
+        <div class="card-box" id="step-3" style="display: none;">
+            <h1 class="card-title">Verify Personal Information</h1>
+            <p class="card-subtitle">Confirm the information extracted from your identity document and authenticate your mobile OTP.</p>
+
+            <form id="verify-info-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="first-name">First Name</label>
+                        <input type="text" id="first-name" class="form-control" value="Alexander" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="last-name">Last Name</label>
+                        <input type="text" id="last-name" class="form-control" value="Hamilton" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="residential-address">Residential Address</label>
+                    <input type="text" id="residential-address" class="form-control" value="55 Wall Street, Suite 400" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="city">City</label>
+                        <input type="text" id="city" class="form-control" value="New York" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="postal-code">Postal Code</label>
+                        <input type="text" id="postal-code" class="form-control" value="10005" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="sms-otp">SMS Verification Code (OTP)</label>
+                    <input type="text" id="sms-otp" class="form-control" value="894210" placeholder="6-digit code" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btn-confirm-info">
+                    Confirm & Proceed to Liveness →
+                </button>
+            </form>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- Step 4: Biometric Liveness Check -->
+        <!-- ================================================================= -->
+        <div class="card-box" id="step-4" style="display: none;">
+            <h1 class="card-title">3D Passive Biometric Liveness</h1>
+            <p class="card-subtitle">Position your face inside the oval. The system will passively verify liveness and anti-spoofing defense.</p>
+
+            <div class="viewfinder-box" style="height: 300px;">
+                <div class="viewfinder-oval"></div>
+                <div style="margin-top: 180px; font-size: 0.85rem; color: #38bdf8; font-weight: 600;">
+                    Hold steady... Analyzing facial depth & micro-expressions
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-verify-biometrics">
+                Verify Biometric Liveness 🤳
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- Step 5: Application Review & Submit -->
+        <!-- ================================================================= -->
+        <div class="card-box" id="step-5" style="display: none;">
+            <h1 class="card-title">Review & Submit Application</h1>
+            <p class="card-subtitle">Review your onboarding dossier before final Straight-Through Processing (STP) saga execution.</p>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="color: #64748b;">Applicant:</span>
+                    <strong id="review-name">Alexander Hamilton</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="color: #64748b;">ID Document:</span>
+                    <strong id="review-doc">Passport (P987654321)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="color: #64748b;">KYC & Liveness:</span>
+                    <span style="color: #10b981; font-weight: 600;">✓ Verified (Confidence 99.4%)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="color: #64748b;">AML/PEP Watchlist:</span>
+                    <span style="color: #10b981; font-weight: 600;">✓ Cleared (Risk Score 5)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                    <span style="color: #64748b;">Product:</span>
+                    <strong>High-Yield Digital Savings (4.75% APY)</strong>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-submit-application">
+                Create Account & Issue Virtual Card 🚀
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- Step 6: Virtual Card Issued & Digital Wallet Celebration -->
+        <!-- ================================================================= -->
+        <div class="card-box" id="step-6" style="display: none; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+            <h1 class="card-title">Welcome to Enterprise Banking!</h1>
+            <p class="card-subtitle">Your savings account is open and your virtual debit card is ready for instant use.</p>
+
+            <div class="virtual-card-wrapper">
+                <div class="virtual-card">
+                    <div class="card-top">
+                        <div class="card-chip"></div>
+                        <div class="card-network" id="card-display-network">VISA</div>
+                    </div>
+                    <div class="card-pan" id="card-display-pan">4111 •••• •••• 9012</div>
+                    <div class="card-bottom">
+                        <div>
+                            <div style="font-size: 0.65rem; opacity: 0.8;">Card Holder</div>
+                            <div class="card-holder" id="card-display-holder">ALEXANDER HAMILTON</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.65rem; opacity: 0.8;">Expires</div>
+                            <div class="card-exp" id="card-display-exp">09/30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; text-align: left;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                    <span style="color: #64748b;">Customer CIF:</span>
+                    <strong id="final-cif">CIF-4819203</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                    <span style="color: #64748b;">Account Number:</span>
+                    <strong id="final-account">ACCT-4899182374</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #64748b;">Opening Balance:</span>
+                    <strong style="color: #10b981;">$100.00 USD</strong>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-direction: column;">
+                <button type="button" class="btn btn-apple-wallet btn-block" id="btn-add-apple-wallet">
+                     Add to Apple Wallet
+                </button>
+                <button type="button" class="btn btn-google-pay btn-block" id="btn-add-google-pay">
+                    GPay Add to Google Pay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        © 2026 Enterprise Banking Platform | Orchestrated Saga STP Engine | GLBA & PCI-DSS v4.0 Compliant
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let currentStep = 1;
+
+            const notify = (msg, isSuccess = true) => {
+                const box = document.getElementById("notification-box");
+                box.textContent = msg;
+                box.className = isSuccess ? "alert alert-success" : "alert alert-info";
+                box.style.display = "block";
+                setTimeout(() => { box.style.display = "none"; }, 5000);
+            };
+
+            const goToStep = (step) => {
+                for (let i = 1; i <= 6; i++) {
+                    const card = document.getElementById(`step-${i}`);
+                    if (card) card.style.display = i === step ? "block" : "none";
+                    
+                    const stepItem = document.querySelector(`.step-item[data-step="${i}"]`);
+                    if (stepItem) {
+                        stepItem.classList.remove("active");
+                        if (i < step) stepItem.classList.add("completed");
+                        if (i === step) stepItem.classList.add("active");
+                    }
+                }
+                currentStep = step;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            };
+
+            // Step 1: Consent
+            document.getElementById("consent-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const email = document.getElementById("applicant-email").value;
+                const phone = document.getElementById("applicant-phone").value;
+                const consent = document.getElementById("consent-check").checked;
+
+                try {
+                    notify("Initializing STP session...", true);
+                    const res = await BankingAPI.createSession({
+                        applicant_email: email,
+                        applicant_phone: phone,
+                        consent_given: consent,
+                        terms_accepted: true,
+                        channel: "web"
+                    });
+                    notify("Session initialized. Please scan your identity document.", true);
+                    goToStep(2);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+
+            // Step 2: OCR Scan
+            document.getElementById("btn-scan-ocr").addEventListener("click", async () => {
+                const session = BankingAPI.getSession();
+                const docType = document.getElementById("doc-type").value;
+                const docNum = document.getElementById("doc-number").value;
+
+                try {
+                    notify("Scanning document and validating MRZ checksum...", true);
+                    const res = await BankingAPI.scanOCR({
+                        session_id: session.session_id,
+                        document_type: docType,
+                        document_number: docNum,
+                        first_name: "Alexander",
+                        last_name: "Hamilton",
+                        date_of_birth: "1988-01-11",
+                        nationality: "USA"
+                    });
+                    notify("Document verified successfully (Confidence 99.2%).", true);
+                    goToStep(3);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+
+            // Step 3: Verify Personal Info
+            document.getElementById("verify-info-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const session = BankingAPI.getSession();
+                const fname = document.getElementById("first-name").value;
+                const lname = document.getElementById("last-name").value;
+                const docNum = document.getElementById("doc-number").value;
+                const addr = document.getElementById("residential-address").value;
+                const city = document.getElementById("city").value;
+                const zip = document.getElementById("postal-code").value;
+                const otp = document.getElementById("sms-otp").value;
+
+                try {
+                    notify("Verifying OTP & personal details...", true);
+                    await BankingAPI.verifyPersonalInfo({
+                        session_id: session.session_id,
+                        first_name: fname,
+                        last_name: lname,
+                        document_number: docNum,
+                        residential_address: addr,
+                        city: city,
+                        postal_code: zip,
+                        otp_code: otp
+                    });
+                    notify("Details confirmed. Starting biometric verification.", true);
+                    goToStep(4);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+
+            // Step 4: Biometrics
+            document.getElementById("btn-verify-biometrics").addEventListener("click", async () => {
+                const session = BankingAPI.getSession();
+                try {
+                    notify("Verifying 3D passive liveness and facial depth...", true);
+                    await BankingAPI.verifyBiometrics({
+                        session_id: session.session_id,
+                        selfie_base64: "simulated_selfie_b64"
+                    });
+                    notify("Liveness confirmed! Ready for final review.", true);
+                    goToStep(5);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+
+            // Step 5: Review & Submit (Triggers AML -> CBS -> CMS Card)
+            document.getElementById("btn-submit-application").addEventListener("click", async () => {
+                const session = BankingAPI.getSession();
+                try {
+                    notify("Executing AML sanction screening...", true);
+                    await BankingAPI.screenAML({
+                        session_id: session.session_id,
+                        full_name: "Alexander Hamilton",
+                        date_of_birth: "1988-01-11",
+                        nationality: "USA"
+                    });
+
+                    notify("Orchestrating Core Banking System (CBS) account creation...", true);
+                    const acc = await BankingAPI.createAccount({
+                        session_id: session.session_id,
+                        account_product_code: "SAVINGS_HIGH_YIELD",
+                        initial_deposit: 100.0,
+                        currency: "USD"
+                    });
+
+                    notify("Issuing virtual debit card via HSM adapter...", true);
+                    const card = await BankingAPI.issueCard({
+                        session_id: session.session_id,
+                        account_number: acc.account_number,
+                        card_holder_name: "ALEXANDER HAMILTON",
+                        card_network: "VISA"
+                    });
+
+                    // Update celebration view
+                    document.getElementById("final-cif").textContent = acc.cif_number;
+                    document.getElementById("final-account").textContent = acc.account_number;
+                    document.getElementById("card-display-pan").textContent = card.masked_pan;
+                    document.getElementById("card-display-holder").textContent = card.card_holder_name;
+                    document.getElementById("card-display-exp").textContent = card.expiry_date;
+
+                    notify("Onboarding complete! Your account is active.", true);
+                    goToStep(6);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+
+            // Step 6: Push Tokenization
+            document.getElementById("btn-add-apple-wallet").addEventListener("click", async () => {
+                const session = BankingAPI.getSession();
+                const card = session.virtual_card;
+                if (!card) return;
+                try {
+                    notify("Push tokenizing to Apple Wallet...", true);
+                    const res = await BankingAPI.pushTokenize({
+                        card_id: card.card_id,
+                        wallet_provider: "APPLE_PAY"
+                    });
+                    notify("✓ Card successfully added to Apple Wallet!", true);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+
+            document.getElementById("btn-add-google-pay").addEventListener("click", async () => {
+                const session = BankingAPI.getSession();
+                const card = session.virtual_card;
+                if (!card) return;
+                try {
+                    notify("Push tokenizing to Google Pay...", true);
+                    const res = await BankingAPI.pushTokenize({
+                        card_id: card.card_id,
+                        wallet_provider: "GOOGLE_PAY"
+                    });
+                    notify("✓ Card successfully added to Google Pay!", true);
+                } catch (err) {
+                    notify(err.message, false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

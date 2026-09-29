@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Review & Submit — Digital Savings Account Opening</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand-container">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: inherit;">
+                <div class="brand-logo">🏦</div>
+                <div class="brand-title">Enterprise Digital Bank</div>
+            </a>
+        </div>
+        <div class="badge-stp">Step 5 of 6</div>
+    </header>
+
+    <div class="main-container">
+        <div class="card-box">
+            <h1 class="card-title">Application Review & Submit</h1>
+            <p class="card-subtitle">Execute Straight-Through Processing (STP) saga orchestration.</p>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
+                    <span style="color: #64748b;">Applicant:</span>
+                    <strong>Alexander Hamilton</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
+                    <span style="color: #64748b;">KYC OCR Status:</span>
+                    <span style="color: #10b981; font-weight: 600;">✓ Verified (MRZ Valid)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
+                    <span style="color: #64748b;">Biometric Liveness:</span>
+                    <span style="color: #10b981; font-weight: 600;">✓ Passed (99.4%)</span>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-page-submit">Finalize STP Account Opening 🚀</button>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script>
+        document.getElementById("btn-page-submit").addEventListener("click", async () => {
+            const session = BankingAPI.getSession();
+            const sid = session.session_id || "sess_demo_001";
+            try {
+                await BankingAPI.screenAML({ session_id: sid, full_name: "Alexander Hamilton", date_of_birth: "1988-01-11", nationality: "USA" });
+                const acc = await BankingAPI.createAccount({ session_id: sid, account_product_code: "SAVINGS_HIGH_YIELD", initial_deposit: 100.0, currency: "USD" });
+                await BankingAPI.issueCard({ session_id: sid, account_number: acc.account_number, card_holder_name: "ALEXANDER HAMILTON", card_network: "VISA" });
+                window.location.href = "/pages/application_complete_and_virtual_card_issued.html";
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+    </script>
+</body>
+</html>
