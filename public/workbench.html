@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Workbench - State Transition</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span>🎫</span> Enterprise Ticketing System
+    </a>
+    <div class="nav-links">
+      <a href="/">Submit Ticket</a>
+      <a href="/dashboard.html">Triage Queue</a>
+      <a href="/workbench.html" class="active">Agent Workbench</a>
+      <a href="/search.html">Global Search</a>
+      <a href="/audit.html">Audit Ledger</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>Agent Workbench - Ticket Lifecycle Manager</h2>
+        <div id="ticketBadge"></div>
+      </div>
+
+      <div id="statusAlert" class="hidden" style="margin-bottom: 1rem; padding: 1rem; border-radius: 4px;"></div>
+
+      <div id="ticketDetailSection">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+          <div>
+            <h3 id="ticketTitle">Loading...</h3>
+            <p id="ticketDesc" style="color: var(--text-muted); margin: 1rem 0; white-space: pre-wrap;"></p>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 6px;">
+              <h4>Transition Lifecycle State</h4>
+              <form id="transitionForm" style="margin-top: 1rem;">
+                <input type="hidden" id="currentVersion" value="1">
+                <input type="hidden" id="ticketId" value="">
+                
+                <div class="form-group">
+                  <label for="nextStatus">Target Status *</label>
+                  <select id="nextStatus" class="form-control" required>
+                    <option value="TRIAGED">TRIAGED</option>
+                    <option value="ASSIGNED">ASSIGNED</option>
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="PENDING_CUSTOMER">PENDING_CUSTOMER</option>
+                    <option value="RESOLVED">RESOLVED</option>
+                    <option value="CLOSED">CLOSED</option>
+                    <option value="CANCELED">CANCELED</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="transitionComment">Resolution / Status Note</label>
+                  <textarea id="transitionComment" class="form-control" rows="3" placeholder="Provide note or justification for this transition..."></textarea>
+                </div>
+
+                <button type="submit" id="transitionBtn" class="btn btn-primary">Update Status</button>
+              </form>
+            </div>
+          </div>
+
+          <div style="border-left: 1px solid var(--border); padding-left: 1.5rem;">
+            <h4>Ticket Metadata</h4>
+            <ul style="list-style: none; margin-top: 1rem; font-size: 0.9rem;">
+              <li style="margin-bottom: 0.5rem;"><strong>Number:</strong> <span id="metaNumber">-</span></li>
+              <li style="margin-bottom: 0.5rem;"><strong>Status:</strong> <span id="metaStatus">-</span></li>
+              <li style="margin-bottom: 0.5rem;"><strong>Priority:</strong> <span id="metaPriority">-</span></li>
+              <li style="margin-bottom: 0.5rem;"><strong>Version:</strong> <span id="metaVersion">-</span></li>
+              <li style="margin-bottom: 0.5rem;"><strong>Ack Deadline:</strong> <span id="metaAck">-</span></li>
+              <li style="margin-bottom: 0.5rem;"><strong>Resolve Deadline:</strong> <span id="metaResolve">-</span></li>
+            </ul>
+            <div style="margin-top: 1.5rem;">
+              <a id="auditLink" href="#" class="btn btn-secondary" style="width: 100%;">View Audit Ledger</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concurrency Conflict Modal Dialog -->
+  <div id="conflictModal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <h3 style="color: var(--danger); margin-bottom: 1rem;">⚠️ Concurrency Conflict Detected</h3>
+      <p style="margin-bottom: 1rem; color: var(--text-muted);">
+        Another user or automated process modified this ticket while you were viewing it.
+      </p>
+      <div style="background: #fce8e6; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+        <div><strong>Your Expected Version:</strong> <span id="modalExpectedVersion"></span></div>
+        <div><strong>Current Database Version:</strong> <span id="modalCurrentVersion"></span></div>
+        <div><strong>Current State:</strong> <span id="modalCurrentStatus"></span></div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+        <button id="modalReloadBtn" class="btn btn-primary">Reload & Re-evaluate</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/workbench.js"></script>
+</body>
+</html>
