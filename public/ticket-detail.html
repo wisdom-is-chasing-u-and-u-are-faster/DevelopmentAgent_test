@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Detail - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/ticket-queue.html" class="btn btn-secondary btn-sm">← Back to Queue</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <h1 class="page-title" id="tkt-number">INC-2026-XXXX</h1>
+          <span id="tkt-priority"></span>
+          <span id="tkt-status"></span>
+          <span id="tkt-version" class="badge" style="background:var(--bg-subtle);">v1</span>
+        </div>
+        <p class="page-subtitle" id="tkt-title" style="font-size:1.125rem; font-weight:600; color:var(--text-primary); margin-top:0.5rem;">Loading ticket...</p>
+      </div>
+      <div style="display:flex; gap:0.75rem;">
+        <button class="btn btn-secondary btn-sm" onclick="triggerDispatch()">🎯 Auto-Dispatch</button>
+        <button class="btn btn-primary btn-sm" onclick="triggerStatusTransition('IN_PROGRESS')">▶ Start Work</button>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('RESOLVED')" style="color:var(--success);">✓ Resolve</button>
+      </div>
+    </div>
+
+    <div class="table-card" style="padding:1.5rem; margin-bottom:1.5rem;">
+      <h3 style="font-size:0.9375rem; font-weight:700; color:var(--text-secondary); margin-bottom:0.75rem;">7-State Lifecycle State Machine</h3>
+      <div class="stepper" id="lifecycle-stepper"></div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1.25rem;">
+        <span style="font-size:0.875rem; font-weight:600; color:var(--text-secondary); margin-right:0.5rem; align-self:center;">Move to:</span>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('TRIAGED')">TRIAGED</button>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('ASSIGNED')">ASSIGNED</button>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('IN_PROGRESS')">IN_PROGRESS</button>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('PENDING_CUSTOMER')">PENDING_CUSTOMER</button>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('RESOLVED')">RESOLVED</button>
+        <button class="btn btn-secondary btn-sm" onclick="triggerStatusTransition('CLOSED')">CLOSED</button>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem;">
+      <div class="table-card" style="padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; margin-bottom:1rem;">Incident Details & Description</h3>
+        <p id="tkt-description" style="white-space:pre-wrap; line-height:1.6; color:var(--text-primary); font-size:0.9375rem; margin-bottom:1.5rem;">--</p>
+
+        <h3 style="font-size:1.125rem; font-weight:700; margin-bottom:1rem; border-top:1px solid var(--border-color); padding-top:1.5rem;">Tamper-Evident Audit Timeline</h3>
+        <div id="history-timeline"></div>
+      </div>
+
+      <div class="table-card" style="padding:1.5rem; height:fit-content;">
+        <h3 style="font-size:1rem; font-weight:700; margin-bottom:1rem;">Operational Metadata</h3>
+        <div style="display:flex; flex-direction:column; gap:1rem; font-size:0.875rem;">
+          <div>
+            <div style="color:var(--text-secondary); font-weight:600;">Department</div>
+            <div id="tkt-department" style="color:var(--text-primary); font-weight:500;">--</div>
+          </div>
+          <div>
+            <div style="color:var(--text-secondary); font-weight:600;">Category</div>
+            <div id="tkt-category" style="color:var(--text-primary); font-weight:500;">--</div>
+          </div>
+          <div>
+            <div style="color:var(--text-secondary); font-weight:600;">Requester</div>
+            <div id="tkt-requester" style="color:var(--text-primary); font-weight:500;">--</div>
+          </div>
+          <div>
+            <div style="color:var(--text-secondary); font-weight:600;">Assigned Support Specialist</div>
+            <div id="tkt-agent" style="color:var(--text-primary); font-weight:500;">--</div>
+          </div>
+          <div>
+            <div style="color:var(--text-secondary); font-weight:600;">SLA Multi-Stage Status</div>
+            <div id="tkt-sla" style="color:var(--text-primary); font-weight:600;">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/workbench.js"></script>
+</body>
+</html>
