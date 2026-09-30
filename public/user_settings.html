@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Settings - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link active">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/new-ticket-form.html" class="btn btn-primary btn-sm">+ Create Incident</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:800px;">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">User & Omnichannel Notification Settings</h1>
+        <p class="page-subtitle">Configure SLA escalation channels and interface preferences.</p>
+      </div>
+    </div>
+
+    <div class="table-card" style="padding:2rem;">
+      <form id="settings-form">
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <h3 style="font-size:1.125rem; font-weight:700;">Notification Dispatch Channels</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+              <input type="checkbox" id="notif-slack" checked>
+              <span>Slack Escalation Webhook (Milestones: 50%, 75%, 100%)</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+              <input type="checkbox" id="notif-teams" checked>
+              <span>Microsoft Teams Webhook Alerts</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+              <input type="checkbox" id="notif-email" checked>
+              <span>Corporate Email Dispatch Notifications</span>
+            </label>
+          </div>
+
+          <h3 style="font-size:1.125rem; font-weight:700; border-top:1px solid var(--border-color); padding-top:1.5rem;">Display Theme</h3>
+          <div class="form-group">
+            <label class="form-label" for="theme-select">Interface Theme</label>
+            <select id="theme-select" class="form-control">
+              <option value="dark" selected>Dark Enterprise</option>
+              <option value="light">Light Crisp</option>
+            </select>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:1rem;">
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const s = await ETMS_API.getUserSettings();
+        document.getElementById('notif-slack').checked = s.slack_notifications;
+        document.getElementById('notif-teams').checked = s.teams_notifications;
+        document.getElementById('notif-email').checked = s.email_notifications;
+        document.getElementById('theme-select').value = s.theme;
+      } catch (e) {
+        showToast(e.message, 'error');
+      }
+
+      document.getElementById('settings-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          slack_notifications: document.getElementById('notif-slack').checked,
+          teams_notifications: document.getElementById('notif-teams').checked,
+          email_notifications: document.getElementById('notif-email').checked,
+          theme: document.getElementById('theme-select').value
+        };
+        try {
+          await ETMS_API.updateUserSettings(payload);
+          document.documentElement.setAttribute('data-theme', payload.theme);
+          localStorage.setItem('etms-theme', payload.theme);
+          showToast('Settings saved successfully!', 'success');
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "env_example_exists": true,
+  "gitignore_valid": true,
+  "documented_variables": [
+    "API_KEY_SECRET",
+    "DATABASE_URL",
+    "EMAIL_FROM_ADDRESS",
+    "EMAIL_SMTP_HOST",
+    "EMAIL_SMTP_PORT",
+    "ENVIRONMENT",
+    "HOST",
+    "LOG_LEVEL",
+    "MAX_CONCURRENT_DISPATCHES",
+    "PORT",
+    "SLACK_WEBHOOK_URL",
+    "TEAMS_WEBHOOK_URL"
+  ],
+  "source_variables": [],
+  "docker_compose_exists": true
+}

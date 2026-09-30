@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Search - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link active">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/new-ticket-form.html" class="btn btn-primary btn-sm">+ Create Incident</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Advanced Multi-Faceted Ticket Search</h1>
+        <p class="page-subtitle">Query tickets across historical audits, priority classifications, and categories.</p>
+      </div>
+      <div id="results-count" class="badge badge-primary">0 tickets found</div>
+    </div>
+
+    <div class="table-card" style="padding:1.5rem; margin-bottom:1.5rem;">
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label class="form-label" for="search-query">Search Keywords & Content</label>
+          <input type="text" id="search-query" class="form-control" placeholder="Search across incident summaries, descriptions, and ticket numbers...">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="filter-status">Status</label>
+          <select id="filter-status" class="form-control">
+            <option value="ALL">All States</option>
+            <option value="NEW">NEW</option>
+            <option value="TRIAGED">TRIAGED</option>
+            <option value="ASSIGNED">ASSIGNED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="PENDING_CUSTOMER">PENDING_CUSTOMER</option>
+            <option value="RESOLVED">RESOLVED</option>
+            <option value="CLOSED">CLOSED</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="filter-priority">Severity</label>
+          <select id="filter-priority" class="form-control">
+            <option value="ALL">All Severities</option>
+            <option value="P1">P1 (Critical)</option>
+            <option value="P2">P2 (Major)</option>
+            <option value="P3">P3 (Medium)</option>
+            <option value="P4">P4 (Low)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="filter-department">Department</label>
+          <select id="filter-department" class="form-control">
+            <option value="ALL">All Departments</option>
+            <option value="Database">Database</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Applications">Applications</option>
+            <option value="Security">Security</option>
+            <option value="DevOps">DevOps</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket #</th>
+              <th>Incident Summary</th>
+              <th>Severity</th>
+              <th>Status</th>
+              <th>Department</th>
+              <th>Assigned Specialist</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tickets-table-body">
+            <tr><td colspan="7" style="text-align:center; padding:2rem;">Enter query parameters above to search.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/search.js"></script>
+</body>
+</html>
