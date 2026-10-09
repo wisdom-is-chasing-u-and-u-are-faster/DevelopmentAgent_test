@@ -59,6 +59,7 @@
     {"path": "tests/test_notifications.py", "action": "create", "kind": "test"},
     {"path": "tests/test_search_service.py", "action": "create", "kind": "test"},
     {"path": "tests/test_audit_ledger.py", "action": "create", "kind": "test"},
-    {"path": "tests/test_e2e_integration.py", "action": "create", "kind": "test"}
+    {"path": "tests/test_e2e_integration.py", "action": "create", "kind": "test"},
+    {"path": "tests/test_system_presets.py", "action": "create", "kind": "test"}
   ]
 }

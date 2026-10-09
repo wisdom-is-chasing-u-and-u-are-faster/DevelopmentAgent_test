@@ -26,83 +26,175 @@
     </div>
   </header>
 
-  <main class="container" style="max-width:800px;">
+  <main class="container" style="max-width:880px;">
     <div class="page-header">
       <div>
-        <h1 class="page-title">User & Omnichannel Notification Settings</h1>
-        <p class="page-subtitle">Configure SLA escalation channels and interface preferences.</p>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <h1 class="page-title">Enterprise System & User Preferences</h1>
+          <span id="role-badge" class="badge badge-admin">Operations Lead</span>
+        </div>
+        <p class="page-subtitle">Configure SLA escalation channels, theme palettes, and organization-wide presets.</p>
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-preset" onclick="handleResetToPreset()">
+          â†º Reset to Admin Preset
+        </button>
       </div>
     </div>
 
     <div class="table-card" style="padding:2rem;">
       <form id="settings-form">
-        <div style="display:flex; flex-direction:column; gap:1.5rem;">
-          <h3 style="font-size:1.125rem; font-weight:700;">Notification Dispatch Channels</h3>
+        <div style="display:flex; flex-direction:column; gap:1.75rem;">
           
-          <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
-              <input type="checkbox" id="notif-slack" checked>
-              <span>Slack Escalation Webhook (Milestones: 50%, 75%, 100%)</span>
-            </label>
-            <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
-              <input type="checkbox" id="notif-teams" checked>
-              <span>Microsoft Teams Webhook Alerts</span>
-            </label>
-            <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
-              <input type="checkbox" id="notif-email" checked>
-              <span>Corporate Email Dispatch Notifications</span>
-            </label>
+          <!-- Section 1: Notification Channels -->
+          <div>
+            <h3 style="font-size:1.125rem; font-weight:700; margin-bottom:0.75rem;">Notification Dispatch Channels</h3>
+            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+              <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+                <input type="checkbox" id="notif-slack" checked>
+                <span>Slack Escalation Webhook (Milestones: 50%, 75%, 100%)</span>
+              </label>
+              <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+                <input type="checkbox" id="notif-teams" checked>
+                <span>Microsoft Teams Webhook Alerts</span>
+              </label>
+              <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+                <input type="checkbox" id="notif-email" checked>
+                <span>Corporate Email Dispatch Notifications</span>
+              </label>
+            </div>
           </div>
 
-          <h3 style="font-size:1.125rem; font-weight:700; border-top:1px solid var(--border-color); padding-top:1.5rem;">Display Theme</h3>
-          <div class="form-group">
-            <label class="form-label" for="theme-select">Interface Theme</label>
-            <select id="theme-select" class="form-control">
-              <option value="dark" selected>Dark Enterprise</option>
-              <option value="light">Light Crisp</option>
-            </select>
-          </div>
+          <!-- Section 2: Display & Color Presets -->
+          <div style="border-top:1px solid var(--border-color); padding-top:1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <h3 style="font-size:1.125rem; font-weight:700;">Theme & Color Presets</h3>
+              <span style="font-size:0.8125rem; color:var(--text-secondary);">Dynamic real-time theme propagation</span>
+            </div>
 
-          <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:1rem;">
-            <button type="submit" class="btn btn-primary">Save Settings</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </main>
+            <div class="form-grid" style="margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label class="form-label" for="theme-select">Interface Theme</label>
+                <select id="theme-select" class="form-control" onchange="previewThemeChange()">
+                  <option value="dark" selected>Dark Enterprise</option>
+                  <option value="light">Light Crisp</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="custom-color-input">Active Primary Color</label>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                  <input type="color" id="color-picker" value="#3b82f6" style="width:42px; height:38px; border:none; border-radius:var(--radius); cursor:pointer; background:none;">
+                  <input type="text" id="custom-color-input" class="form-control" value="#3b82f6" placeholder="#3b82f6">
+                </div>
+              </div>
+            </div>
 
-  <script src="/js/api.js"></script>
-  <script src="/js/app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const s = await ETMS_API.getUserSettings();
-        document.getElementById('notif-slack').checked = s.slack_notifications;
-        document.getElementById('notif-teams').checked = s.teams_notifications;
-        document.getElementById('notif-email').checked = s.email_notifications;
-        document.getElementById('theme-select').value = s.theme;
-      } catch (e) {
-        showToast(e.message, 'error');
-      }
+            <label class="form-label" style="margin-bottom:0.5rem;">Corporate Color Presets</label>
+            <div class="preset-grid" id="preset-grid">
+              <div class="preset-card active" data-color="#3b82f6" data-name="Enterprise Blue" onclick="selectPresetColor('#3b82f6', this)">
+                <span class="swatch-circle" style="background:#3b82f6;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Enterprise Blue</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#3b82f6 (Default)</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#10b981" data-name="Emerald Cyber" onclick="selectPresetColor('#10b981', this)">
+                <span class="swatch-circle" style="background:#10b981;"></span>
+                <div>
+                  <div style="font-weight:700; font-size:0.875rem;">Emerald Cyber</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#10b981</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#8b5cf6" data-name="Royal Amethyst" onclick="selectPresetColor('#8b5cf6', this)">
+                <span class="swatch-circle" style="background:#8b5cf6;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Royal Amethyst</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#8b5cf6</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#ef4444" data-name="Crimson Alert" onclick="selectPresetColor('#ef4444', this)">
+                <span class="swatch-circle" style="background:#ef4444;"></span>
+                <divƒBˆ]ˆİ[OH™›Û]ÙZYÚŒÈ›Û\Ú^™NŒÍ\™[NÈÜš[\ÛÛˆ[\Ù]ƒBˆ]ˆİ[OH™›Û\Ú^™NŒÍ\™[NÈÛÛÜ˜\ŠK]^\ÙXÛÛ™\JNÈˆÙYÙ]ƒBˆÙ]ƒBˆÙ]ƒBˆ]ˆÛ\ÜÏHœ™\Ù]XØ\™ˆ]KXÛÛÜHˆÙNYLˆˆ]K[˜[YOH[X™\ˆÜš^›ÛˆˆÛ˜ÛXÚÏHœÙ[Xİ™\Ù]ÛÛÜŠ	ÈÙNYL‰Ë\ÊHƒBˆÜ[ˆÛ\ÜÏHœİØ]ÚXÚ\˜ÛHˆİ[OH˜˜XÚÙÜ›İ[™ˆÙNYLÈÜÜ[ƒBˆ]ƒBˆ]ˆİ[OH™›Û]ÙZYÚŒÈ›Û\Ú^™NŒÍ\™[NÈ[X™\ˆÜš^›ÛÙ]ƒBˆ]ˆİ[OH™›Û\Ú^™NŒÍ\™[NÈÛÛÜ˜\ŠK]^\ÙXÛÛ™\JNÈˆÙNYLÙ]ƒBˆÙ]ƒBˆÙ]ƒBˆ]ˆÛ\ÜÏHœ™\Ù]XØ\™ˆ]KXÛÛÜHˆÌ˜™ˆ]K[˜[YOH“ØÙX[ˆÚ[YÚˆÛ˜ÛXÚÏHœÙ[Xİ™\Ù]ÛÛÜŠ	ÈÌ˜™	Ë\ÊHƒBˆÜ[ˆÛ\ÜÏHœİØ]ÚXÚ\˜ÛHˆİ[OH˜˜XÚÙÜ›İ[™ˆÌ˜™ÈÜÜ[ƒBˆ]ƒBˆ]ˆİ[OH™›Û]ÙZYÚŒÈ›Û\Ú^™NŒÍ\™[NÈ“ØÙX[ˆÚ[YÚÙ]ƒBˆ]ˆİ[OH™›Û\Ú^™NŒÍ\™[NÈÛÛÜ˜\ŠK]^\ÙXÛÛ™\JNÈˆÌ˜™Ù]ƒBˆÙ]ƒBˆÙ]ƒBˆÙ]ƒBˆÙ]ƒBƒBˆKKHÙXİ[ÛˆÎˆÛØ˜[YZ[ˆÛÛ›ÛÙ[\ˆKOƒBˆ]ˆYH˜YZ[‹\™\Ù]X›Şˆİ[OH˜›Ü™\Œ\ÛÛY˜\ŠK\š[X\JNÈ˜XÚÙÜ›İ[™˜\ŠK\š[X\K[YÚ
+NÈ›Ü™\‹\˜Y]\Î˜\ŠK\˜Y]\Ë[ÊNÈY[™ÎŒKŒ\™[NÈƒBˆ]ˆİ[OH™\Ü^N™›^È[YÛ‹Z][\Î˜Ù[\ÈØ\Œ\™[NÈX\™Ú[‹X›İÛNŒ\™[NÈƒBˆÜ[ˆİ[OH™›Û\Ú^™NŒKŒ\™[NÈ¼'ädOÜÜ[ƒBˆİ[OH™›Û]ÙZYÚÌÈ›Û\Ú^™NŒ\™[NÈ‘ÛØ˜[YZ[ˆ™\Ù]˜[œÙ™\ˆÙ[\ÚƒBˆÙ]ƒBˆİ[OH™›Û\Ú^™NŒÍ\™[NÈÛÛÜ˜\ŠK]^\ÙXÛÛ™\JNÈX\™Ú[‹X›İÛNŒ\™[NÈ[™KZZYÚŒKNÈƒBˆ\ÈHÛØ˜[YZ[‹[İHØ[ˆØ]™H\ÙHÙ][™ÜÈ\ÈHÜ™Ø[š^˜][Û‹]ÚYH™\Ù]ˆÛXÚÚ[™Èİ›Û™Ïˆ•˜[œÙ™\ˆ™\Ù]È[\Ù\œÈÜİ›Û™ÏˆÚ[[[YYX][H\Ú[™[™›Ü˜ÙH\ÙHÛÛÜœË[YK[™›İYšXØ][ÛˆÚ[›™[ÈXÜ›ÜÜÈ[\Ù\ˆ›Ùš[\ËƒBˆÜƒBˆ]ˆİ[OH™\Ü^N™›^ÈØ\ŒÍ\™[NÈ›^]Ü˜\Ü˜\ÈƒBˆ]Ûˆ\OH˜]ÛˆˆÛ\ÜÏH˜ˆ‹\ÙXÛÛ™\H‹\ÛHˆÛ˜ÛXÚÏHœØ]™P\ÑÛØ˜[™\Ù]
+˜[ÙJHƒBˆ<'ä®ÈØ]™H\ÈY˜][™\Ù]BˆØ]ÛƒBˆ]Ûˆ\OH˜]ÛˆˆÛ\ÜÏH˜ˆ‹\š[X\H‹\ÛHˆÛ˜ÛXÚÏHœØ]™P\ÑÛØ˜[™\Ù]
+YJHƒBˆ<'é¨˜[œÙ™\ˆ™\Ù]È[\Ù\œÃBˆØ]ÛƒBˆÙ]ƒBˆÙ]ƒBƒBˆKKHÙXİ[ÛˆˆÛÜšÛ\İ^[İ]ÚÜİ]KOƒBˆ]ˆİ[OH˜›Ü™\‹]ÜŒ\ÛÛY˜\ŠKX›Ü™\‹XÛÛÜŠNÈY[™Ë]ÜŒK\™[NÈ\Ü^N™›^È\İYKXÛÛ[œÜXÙKX™]ÙY[È[YÛ‹Z][\Î˜Ù[\È›^]Ü˜\Ü˜\ÈØ\Œ\™[NÈƒBˆ]ƒBˆİ[OH™›Û]ÙZYÚÌÈ›Û\Ú^™NŒLÍÍ\™[NÈ•ÛÜšÛ\İX›H	ˆ^[İ]Ù][™ÜÏÚƒBˆİ[OH™›Û\Ú^™NŒL\™[NÈÛÛÜ˜\ŠK]^\ÙXÛÛ™\JNÈİ\İÛZ^™HÛÛ[[ˆš\ÚXš[]K[œÚ]K[™Ø]™HÜ™Ø[š^˜][Ûˆ^[İ]™\Ù]ËÜƒBˆÙ]ƒBˆH™YH‹İXÚÙ]\]Y]YKš[ÛÜ[—Û^[İ]]YHˆÛ\ÜÏH˜ˆ‹\ÙXÛÛ™\H‹\ÛHƒBˆ8¦©ûî#ÈX[˜YÙHÛÜšÛ\İ^[İ]™\Ù]8¡£ƒBˆØOƒBˆÙ]ƒBƒBˆKKH›Ü›HXİ[ÛœÈKOƒBˆ]ˆİ[OH™\Ü^N™›^È\İYKXÛÛ[™›^Y[™ÈØ\Œ\™[NÈX\™Ú[‹]ÜŒ\™[NÈ›Ü™\‹]ÜŒ\ÛÛY˜\ŠKX›Ü™\‹XÛÛÜŠNÈY[™Ë]ÜŒK\™[NÈƒBˆ]Ûˆ\OHœİX›Z]ˆÛ\ÜÏH˜ˆ‹\š[X\H”Ø]™H\œÛÛ˜[Ù][™ÜÏØ]ÛƒBˆÙ]ƒBˆÙ]ƒBˆÙ›Ü›OƒBˆÙ]ƒBˆÛXZ[ƒBƒBˆØÜš\Ü˜ÏH‹ÚœËØ\KšœÈÜØÜš\ƒBˆØÜš\Ü˜ÏH‹ÚœËØ\šœÈÜØÜš\ƒBˆØÜš\ƒBˆ]Xİ]™PÛÛÜˆHˆÌØ™ˆÃBƒBˆ[˜İ[ÛˆÙ[Xİ™\Ù]ÛÛÜŠÛÛÜ’^[[Y[
+HÃBˆXİ]™PÛÛÜˆHÛÛÜ’^ÃBˆØİ[Y[™Ù][[Y[RY
+	Øİ\İÛKXÛÛÜ‹Z[œ]	ÊK˜[YHHÛÛÜ’^ÃBˆØİ[Y[™Ù][[Y[RY
+	ØÛÛÜ‹\XÚÙ\‰ÊK˜[YHHÛÛÜ’^ÃBˆØİ[Y[œ]Y\TÙ[XİÜ[
+	ÈÜ™\Ù]YÜšYœ™\Ù]XØ\™	ÊK™›Ü‘XXÚ
+ÈOˆË˜Û\ÜÓ\İœ™[[İ™J	ØXİ]™IÊJNÃBˆYˆ
+[[Y[
+H[[Y[˜Û\ÜÓ\İ˜Y
+	ØXİ]™IÊNÃBˆ\PÛÛÜ”[]JÛÛÜ’^
+NÃBˆCBƒBˆ[˜İ[Ûˆ™]šY]Õ[YPÚ[™ÙJ
+HÃBˆÛÛœİHØİ[Y[™Ù][[Y[RY
+	İ[YK\Ù[Xİ	ÊK˜[YNÃBˆØİ[Y[™Øİ[Y[[[Y[œÙ]]šX]J	Ù]K][YIË
+NÃBˆCBƒBˆ\Ş[˜È[˜İ[ÛˆØYÙ][™ÜÊ
+HÃBˆHÃBˆÛÛœİÈH]ØZ]UT×ĞTK™Ù]\Ù\”Ù][™ÜÊ
+NÃBˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹\ÛXÚÉÊK˜ÚXÚÙYHËœÛXÚ×Û›İYšXØ][ÛœÎÃBˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹]X[\ÉÊK˜ÚXÚÙYHËX[\×Û›İYšXØ][ÛœÎÃBˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹Y[XZ[	ÊK˜ÚXÚÙYHË™[XZ[Û›İYšXØ][ÛœÎÃBˆØİ[Y[™Ù][[Y[RY
+	İ[YK\Ù[Xİ	ÊK˜[YHHË[YNÃBˆBˆYˆ
+Ëœš[X\WØÛÛÜŠHÃBˆXİ]™PÛÛÜˆHËœš[X\WØÛÛÜÃBˆØİ[Y[™Ù][[Y[RY
+	Øİ\İÛKXÛÛÜ‹Z[œ]	ÊK˜[YHHËœš[X\WØÛÛÜÃBˆØİ[Y[™Ù][[Y[RY
+	ØÛÛÜ‹\XÚÙ\‰ÊK˜[YHHËœš[X\WØÛÛÜÃBˆ\PÛÛÜ”[]JËœš[X\WØÛÛÜŠNÃBƒBˆËÈYÚYÚX]Ú[™È™\Ù]Ø\™Yˆ^\İÃBˆØİ[Y[œ]Y\TÙ[XİÜ[
+	ÈÜ™\Ù]YÜšYœ™\Ù]XØ\™	ÊK™›Ü‘XXÚ
+ÈOˆÃBˆYˆ
+Ë™Ù]]šX]J	Ù]KXÛÛÜ‰ÊKÓİÙ\Ø\ÙJ
+HOOHËœš[X\WØÛÛÜ‹ÓİÙ\Ø\ÙJ
+JHÃBˆË˜Û\ÜÓ\İ˜Y
+	ØXİ]™IÊNÃBˆH[ÙHÃBˆË˜Û\ÜÓ\İœ™[[İ™J	ØXİ]™IÊNÃBˆCBˆJNÃBˆCBƒBˆÛÛœİ›ÛP˜YÙHHØİ[Y[™Ù][[Y[RY
+	Ü›ÛKX˜YÙIÊNÃBˆYˆ
+›ÛP˜YÙJHÃBˆ›ÛP˜YÙK^ÛÛ[HËœ›ÛNÃBˆCBƒBˆÛÛœİYZ[›ŞHØİ[Y[™Ù][[Y[RY
+	ØYZ[‹\™\Ù]X›Ş	ÊNÃBˆYˆ
+YZ[›Ş
+HÃBˆYZ[›Şœİ[K™\Ü^HHËš\×ÙÛØ˜[ØYZ[ˆÈ	Ø›ØÚÉÈˆ	Û›Û™IÎÃBˆCBˆHØ]Ú
+JHÃBˆÚİÕØ\İ
+K›Y\ÜØYÙK	Ù\œ›Ü‰ÊNÃBˆCBˆCBƒBˆ\Ş[˜È[˜İ[ÛˆØ]™P\ÑÛØ˜[™\Ù]
+›ÜYØ]UĞ[H˜[ÙJHÃBˆÛÛœİÛÛÜˆHØİ[Y[™Ù][[Y[RY
+	Øİ\İÛKXÛÛÜ‹Z[œ]	ÊK˜[YKš[J
+HXİ]™PÛÛÜÃBˆÛÛœİ[YHHØİ[Y[™Ù][[Y[RY
+	İ[YK\Ù[Xİ	ÊK˜[YNÃBˆÛÛœİ^[ØYHÃBˆ™\Ù]Û˜[YNˆ‘ÛØ˜[ÛÜœÜ˜]H™\Ù]‹BˆØ]YÛÜNˆ[YH‹Bˆ\Wİ×Ø[ˆ›ÜYØ]UĞ[BˆXİÜˆ‘ÛØ˜[YZ[ˆ‹BˆÛÛ™šYÎˆÃBˆ[YWÛ[ÙNˆ[YKBˆš[X\WØÛÛÜˆÛÛÜ‹BˆÛXÚ×Û›İYšXØ][ÛœÎˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹\ÛXÚÉÊK˜ÚXÚÙYBˆX[\×Û›İYšXØ][ÛœÎˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹]X[\ÉÊK˜ÚXÚÙYBˆ[XZ[Û›İYšXØ][ÛœÎˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹Y[XZ[	ÊK˜ÚXÚÙYBˆCBˆNÃBƒBˆHÃBˆÛÛœİ™\ÈH]ØZ]UT×ĞTK\]TŞ\İ[T™\Ù]
+[YH‹^[ØY›ÜYØ]UĞ[
+NÃBˆ\PÛÛÜ”[]JÛÛÜŠNÃBˆÚİÕØ\İ
+™\Ë›Y\ÜØYÙK	ÜİXØÙ\ÜÉÊNÃBˆHØ]Ú
+\œŠHÃBˆÚİÕØ\İ
+\œ‹›Y\ÜØYÙK	Ù\œ›Ü‰ÊNÃBˆCBˆCBƒBˆ\Ş[˜È[˜İ[Ûˆ[™T™\Ù]Ô™\Ù]
 
-      document.getElementById('settings-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const payload = {
-          slack_notifications: document.getElementById('notif-slack').checked,
-          teams_notifications: document.getElementById('notif-teams').checked,
-          email_notifications: document.getElementById('notif-email').checked,
-          theme: document.getElementById('theme-select').value
-        };
-        try {
-          await ETMS_API.updateUserSettings(payload);
-          document.documentElement.setAttribute('data-theme', payload.theme);
-          localStorage.setItem('etms-theme', payload.theme);
-          showToast('Settings saved successfully!', 'success');
-        } catch (err) {
-          showToast(err.message, 'error');
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+HÃBˆYˆ
+XÛÛ™š\›J\™H[İHİ\™H[İHØ[È™\Ù][İ\ˆ™Y™\™[˜Ù\ÈÈHÛØ˜[YZ[ˆ™\Ù]ÏÈŠJH™]\›ÃBˆHÃBˆÛÛœİ™\ÈH]ØZ]UT×ĞTKœ™\Ù]Ô™\Ù]
+
+NÃBˆÚİÕØ\İ
+™\Ë›Y\ÜØYÙK	ÜİXØÙ\ÜÉÊNÃBˆ]ØZ]ØYÙ][™ÜÊ
+NÃBˆHØ]Ú
+\œŠHÃBˆÚİÕØ\İ
+\œ‹›Y\ÜØYÙK	Ù\œ›Ü‰ÊNÃBˆCBˆCBƒBˆØİ[Y[˜Y]™[\İ[™\Š	ÑÓPÛÛ[ØYY	Ë\Ş[˜È
+
+HOˆÃBˆ]ØZ]ØYÙ][™ÜÊ
+NÃBƒBˆÛÛœİXÚÙ\ˆHØİ[Y[™Ù][[Y[RY
+	ØÛÛÜ‹\XÚÙ\‰ÊNÃBˆÛÛœİ^[œ]HØİ[Y[™Ù][[Y[RY
+	Øİ\İÛKXÛÛÜ‹Z[œ]	ÊNÃBˆBˆXÚÙ\‹˜Y]™[\İ[™\Š	Ú[œ]	Ë
+JHOˆÃBˆ^[œ]˜[YHHK\™Ù]˜[YNÃBˆXİ]™PÛÛÜˆHK\™Ù]˜[YNÃBˆ\PÛÛÜ”[]JXİ]™PÛÛÜŠNÃBˆJNÃBˆ^[œ]˜Y]™[\İ[™\Š	ØÚ[™ÙIË
+JHOˆÃBˆÛÛœİ˜[HK\™Ù]˜[YKš[J
+NÃBˆYˆ
+×ˆÖÌNPKQ˜KY—^ÍŸIË\İ
+˜[
+JHÃBˆXÚÙ\‹˜[YHH˜[ÃBˆXİ]™PÛÛÜˆH˜[ÃBˆ\PÛÛÜ”[]JXİ]™PÛÛÜŠNÃBˆCBˆJNÃBƒBˆØİ[Y[™Ù][[Y[RY
+	ÜÙ][™ÜËY›Ü›IÊK˜Y]™[\İ[™\Š	ÜİX›Z]	Ë\Ş[˜È
+JHOˆÃBˆKœ™]™[Y˜][
+
+NÃBˆÛÛœİ^[ØYHÃBˆÛXÚ×Û›İYšXØ][ÛœÎˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹\ÛXÚÉÊK˜ÚXÚÙYBˆX[\×Û›İYšXØ][ÛœÎˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹]X[\ÉÊK˜ÚXÚÙYBˆ[XZ[Û›İYšXØ][ÛœÎˆØİ[Y[™Ù][[Y[RY
+	Û›İY‹Y[XZ[	ÊK˜ÚXÚÙYBˆ[YNˆØİ[Y[™Ù][[Y[RY
+	İ[YK\Ù[Xİ	ÊK˜[YKBˆš[X\WØÛÛÜˆØİ[Y[™Ù][[Y[RY
+	Øİ\İÛKXÛÛÜ‹Z[œ]	ÊK˜[YKš[J
+HXİ]™PÛÛÜƒBˆNÃBˆHÃBˆ]ØZ]UT×ĞTK\]U\Ù\”Ù][™ÜÊ^[ØY
+NÃBˆØİ[Y[™Øİ[Y[[[Y[œÙ]]šX]J	Ù]K][YIË^[ØY[YJNÃBˆØØ[İÜ˜YÙKœÙ]][J	Ù]\Ë][YIË^[ØY[YJNÃBˆ\PÛÛÜ”[]J^[ØYœš[X\WØÛÛÜŠNÃBˆÚİÕØ\İ
+	Ô\œÛÛ˜[Ù][™ÜÈØ]™YİXØÙ\ÜÙ[HIË	ÜİXØÙ\ÜÉÊNÃBˆHØ]Ú
+\œŠHÃBˆÚİÕØ\İ
+\œ‹›Y\ÜØYÙK	Ù\œ›Ü‰ÊNÃBˆCBˆJNÃBˆJNÃBˆÜØÜš\ƒBØ›ÙOƒBÚ[ƒB
