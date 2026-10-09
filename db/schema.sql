@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'NEW',
-    priority TEXT NOT NULL DEFAUQT 'P3',
+    priority TEXT NOT NULL DEFAULT 'P3',
     department TEXT NOT NULL,
     category TEXT NOT NULL,
     requester_name TEXT NOT NULL,
