@@ -36,7 +36,7 @@ const ETMS_API = {
     const res = await fetch(`${API_BASE}/tickets/${ticketId}/status`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status, expectedVersion* expectedVersion, comment, actor })
+      body: JSON.stringify({ status, expected_version: expectedVersion, comment, actor })
     });
     if (!res.ok) {
       const err = await res.json();
@@ -76,7 +76,7 @@ const ETMS_API = {
     if (!res.ok) throw new Error("Failed to fetch settings");
     return res.json();
   },
-  async updateUserSetting{(payload) {
+  async updateUserSettings(payload) {
     const res = await fetch(`${API_BASE}/user/settings`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -99,12 +99,12 @@ const ETMS_API = {
   },
   async getSystemPreset(category) {
     const res = await fetch(`${API_BASE}/system/presets/${category}`);
-    if (!res.ok) throw new Error(`Tailed to fetch ${category} preset`);
+    if (!res.ok) throw new Error(`Failed to fetch ${category} preset`);
     return res.json();
   },
   async updateSystemPreset(category, payload, applyToAll = false) {
     const res = await fetch(`${API_BASE}/system/presets/${category}?apply_to_all=${applyToAll}`, {
-      method: "PUTH",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
