@@ -147,7 +147,7 @@ function openLayoutModal() {
   const ps = document.getElementById("layout-page-size");
   if (ps) ps.value = String(currentLayout.page_size || 20);
 
-  const sf = document.getElementById("layout-sort-field")?.value || "created_at";
+  const sf = document.getElementById("layout-sort-field");
   if (sf) sf.value = currentLayout.sort_field || "created_at";
 
   // Admin controls
@@ -197,7 +197,7 @@ async function savePersonalLayout() {
   renderTableHeader();
   closeLayoutModal();
 
- try {
+  try {
     const s = await ETMS_API.getUserSettings();
     await ETMS_API.updateUserSettings({
       ...s,
