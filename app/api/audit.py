@@ -47,4 +47,317 @@ def get_all_system_presets():
         cur.execute("SELECT * FROM system_presets")
         rows = cur.fetchall()
         presets = {}
-        for qΈ¥ΈΙ½έΜθ4(€€€€€€€€€€€€τ‘¥Π΅Θ¤4(€€€€€€€€€€€ΡΙδθ4(€€€€€€€€€€€€€€€™€τ©Ν½ΈΉ±½…‘Μ΅‘l‰½Ή™¥}©Ν½Έ‰t¤4(€€€€€€€€€€€•α•ΑΠα•ΑΡ¥½Έθ4(€€€€€€€€€€€€€€€™€τντ4(€€€€€€€€€€€ΑΙ•Ν•ΡΝm‘l‰…Ρ•½Ιδ‰ut€τμ4(€€€€€€€€€€€€€€€€‰ΑΙ•Ν•Ρ}­•δθ‘l‰ΑΙ•Ν•Ρ}­•δ‰t°4(€€€€€€€€€€€€€€€€‰ΑΙ•Ν•Ρ}Ή…µ”θ‘l‰ΑΙ•Ν•Ρ}Ή…µ”‰t°4(€€€€€€€€€€€€€€€€‰…Ρ•½Ιδθ‘l‰…Ρ•½Ιδ‰t°4(€€€€€€€€€€€€€€€€‰½Ή™¥θ™°4(€€€€€€€€€€€€€€€€‰ΥΑ‘…Ρ•‘}‰δθ‘l‰ΥΑ‘…Ρ•‘}‰δ‰t°4(€€€€€€€€€€€€€€€€‰ΥΑ‘…Ρ•‘}…Πθ‘l‰ΥΑ‘…Ρ•‘}…Π‰t4(€€€€€€€€€€€τ4(€€€€€€€Ι•ΡΥΙΈμ‰ΑΙ•Ν•ΡΜθΑΙ•Ν•ΡΝτ4(€€€™¥Ή…±±δθ4(€€€€€€€½ΉΈΉ±½Ν” ¤4(4(4)Ι½ΥΡ•ΘΉ•Π ½ΝεΝΡ•΄½ΑΙ•Ν•ΡΜ½ν…Ρ•½Ιετ¤4)‘••Ρ}ΝεΝΡ•µ}ΑΙ•Ν•Π΅…Ρ•½ΙδθΝΡΘ¤θ4(€€€½ΉΈ€τ•Ρ}½ΉΉ•Ρ¥½Έ ¤4(€€€ΡΙδθ4(€€€€€€€ΥΘ€τ½ΉΈΉΥΙΝ½Θ ¤4(€€€€€€€ΥΘΉ•α•ΥΡ” ‰M1P€¨I=4ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ]!I…Ρ•½Ιδ€τ€ό=HΑΙ•Ν•Ρ}­•δ€τ€ό°€΅…Ρ•½Ιδ°…Ρ•½Ιδ¤¤4(€€€€€€€Ι½ά€τΥΘΉ™•Ρ΅½Ή” ¤4(€€€€€€€¥Ή½ΠΙ½άθ4(€€€€€€€€€€€Ι…¥Ν”!QQAα•ΑΡ¥½Έ΅ΝΡ…ΡΥΝ}½‘”τΠΐΠ°‘•Ρ…¥°υ‰MεΝΡ•΄ΑΙ•Ν•Π™½Θ€ν…Ρ•½ΙετΉ½Π™½ΥΉΈ¤4(€€€€€€€€τ‘¥Π΅Ι½ά¤4(€€€€€€€ΡΙδθ4(€€€€€€€€€€€™€τ©Ν½ΈΉ±½…‘Μ΅‘l‰½Ή™¥}©Ν½Έ‰t¤4(€€€€€€€•α•ΑΠα•ΑΡ¥½Έθ4(€€€€€€€€€€€™€τντ4(€€€€€€€Ι•ΡΥΙΈμ4(€€€€€€€€€€€€‰ΑΙ•Ν•Ρ}­•δθ‘l‰ΑΙ•Ν•Ρ}­•δ‰t°4(€€€€€€€€€€€€‰ΑΙ•Ν•Ρ}Ή…µ”θ‘l‰ΑΙ•Ν•Ρ}Ή…µ”‰t°4(€€€€€€€€€€€€‰…Ρ•½Ιδθ‘l‰…Ρ•½Ιδ‰t°4(€€€€€€€€€€€€‰½Ή™¥θ™°4(€€€€€€€€€€€€‰ΥΑ‘…Ρ•‘}‰δθ‘l‰ΥΑ‘…Ρ•‘}‰δ‰t°4(€€€€€€€€€€€€‰ΥΑ‘…Ρ•‘}…Πθ‘l‰ΥΑ‘…Ρ•‘}…Π‰t4(€€€€€€€τ4(€€€™¥Ή…±±δθ4(€€€€€€€½ΉΈΉ±½Ν” ¤4(4(4)Ι½ΥΡ•ΘΉΑΥΠ ½ΝεΝΡ•΄½ΑΙ•Ν•ΡΜ½ν…Ρ•½Ιετ¤4)‘•ΥΑ‘…Ρ•}ΝεΝΡ•µ}ΑΙ•Ν•Π΅…Ρ•½ΙδθΝΡΘ°Α…ε±½…θMεΝΡ•µAΙ•Ν•ΡUΑ‘…Ρ•A…ε±½…°…ΑΑ±ε}Ρ½}…±°θ‰½½°€τEΥ•Ιδ΅…±Ν”¤¤θ4(€€€½ΉΈ€τ•Ρ}½ΉΉ•Ρ¥½Έ ¤4(€€€Ή½έ}¥ΝΌ€τ‘…Ρ•Ρ¥µ”ΉΉ½ά΅Ρ¥µ•ι½Ή”ΉΥΡ¤Ή¥Ν½™½Ιµ…Π ¤4(€€€½Ή™¥}ΝΡΘ€τ©Ν½ΈΉ‘ΥµΑΜ΅Α…ε±½…Ή½Ή™¥¤4(€€€ΑΙ•Ν•Ρ}Ή…µ”€τΑ…ε±½…ΉΑΙ•Ν•Ρ}Ή…µ”½Θ‰ν…Ρ•½ΙδΉ…Α¥Ρ…±¥ι” ¥τ•™…Υ±ΠAΙ•Ν•Π4(€€€Ν΅½Υ±‘}…ΑΑ±δ€τΑ…ε±½…Ή…ΑΑ±ε}Ρ½}…±°½Θ…ΑΑ±ε}Ρ½}…±°4(4(€€€ΡΙδθ4(€€€€€€€ΥΘ€τ½ΉΈΉΥΙΝ½Θ ¤4(€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€4(€€€€€€€€€€€%9MIP%9Q<ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ€΅ΑΙ•Ν•Ρ}­•δ°ΑΙ•Ν•Ρ}Ή…µ”°…Ρ•½Ιδ°½Ή™¥}©Ν½Έ°ΥΑ‘…Ρ•‘}‰δ°ΥΑ‘…Ρ•‘}…Π¤4(€€€€€€€€€€€Y1UL€ ό°€ό°€ό°€ό°€ό°€ό¤4(€€€€€€€€€€€=8=91%P΅ΑΙ•Ν•Ρ}­•δ¤<UAQMP4(€€€€€€€€€€€€€€€ΑΙ•Ν•Ρ}Ή…µ”€τ•α±Υ‘•ΉΑΙ•Ν•Ρ}Ή…µ”°4(€€€€€€€€€€€€€€€½Ή™¥}©Ν½Έ€τ•α±Υ‘•Ή½Ή™¥}©Ν½Έ°4(€€€€€€€€€€€€€€€ΥΑ‘…Ρ•‘}‰δ€τ•α±Υ‘•ΉΥΑ‘…Ρ•‘}‰δ°4(€€€€€€€€€€€€€€€ΥΑ‘…Ρ•‘}…Π€τ•α±Υ‘•ΉΥΑ‘…Ρ•‘}…Π4(€€€€€€€€€€€€°4(€€€€€€€€€€€€΅…Ρ•½Ιδ°ΑΙ•Ν•Ρ}Ή…µ”°…Ρ•½Ιδ°½Ή™¥}ΝΡΘ°Α…ε±½…Ή…Ρ½Θ°Ή½έ}¥ΝΌ¤4(€€€€€€€€¤4(4(€€€€€€€¥Ν΅½Υ±‘}…ΑΑ±δθ4(€€€€€€€€€€€¥…Ρ•½Ιδ€ττ€‰Ρ΅•µ”θ4(€€€€€€€€€€€€€€€Ρ €τΑ…ε±½…Ή½Ή™¥Ή•Π ‰Ρ΅•µ•}µ½‘”°Α…ε±½…Ή½Ή™¥Ή•Π ‰Ρ΅•µ”°€‰‘…Ι¬¤¤4(€€€€€€€€€€€€€€€½±½Θ€τΑ…ε±½…Ή½Ή™¥Ή•Π ‰ΑΙ¥µ…Ιε}½±½Θ°€ΝΰΙΨ¤4(€€€€€€€€€€€€€€€Ν±…¬€τ¥ΉΠ΅Α…ε±½…Ή½Ή™¥Ή•Π ‰Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€€€€€€€€€Ρ•…µΜ€τ¥ΉΠ΅Α…ε±½…Ή½Ή™¥Ή•Π ‰Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€€€€€€€€€•µ…¥°€τ¥ΉΠ΅Α…ε±½…Ή½Ή™¥Ή•Π ‰•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€€€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€€€€€€€€€4(€€€€€€€€€€€€€€€€€€€UAQΥΝ•Ι}Ν•ΡΡ¥ΉΜ4(€€€€€€€€€€€€€€€€€€€MPΡ΅•µ”€τ€ό°ΑΙ¥µ…Ιε}½±½Θ€τ€ό°Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°4(€€€€€€€€€€€€€€€€€€€€€€€Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°ΥΑ‘…Ρ•‘}…Π€τ€ό4(€€€€€€€€€€€€€€€€€€€€°4(€€€€€€€€€€€€€€€€€€€€΅Ρ °½±½Θ°Ν±…¬°Ρ•…µΜ°•µ…¥°°Ή½έ}¥ΝΌ¤4(€€€€€€€€€€€€€€€€¤4(€€€€€€€€€€€•±¥…Ρ•½Ιδ€ττ€‰έ½Ι­±¥ΝΠθ4(€€€€€€€€€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€€€€€€€€€‰UAQΥΝ•Ι}Ν•ΡΡ¥ΉΜMPέ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ€τ€ό°ΥΑ‘…Ρ•‘}…Π€τ€ό°4(€€€€€€€€€€€€€€€€€€€€΅½Ή™¥}ΝΡΘ°Ή½έ}¥ΝΌ¤4(€€€€€€€€€€€€€€€€¤4(4(€€€€€€€½ΉΈΉ½µµ¥Π ¤4(4(€€€€€€€…ΑΑ•Ή‘}…Υ‘¥Ρ}•Ω•ΉΠ 4(€€€€€€€€€€€•ΉΡ¥Ρε}ΡεΑ”τ‰MeMQ5}AIMP°4(€€€€€€€€€€€•ΉΡ¥Ρε}¥υ…Ρ•½Ιδ°4(€€€€€€€€€€€…Ρ¥½Έτ‰AIMQ}UAQ}9}AI=AQ¥Ν΅½Υ±‘}…ΑΑ±δ•±Ν”€‰AIMQ}UAQ°4(€€€€€€€€€€€…Ρ½ΘυΑ…ε±½…Ή…Ρ½Θ°4(€€€€€€€€€€€™Ι½µ}ΝΡ…ΡΥΜυ9½Ή”°4(€€€€€€€€€€€Ρ½}ΝΡ…ΡΥΜτ‰AA1%}10¥Ν΅½Υ±‘}…ΑΑ±δ•±Ν”€‰MY°4(€€€€€€€€€€€Α…ε±½…‘}‘…Ρ„υμ4(€€€€€€€€€€€€€€€€‰…Ρ•½Ιδθ…Ρ•½Ιδ°4(€€€€€€€€€€€€€€€€‰ΑΙ•Ν•Ρ}Ή…µ”θΑΙ•Ν•Ρ}Ή…µ”°4(€€€€€€€€€€€€€€€€‰…ΑΑ±ε}Ρ½}…±°θΝ΅½Υ±‘}…ΑΑ±δ°4(€€€€€€€€€€€€€€€€‰½Ή™¥θΑ…ε±½…Ή½Ή™¥4(€€€€€€€€€€€τ4(€€€€€€€€¤4(4(€€€€€€€Ι•ΡΥΙΈμ4(€€€€€€€€€€€€‰ΝΡ…ΡΥΜθ€‰ΝΥ•ΝΜ°4(€€€€€€€€€€€€‰µ•ΝΝ…”θ‰AΙ•Ν•Π€νΑΙ•Ν•Ρ}Ή…µ•τΝ…Ω•ΝΥ•ΝΝ™Υ±±δ€¬€ …ΉΑΙ½Α……Ρ•ΡΌ…±°ΥΝ•ΙΜΈ¥Ν΅½Υ±‘}…ΑΑ±δ•±Ν”€Έ¤°4(€€€€€€€€€€€€‰…Ρ•½Ιδθ…Ρ•½Ιδ°4(€€€€€€€€€€€€‰…ΑΑ±¥•‘}Ρ½}…±°θΝ΅½Υ±‘}…ΑΑ±δ°4(€€€€€€€€€€€€‰½Ή™¥θΑ…ε±½…Ή½Ή™¥4(€€€€€€€τ4(€€€™¥Ή…±±δθ4(€€€€€€€½ΉΈΉ±½Ν” ¤4(4(4)Ι½ΥΡ•ΘΉΑ½ΝΠ ½ΝεΝΡ•΄½ΑΙ•Ν•ΡΜ½ν…Ρ•½Ιετ½…ΑΑ±δµ…±°¤4)‘•…ΑΑ±ε}ΑΙ•Ν•Ρ}Ρ½}…±±}ΥΝ•ΙΜ΅…Ρ•½ΙδθΝΡΘ°…Ρ½ΘθΝΡΘ€τEΥ•Ιδ ‰±½‰…°‘µ¥Έ¤¤θ4(€€€½ΉΈ€τ•Ρ}½ΉΉ•Ρ¥½Έ ¤4(€€€Ή½έ}¥ΝΌ€τ‘…Ρ•Ρ¥µ”ΉΉ½ά΅Ρ¥µ•ι½Ή”ΉΥΡ¤Ή¥Ν½™½Ιµ…Π ¤4(€€€ΡΙδθ4(€€€€€€€ΥΘ€τ½ΉΈΉΥΙΝ½Θ ¤4(€€€€€€€ΥΘΉ•α•ΥΡ” ‰M1P€¨I=4ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ]!I…Ρ•½Ιδ€τ€ό=HΑΙ•Ν•Ρ}­•δ€τ€ό°€΅…Ρ•½Ιδ°…Ρ•½Ιδ¤¤4(€€€€€€€Ι½ά€τΥΘΉ™•Ρ΅½Ή” ¤4(€€€€€€€¥Ή½ΠΙ½άθ4(€€€€€€€€€€€Ι…¥Ν”!QQAα•ΑΡ¥½Έ΅ΝΡ…ΡΥΝ}½‘”τΠΐΠ°‘•Ρ…¥°υ‰MεΝΡ•΄ΑΙ•Ν•Π€ν…Ρ•½ΙετΉ½Π™½ΥΉΈ¤4(€€€€€€€€τ‘¥Π΅Ι½ά¤4(€€€€€€€™€τ©Ν½ΈΉ±½…‘Μ΅‘l‰½Ή™¥}©Ν½Έ‰t¤4(4(€€€€€€€¥…Ρ•½Ιδ€ττ€‰Ρ΅•µ”θ4(€€€€€€€€€€€Ρ €τ™Ή•Π ‰Ρ΅•µ•}µ½‘”°™Ή•Π ‰Ρ΅•µ”°€‰‘…Ι¬¤¤4(€€€€€€€€€€€½±½Θ€τ™Ή•Π ‰ΑΙ¥µ…Ιε}½±½Θ°€ΝΰΙΨ¤4(€€€€€€€€€€€Ν±…¬€τ¥ΉΠ΅™Ή•Π ‰Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€€€€€Ρ•…µΜ€τ¥ΉΠ΅™Ή•Π ‰Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€€€€€•µ…¥°€τ¥ΉΠ΅™Ή•Π ‰•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€€€€€4(€€€€€€€€€€€€€€€UAQΥΝ•Ι}Ν•ΡΡ¥ΉΜ4(€€€€€€€€€€€€€€€MPΡ΅•µ”€τ€ό°ΑΙ¥µ…Ιε}½±½Θ€τ€ό°Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°4(€€€€€€€€€€€€€€€€€€€Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°ΥΑ‘…Ρ•‘}…Π€τ€ό4(€€€€€€€€€€€€€€€€°4(€€€€€€€€€€€€€€€€΅Ρ °½±½Θ°Ν±…¬°Ρ•…µΜ°•µ…¥°°Ή½έ}¥ΝΌ¤4(€€€€€€€€€€€€¤4(€€€€€€€•±¥…Ρ•½Ιδ€ττ€‰έ½Ι­±¥ΝΠθ4(€€€€€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€€€€€‰UAQΥΝ•Ι}Ν•ΡΡ¥ΉΜMPέ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ€τ€ό°ΥΑ‘…Ρ•‘}…Π€τ€ό°4(€€€€€€€€€€€€€€€€΅‘l‰½Ή™¥}©Ν½Έ‰t°Ή½έ}¥ΝΌ¤4(€€€€€€€€€€€€¤4(€€€€€€€½ΉΈΉ½µµ¥Π ¤4(4(€€€€€€€…ΑΑ•Ή‘}…Υ‘¥Ρ}•Ω•ΉΠ 4(€€€€€€€€€€€•ΉΡ¥Ρε}ΡεΑ”τ‰MeMQ5}AIMP°4(€€€€€€€€€€€•ΉΡ¥Ρε}¥υ…Ρ•½Ιδ°4(€€€€€€€€€€€…Ρ¥½Έτ‰AIMQ}AA1%}10°4(€€€€€€€€€€€…Ρ½Θυ…Ρ½Θ°4(€€€€€€€€€€€™Ι½µ}ΝΡ…ΡΥΜυ9½Ή”°4(€€€€€€€€€€€Ρ½}ΝΡ…ΡΥΜτ‰AI=AQ°4(€€€€€€€€€€€Α…ε±½…‘}‘…Ρ„υμ‰…Ρ•½Ιδθ…Ρ•½Ιδ°€‰½Ή™¥θ™τ4(€€€€€€€€¤4(4(€€€€€€€Ι•ΡΥΙΈμ4(€€€€€€€€€€€€‰ΝΡ…ΡΥΜθ€‰ΝΥ•ΝΜ°4(€€€€€€€€€€€€‰µ•ΝΝ…”θ‰±½‰…°ΑΙ•Ν•Π€ν‘lΑΙ•Ν•Ρ}Ή…µ”uτΡΙ…ΉΝ™•ΙΙ•½Ω•ΘΡΌ…±°ΥΝ•ΙΜΈ°4(€€€€€€€€€€€€‰…Ρ•½Ιδθ…Ρ•½Ιδ4(€€€€€€€τ4(€€€™¥Ή…±±δθ4(€€€€€€€½ΉΈΉ±½Ν” ¤4(4(4(€ττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττ4(UΝ•ΘM•ΡΡ¥ΉΜΉ‘Α½¥ΉΡΜ4(€ττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττττ4(4)Ι½ΥΡ•ΘΉ•Π ½ΥΝ•Θ½Ν•ΡΡ¥ΉΜ°Ι•ΝΑ½ΉΝ•}µ½‘•°υUΝ•ΙM•ΡΡ¥ΉΝI•ΝΑ½ΉΝ”¤4)‘••Ρ}ΥΝ•Ι}Ν•ΡΡ¥ΉΜ ¤θ4(€€€½ΉΈ€τ•Ρ}½ΉΉ•Ρ¥½Έ ¤4(€€€ΡΙδθ4(€€€€€€€ΥΘ€τ½ΉΈΉΥΙΝ½Θ ¤4(€€€€€€€ΥΘΉ•α•ΥΡ” ‰M1P€¨I=4ΥΝ•Ι}Ν•ΡΡ¥ΉΜ]!IΥΝ•Ι}¥€τ€‘•™…Υ±ΠµΥΝ•Θ¤4(€€€€€€€Ι½ά€τΥΘΉ™•Ρ΅½Ή” ¤4(€€€€€€€€4(€€€€€€€€±ΝΌ™•Ρ …Ρ¥Ω”ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ™½Θ™…±±‰…¬4(€€€€€€€ΥΘΉ•α•ΥΡ” ‰M1P…Ρ•½Ιδ°½Ή™¥}©Ν½ΈI=4ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ¤4(€€€€€€€ΑΙ•Ν•Ρ}Ι½έΜ€τΥΘΉ™•Ρ΅…±° ¤4(€€€€€€€ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ€τντ4(€€€€€€€™½ΘΑΘ¥ΈΑΙ•Ν•Ρ}Ι½έΜθ4(€€€€€€€€€€€ΡΙδθ4(€€€€€€€€€€€€€€€ΝεΝΡ•µ}ΑΙ•Ν•ΡΝmΑΙl‰…Ρ•½Ιδ‰ut€τ©Ν½ΈΉ±½…‘Μ΅ΑΙl‰½Ή™¥}©Ν½Έ‰t¤4(€€€€€€€€€€€•α•ΑΠα•ΑΡ¥½Έθ4(€€€€€€€€€€€€€€€Α…ΝΜ4(4(€€€€€€€¥Ή½ΠΙ½άθ4(€€€€€€€€€€€Ρ΅•µ•}™€τΝεΝΡ•µ}ΑΙ•Ν•ΡΜΉ•Π ‰Ρ΅•µ”°ντ¤4(€€€€€€€€€€€έ½Ι­±¥ΝΡ}™€τΝεΝΡ•µ}ΑΙ•Ν•ΡΜΉ•Π ‰έ½Ι­±¥ΝΠ°9½Ή”¤4(€€€€€€€€€€€Ι•ΡΥΙΈμ4(€€€€€€€€€€€€€€€€‰ΥΝ•Ι}¥θ€‰‘•™…Υ±ΠµΥΝ•Θ°4(€€€€€€€€€€€€€€€€‰Ή…µ”θ€‰AΙ…Ν…ΉΉ„•Ν΅Α…Ή‘”°4(€€€€€€€€€€€€€€€€‰•µ…¥°θ€‰ΑΙ…Ν…ΉΉ…}‘•Ν΅Α…Ή‘”ΕΑ•ΙΝ¥ΝΡ•ΉΠΉ½΄°4(€€€€€€€€€€€€€€€€‰Ι½±”θ€‰=Α•Ι…Ρ¥½ΉΜ1•…°4(€€€€€€€€€€€€€€€€‰¥Ν}±½‰…±}…‘µ¥ΈθQΙΥ”°4(€€€€€€€€€€€€€€€€‰Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜθQΙΥ”°4(€€€€€€€€€€€€€€€€‰Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜθQΙΥ”°4(€€€€€€€€€€€€€€€€‰•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜθQΙΥ”°4(€€€€€€€€€€€€€€€€‰Ρ΅•µ”θΡ΅•µ•}™Ή•Π ‰Ρ΅•µ•}µ½‘”°€‰±¥΅Π¤°4(€€€€€€€€€€€€€€€€‰ΑΙ¥µ…Ιε}½±½ΘθΡ΅•µ•}™Ή•Π ‰ΑΙ¥µ…Ιε}½±½Θ°€ΝΰΙΨ¤°4(€€€€€€€€€€€€€€€€‰έ½Ι­±¥ΝΡ}±…ε½ΥΠθέ½Ι­±¥ΝΡ}™4(€€€€€€€€€€€τ4(4(€€€€€€€€τ‘¥Π΅Ι½ά¤4(€€€€€€€±…ε½ΥΠ€τ9½Ή”4(€€€€€€€¥Ή•Π ‰έ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ¤θ4(€€€€€€€€€€€ΡΙδθ4(€€€€€€€€€€€€€€€±…ε½ΥΠ€τ©Ν½ΈΉ±½…‘Μ΅‘l‰έ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ‰t¤4(€€€€€€€€€€€•α•ΑΠα•ΑΡ¥½Έθ4(€€€€€€€€€€€€€€€±…ε½ΥΠ€τ9½Ή”4(€€€€€€€¥Ή½Π±…ε½ΥΠ…Ή€‰έ½Ι­±¥ΝΠ¥ΈΝεΝΡ•µ}ΑΙ•Ν•ΡΜθ4(€€€€€€€€€€€±…ε½ΥΠ€τΝεΝΡ•µ}ΑΙ•Ν•ΡΝl‰έ½Ι­±¥ΝΠ‰t4(4(€€€€€€€Ι½±”€τΉ•Π ‰Ι½±”°€‰=Α•Ι…Ρ¥½ΉΜ1•…¤4(€€€€€€€¥Ν}…‘µ¥Έ€τΙ½±”¥Έl‰=Α•Ι…Ρ¥½ΉΜ1•…°€‰±½‰…°‘µ¥Έ°€‰‘µ¥Ή¥ΝΡΙ…Ρ½Θ°€‰1•…‰t4(4(€€€€€€€Ι•ΡΥΙΈμ4(€€€€€€€€€€€€‰ΥΝ•Ι}¥θ‘l‰ΥΝ•Ι}¥‰t°4(€€€€€€€€€€€€‰Ή…µ”θ‘l‰Ή…µ”‰t°4(€€€€€€€€€€€€‰•µ…¥°θ‘l‰•µ…¥°‰t°4(€€€€€€€€€€€€‰Ι½±”θΙ½±”°4(€€€€€€€€€€€€‰¥Ν}±½‰…±}…‘µ¥Έθ¥Ν}…‘µ¥Έ°4(€€€€€€€€€€€€‰Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜθ‰½½°΅‘l‰Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ‰t¤°4(€€€€€€€€€€€€‰Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜθ‰½½°΅‘l‰Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ‰t¤°4(€€€€€€€€€€€€‰•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜθ‰½½°΅‘l‰•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ‰t¤°4(€€€€€€€€€€€€‰Ρ΅•µ”θΉ•Π ‰Ρ΅•µ”°€‰±¥΅Π¤°4(€€€€€€€€€€€€‰ΑΙ¥µ…Ιε}½±½ΘθΉ•Π ‰ΑΙ¥µ…Ιε}½±½Θ°€ΝΰΙΨ¤°4(€€€€€€€€€€€€‰έ½Ι­±¥ΝΡ}±…ε½ΥΠθ±…ε½ΥΠ4(€€€€€€€τ4(€€€™¥Ή…±±δθ4(€€€€€€€½ΉΈΉ±½Ν” ¤4(4(4)Ι½ΥΡ•ΘΉΑΥΠ ½ΥΝ•Θ½Ν•ΡΡ¥ΉΜ¤4)‘•ΥΑ‘…Ρ•}ΥΝ•Ι}Ν•ΡΡ¥ΉΜ΅Α…ε±½…θUΝ•ΙM•ΡΡ¥ΉΝA…ε±½…¤θ4(€€€½ΉΈ€τ•Ρ}½ΉΉ•Ρ¥½Έ ¤4(€€€±…ε½ΥΡ}ΝΡΘ€τ©Ν½ΈΉ‘ΥµΑΜ΅Α…ε±½…Ήέ½Ι­±¥ΝΡ}±…ε½ΥΠ¤¥Α…ε±½…Ήέ½Ι­±¥ΝΡ}±…ε½ΥΠ•±Ν”9½Ή”4(€€€ΡΙδθ4(€€€€€€€ΥΘ€τ½ΉΈΉΥΙΝ½Θ ¤4(€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€4(€€€€€€€€€€€UAQΥΝ•Ι}Ν•ΡΡ¥ΉΜ4(€€€€€€€€€€€MPΝ±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°4(€€€€€€€€€€€€€€€•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°Ρ΅•µ”€τ€ό°ΑΙ¥µ…Ιε}½±½Θ€τ€ό°4(€€€€€€€€€€€€€€€έ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ€τ=1M ό°έ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ¤°4(€€€€€€€€€€€€€€€ΥΑ‘…Ρ•‘}…Π€τ‘…Ρ•Ρ¥µ” Ή½ά¤4(€€€€€€€€€€€]!IΥΝ•Ι}¥€τ€‘•™…Υ±ΠµΥΝ•Θ4(€€€€€€€€€€€€°4(€€€€€€€€€€€€ 4(€€€€€€€€€€€€€€€¥ΉΠ΅Α…ε±½…ΉΝ±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ¤°4(€€€€€€€€€€€€€€€¥ΉΠ΅Α…ε±½…ΉΡ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ¤°4(€€€€€€€€€€€€€€€¥ΉΠ΅Α…ε±½…Ή•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ¤°4(€€€€€€€€€€€€€€€Α…ε±½…ΉΡ΅•µ”°4(€€€€€€€€€€€€€€€Α…ε±½…ΉΑΙ¥µ…Ιε}½±½Θ½Θ€ΝΰΙΨ°4(€€€€€€€€€€€€€€€±…ε½ΥΡ}ΝΡΘ4(€€€€€€€€€€€€¤4(€€€€€€€€¤4(€€€€€€€½ΉΈΉ±½Ν” ¤4(4(4)Ι½ΥΡ•ΘΉΑ½ΝΠ ½ΥΝ•Θ½Ν•ΡΡ¥ΉΜ½Ι•Ν•ΠµΑΙ•Ν•Π¤4)‘•Ι•Ν•Ρ}ΥΝ•Ι}Ν•ΡΡ¥ΉΝ}Ρ½}ΑΙ•Ν•Π ¤θ4(€€€½ΉΈ€τ•Ρ}½ΉΉ•Ρ¥½Έ ¤4(€€€Ή½έ}¥ΝΌ€τ‘…Ρ•Ρ¥µ”ΉΉ½ά΅Ρ¥µ•ι½Ή”ΉΥΡ¤Ή¥Ν½™½Ιµ…Π ¤4(€€€ΡΙδθ4(€€€€€€€ΥΘ€τ½ΉΈΉΥΙΝ½Θ ¤4(€€€€€€€ΥΘΉ•α•ΥΡ” ‰M1P…Ρ•½Ιδ°½Ή™¥}©Ν½ΈI=4ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ¤4(€€€€€€€ΑΙ•Ν•Ρ}Ι½έΜ€τΥΘΉ™•Ρ΅…±° ¤4(€€€€€€€ΝεΝΡ•µ}ΑΙ•Ν•ΡΜ€τντ4(€€€€€€€™½ΘΑΘ¥ΈΑΙ•Ν•Ρ}Ι½έΜθ4(€€€€€€€€€€€ΡΙδθ4(€€€€€€€€€€€€€€€ΝεΝΡ•µ}ΑΙ•Ν•ΡΝmΑΙl‰…Ρ•½Ιδ‰ut€τ©Ν½ΈΉ±½…‘Μ΅ΑΙl‰½Ή™¥}©Ν½Έ‰t¤4(€€€€€€€€€€€•α•ΑΠα•ΑΡ¥½Έθ4(€€€€€€€€€€€€€€€Α…ΝΜ4(4(€€€€€€€Ρ΅•µ•}™€τΝεΝΡ•µ}ΑΙ•Ν•ΡΜΉ•Π ‰Ρ΅•µ”°ντ¤4(€€€€€€€έ½Ι­±¥ΝΡ}™€τΝεΝΡ•µ}ΑΙ•Ν•ΡΜΉ•Π ‰έ½Ι­±¥ΝΠ°ντ¤4(4(€€€€€€€Ρ €τΡ΅•µ•}™Ή•Π ‰Ρ΅•µ•}µ½‘”°€‰‘…Ι¬¤4(€€€€€€€½°€τΡ΅•µ•}™Ή•Π ‰ΑΙ¥µ…Ιε}½±½Θ°€ΝΰΙΨ¤4(€€€€€€€Ν°€τ¥ΉΠ΅Ρ΅•µ•}™Ή•Π ‰Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€Ρ”€τ¥ΉΠ΅Ρ΅•µ•}™Ή•Π ‰Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€•΄€τ¥ΉΠ΅Ρ΅•µ•}™Ή•Π ‰•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ°€Δ¤¤4(€€€€€€€έ±}ΝΡΘ€τ©Ν½ΈΉ‘ΥµΑΜ΅έ½Ι­±¥ΝΡ}™¤¥έ½Ι­±¥ΝΡ}™•±Ν”9½Ή”4(4(€€€€€€€ΥΘΉ•α•ΥΡ” 4(€€€€€€€€€€€€4(€€€€€€€€€€€UAQΥΝ•Ι}Ν•ΡΡ¥ΉΜ4(€€€€€€€€€€€MPΡ΅•µ”€τ€ό°ΑΙ¥µ…Ιε}½±½Θ€τ€ό°Ν±…­}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°4(€€€€€€€€€€€€€€€Ρ•…µΝ}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°•µ…¥±}Ή½Ρ¥™¥…Ρ¥½ΉΜ€τ€ό°4(€€€€€€€€€€€€€€€έ½Ι­±¥ΝΡ}±…ε½ΥΡ}©Ν½Έ€τ€ό°ΥΑ‘…Ρ•‘}…Π€τ€ό4(€€€€€€€€€€€]!IΥΝ•Ι}¥€τ€‘•™…Υ±ΠµΥΝ•Θ4(€€€€€€€€€€€€°4(€€€€€€€€€€€€΅Ρ °½°°Ν°°Ρ”°•΄°έ±}ΝΡΘ°Ή½έ}¥ΝΌ¤4(€€€€€€€€¤4(€€€€€€€½ΉΈΉ½µµ¥Π ¤4(€€€€€€€Ι•ΡΥΙΈμ4(€€€€€€€€€€€€‰ΝΡ…ΡΥΜθ€‰ΝΥ•ΝΜ°4(€€€€€€€€€€€€‰µ•ΝΝ…”θ€‰UΝ•ΘΝ•ΡΡ¥ΉΜΝΥ•ΝΝ™Υ±±δΙ•Ν•ΠΡΌ±½‰…°…‘µ¥ΈΑΙ•Ν•ΡΜΈ°4(€€€€€€€€€€€€‰Ρ΅•µ”θΡ °4(€€€€€€€€€€€€‰ΑΙ¥µ…Ιε}½±½Θθ½°°4(€€€€€€€€€€€€‰έ½Ι­±¥ΝΡ}±…ε½ΥΠθέ½Ι­±¥ΝΡ}™4(€€€€€€€τ4(€€€™¥Ή…±±δθ4(€€€€€€€½ΉΈΉ±½Ν” ¤4(
+        for r in rows:
+            d = dict(r)
+            try:
+                cfg = json.loads(d["config_json"])
+            except Exception:
+                cfg = {}
+            presets[d["category"]] = {
+                "preset_key": d["preset_key"],
+                "preset_name": d["preset_name"],
+                "category": d["category"],
+                "config": cfg,
+                "updated_by": d["updated_by"],
+                "updated_at": d["updated_at"]
+            }
+        return {"presets": presets}
+    finally:
+        conn.close()
+
+
+@router.get("/system/presets/{category}")
+def get_system_preset(category: str):
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM system_presets WHERE category = ? OR preset_key = ?", (category, category))
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail=f"System preset for '{category}' not found.")
+        d = dict(row)
+        try:
+            cfg = json.loads(d["config_json"])
+        except Exception:
+            cfg = {}
+        return {
+            "preset_key": d["preset_key"],
+            "preset_name": d["preset_name"],
+            "category": d["category"],
+            "config": cfg,
+            "updated_by": d["updated_by"],
+            "updated_at": d["updated_at"]
+        }
+    finally:
+        conn.close()
+
+
+@router.put("/system/presets/{category}")
+def update_system_preset(category: str, payload: SystemPresetUpdatePayload, apply_to_all: bool = Query(False)):
+    conn = get_connection()
+    now_iso = datetime.now(timezone.utc).isoformat()
+    config_str = json.dumps(payload.config)
+    preset_name = payload.preset_name or f"{category.capitalize()} Default Preset"
+    should_apply = payload.apply_to_all or apply_to_all
+
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO system_presets (preset_key, preset_name, category, config_json, updated_by, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(preset_key) DO UPDATE SET
+                preset_name = excluded.preset_name,
+                config_json = excluded.config_json,
+                updated_by = excluded.updated_by,
+                updated_at = excluded.updated_at
+            """,
+            (category, preset_name, category, config_str, payload.actor, now_iso)
+        )
+
+        if should_apply:
+            if category == "theme":
+                th = payload.config.get("theme_mode", payload.config.get("theme", "dark"))
+                color = payload.config.get("primary_color", "#3b82f6")
+                slack = int(payload.config.get("slack_notifications", 1))
+                teams = int(payload.config.get("teams_notifications", 1))
+                email = int(payload.config.get("email_notifications", 1))
+                cur.execute(
+                    """
+                    UPDATE user_settings
+                    SET theme = ?, primary_color = ?, slack_notifications = ?,
+                        teams_notifications = ?, email_notifications = ?, updated_at = ?
+                    """,
+                    (th, color, slack, teams, email, now_iso)
+                )
+            elif category == "worklist":
+                cur.execute(
+                    "UPDATE user_settings SET worklist_layout_json = ?, updated_at = ?",
+                    (config_str, now_iso)
+                )
+
+        conn.commit()
+
+        append_audit_event(
+            entity_type="SYSTEM_PRESET",
+            entity_id=category,
+            action="PRESET_UPDATE_AND_PROPAGATE" if should_apply else "PRESET_UPDATE",
+            actor=payload.actor,
+            from_status=None,
+            to_status="APPLIED_ALL" if should_apply else "SAVED",
+            payload_data={
+                "category": category,
+                "preset_name": preset_name,
+                "apply_to_all": should_apply,
+                "config": payload.config
+            }
+        )
+
+        return {
+            "status": "success",
+            "message": f"Preset '{preset_name}' saved successfully" + (" and propagated to all users." if should_apply else "."),
+            "category": category,
+            "applied_to_all": should_apply,
+            "config": payload.config
+        }
+    finally:
+        conn.close()
+
+
+@router.post("/system/presets/{category}/apply-all")
+def apply_preset_to_all_users(category: str, actor: str = Query("Global Admin")):
+    conn = get_connection()
+    now_iso = datetime.now(timezone.utc).isoformat()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM system_presets WHERE category = ? OR preset_key = ?", (category, category))
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail=f"System preset '{category}' not found.")
+        d = dict(row)
+        cfg = json.loads(d["config_json"])
+
+        if category == "theme":
+            th = cfg.get("theme_mode", cfg.get("theme", "dark"))
+            color = cfg.get("primary_color", "#3b82f6")
+            slack = int(cfg.get("slack_notifications", 1))
+            teams = int(cfg.get("teams_notifications", 1))
+            email = int(cfg.get("email_notifications", 1))
+            cur.execute(
+                """
+                UPDATE user_settings
+                SET theme = ?, primary_color = ?, slack_notifications = ?,
+                    teams_notifications = ?, email_notifications = ?, updated_at = ?
+                """,
+                (th, color, slack, teams, email, now_iso)
+            )
+        elif category == "worklist":
+            cur.execute(
+                "UPDATE user_settings SET worklist_layout_json = ?, updated_at = ?",
+                (d["config_json"], now_iso)
+            )
+        conn.commit()
+
+        append_audit_event(
+            entity_type="SYSTEM_PRESET",
+            entity_id=category,
+            action="PRESET_APPLIED_ALL",
+            actor=actor,
+            from_status=None,
+            to_status="PROPAGATED",
+            payload_data={"category": category, "config": cfg}
+        )
+
+        return {
+            "status": "success",
+            "message": f"Global preset '{d['preset_name']}' transferred over to all users.",
+            "category": category
+        }
+    finally:
+        conn.close()
+
+
+# ============================================================================
+# User Settings Endpoints
+# ============================================================================
+
+@router.get("/user/settings", response_model=UserSettingsResponse)
+def get_user_settings():
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM user_settings WHERE user_id = 'default-user'")
+        row = cur.fetchone()
+        
+        # Also fetch active system presets for fallback
+        cur.execute("SELECT category, config_json FROM system_presets")
+        preset_rows = cur.fetchall()
+        system_presets = {}
+        for pr in preset_rows:
+            try:
+                system_presets[pr["category"]] = json.loads(pr["config_json"])
+            except Exception:
+                pass
+
+        if not row:
+            theme_cfg = system_presets.get("theme", {})
+            worklist_cfg = system_presets.get("worklist", None)
+            return {
+                "user_id": "default-user",
+                "name": "Prasanna Deshpande",
+                "email": "prasanna_deshpande1@persistent.com",
+                "role": "Operations Lead",
+                "is_global_admin": True,
+                "slack_notifications": True,
+                "teams_notifications": True,
+                "email_notifications": True,
+                "theme": theme_cfg.get("theme_mode", "light"),
+                "primary_color": theme_cfg.get("primary_color", "#3b82f6"),
+                "worklist_layout": worklist_cfg
+            }
+
+        d = dict(row)
+        layout = None
+        if d.get("worklist_layout_json"):
+            try:
+                layout = json.loads(d["worklist_layout_json"])
+            except Exception:
+                layout = None
+        if not layout and "worklist" in system_presets:
+            layout = system_presets["worklist"]
+
+        role = d.get("role", "Operations Lead")
+        is_admin = role in ["Operations Lead", "Global Admin", "Administrator", "Lead"]
+
+        return {
+            "user_id": d["user_id"],
+            "name": d["name"],
+            "email": d["email"],
+            "role": role,
+            "is_global_admin": is_admin,
+            "slack_notifications": bool(d["slack_notifications"]),
+            "teams_notifications": bool(d["teams_notifications"]),
+            "email_notifications": bool(d["email_notifications"]),
+            "theme": d.get("theme", "light"),
+            "primary_color": d.get("primary_color", "#3b82f6"),
+            "worklist_layout": layout
+        }
+    finally:
+        conn.close()
+
+
+@router.put("/user/settings")
+def update_user_settings(payload: UserSettingsPayload):
+    conn = get_connection()
+    layout_str = json.dumps(payload.worklist_layout) if payload.worklist_layout else None
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE user_settings
+            SET slack_notifications = ?, teams_notifications = ?,
+                email_notifications = ?, theme = ?, primary_color = ?,
+                worklist_layout_json = COALESCE(?, worklist_layout_json),
+                updated_at = datetime('now')
+            WHERE user_id = 'default-user'
+            """,
+            (
+                int(payload.slack_notifications),
+                int(payload.teams_notifications),
+                int(payload.email_notifications),
+                payload.theme,
+                payload.primary_color or "#3b82f6",
+                layout_str
+            )
+        )
+        conn.commit()
+        return {"status": "success", "message": "Settings updated successfully."}
+    finally:
+        conn.close()
+
+
+@router.post("/user/settings/reset-preset")
+def reset_user_settings_to_preset():
+    conn = get_connection()
+    now_iso = datetime.now(timezone.utc).isoformat()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT category, config_json FROM system_presets")
+        preset_rows = cur.fetchall()
+        system_presets = {}
+        for pr in preset_rows:
+            try:
+                system_presets[pr["category"]] = json.loads(pr["config_json"])
+            except Exception:
+                pass
+
+        theme_cfg = system_presets.get("theme", {})
+        worklist_cfg = system_presets.get("worklist", {})
+
+        th = theme_cfg.get("theme_mode", "dark")
+        col = theme_cfg.get("primary_color", "#3b82f6")
+        sl = int(theme_cfg.get("slack_notifications", 1))
+        te = int(theme_cfg.get("teams_notifications", 1))
+        em = int(theme_cfg.get("email_notifications", 1))
+        wl_str = json.dumps(worklist_cfg) if worklist_cfg else None
+
+        cur.execute(
+            """
+            UPDATE user_settings
+            SET theme = ?, primary_color = ?, slack_notifications = ?,
+                teams_notifications = ?, email_notifications = ?,
+                worklist_layout_json = ?, updated_at = ?
+            WHERE user_id = 'default-user'
+            """,
+            (th, col, sl, te, em, wl_str, now_iso)
+        )
+        conn.commit()
+        return {
+            "status": "success",
+            "message": "User settings successfully reset to global admin presets.",
+            "theme": th,
+            "primary_color": col,
+            "worklist_layout": worklist_cfg
+        }
+    finally:
+        conn.close()
