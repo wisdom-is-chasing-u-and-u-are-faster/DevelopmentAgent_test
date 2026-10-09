@@ -43,6 +43,12 @@ def health_check():
 public_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "public")
 if os.path.exists(public_dir):
     pages_dir = os.path.join(public_dir, "pages")
-    if os.path.exists(pages_dir):
-        app.mount("/pages", StaticFiles(directory=pages_dir), name="pages")
+    if not os.path.exists(pages_dir):
+        os.makedirs(pages_dir, exist_ok=True)
+        import shutil
+        for f in os.listdir(public_dir):
+            src_file = os.path.join(public_dir, f)
+            if os.path.isfile(src_file) and f.endswith(".html"):
+                shutil.copy(src_file, os.path.join(pages_dir, f))
+    app.mount("/pages", StaticFiles(directory=pages_dir), name="pages")
     app.mount("/", StaticFiles(directory=public_dir, html=True), name="public")
