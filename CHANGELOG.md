@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
     - `db/schema.sql` (added `system_presets` table, `primary_color` and `worklist_layout_json` columns)
     - `db/seed.sql` (seeded default system presets for theme and worklist)
     - `app/db/init_db.py` (added SQLite migration guards for presets and user settings)
-      - `app/models/audit.py` (added Pydantic schemas for system presets and user preferences)
+    - `app/models/audit.py` (added Pydantic schemas for system presets and user preferences)
     - `app/models/__init__.py`
     - `app/api/audit.py` (added endpoints for GET/PUT/apply-all system presets and reset-to-preset)
     - `app/main.py` (ensured `/pages` route directory mount)
