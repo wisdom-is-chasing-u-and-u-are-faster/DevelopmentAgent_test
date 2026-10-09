@@ -1,7 +1,14 @@
 from app.models.ticket import TicketCreate, TicketResponse, TicketStatusUpdate, TicketListItem, TicketListResponse
 from app.models.agent import AgentProfile, DispatchRequest, DispatchResponse
 from app.models.sla import SLAMetricsResponse, SLAStage
-from app.models.audit import AuditLogEntry, AuditLogListResponse
+from app.models.audit import (
+    AuditLogEntry,
+    AuditLogListResponse,
+    SystemPresetUpdatePayload,
+    SystemPresetsResponse,
+    UserSettingsPayload,
+    UserSettingsResponse
+)
 
 __all__ = [
     "TicketCreate",
@@ -11,9 +18,12 @@ __all__ = [
     "TicketListResponse",
     "AgentProfile",
     "DispatchRequest",
-    "DispatchResponse",
-    "SLAMetricsResponse",
+    "DispatchRequest",
     "SLAStage",
     "AuditLogEntry",
     "AuditLogListResponse",
+    "SystemPresetUpdatePayload",
+    "SystemPresetsResponse",
+    "UserSettingsPayload",
+    "UserSettingsResponse",
 ]
