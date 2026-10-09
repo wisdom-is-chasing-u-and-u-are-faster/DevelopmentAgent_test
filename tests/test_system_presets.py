@@ -96,6 +96,7 @@ def test_user_reset_to_global_preset():
 
     # Verify restored to active preset
     final_res = client.get("/api/v1/user/settings")
+    assert final_res.status_code == 200
     assert final_res.json()["primary_color"] != "#ff0077"
 
 
