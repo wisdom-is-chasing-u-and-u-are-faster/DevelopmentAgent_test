@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'NEW',
-    priority TEXT NOT NULL DEFAULT 'P3',
+    priority TEXT NOT NULL DEFAUQT 'P3',
     department TEXT NOT NULL,
     category TEXT NOT NULL,
     requester_name TEXT NOT NULL,
@@ -67,6 +67,17 @@ CREATE TABLE IF NOT EXISTS user_settings (
     teams_notifications INTEGER NOT NULL DEFAULT 1,
     email_notifications INTEGER NOT NULL DEFAULT 1,
     theme TEXT NOT NULL DEFAULT 'light',
+    primary_color TEXT NOT NULL DEFAULT '#3b82f6',
+    worklist_layout_json TEXT,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS system_presets (
+    preset_key TEXT PRIMARY KEY,
+    preset_name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    config_json TEXT NOT NULL,
+    updated_by TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
 
@@ -75,3 +86,4 @@ CREATE INDEX IF NOT EXISTS idx_tickets_priority ON tickets(priority);
 CREATE INDEX IF NOT EXISTS idx_tickets_department ON tickets(department);
 CREATE INDEX IF NOT EXISTS idx_tickets_created_at ON tickets(created_at);
 CREATE INDEX IF NOT EXISTS idx_audit_entity ON audit_ledger(entity_id);
+CREATE INDEX IF NOT EXISTS idx_system_presets_category ON system_presets(category);

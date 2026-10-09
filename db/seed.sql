@@ -14,8 +14,12 @@ INSERT OR IGNORE INTO tickets (id, ticket_number, title, description, status, pr
 ('tkt-1004', 'REQ-2026-0142', 'Provision Stage 2 RBAC Role for Compliance Audit', 'Requesting read-only database and audit log inspection permissions for Q3 SOC 2 auditor.', 'NEW', 'P3', 'Security', 'Access Request', 'Rachel Adams', 'rachel.adams@enterprise.internal', NULL, NULL, 8.0, 0.5, 'WITHIN_SLA', 1, '2026-09-24T10:00:00Z', '2026-09-24T10:00:00Z'),
 ('tkt-1005', 'REQ-2026-0143', 'SSL Certificate Renewal for internal billing gateway', 'Wildcard certificate expiring in 14 days requires automated rotation.', 'RESOLVED', 'P3', 'Security', 'Maintenance', 'Brian Taylor', 'brian.taylor@enterprise.internal', 'agent-003', 'Samira Khan', 12.0, 3.4, 'WITHIN_SLA', 3, '2026-09-23T14:00:00Z', '2026-09-24T07:20:00Z');
 
-INSERT OR IGNORE INTO user_settings (user_id, name, email, role, slack_notifications, teams_notifications, email_notifications, theme, updated_at) VALUES
-('default-user', 'Prasanna Deshpande', 'prasanna_deshpande1@persistent.com', 'Operations Lead', 1, 1, 1, 'light', '2026-09-24T10:00:00Z');
+INSERT OR IGNORE INTO user_settings (user_id, name, email, role, slack_notifications, teams_notifications, email_notifications, theme, primary_color, worklist_layout_json, updated_at) VALUES
+('default-user', 'Prasanna Deshpande', 'prasanna_deshpande1@persistent.com', 'Operations Lead', 1, 1, 1, 'light', '#3b82f6', '{"density":"comfortable","page_size":20,"sort_field":"created_at","sort_order":"desc","columns":["ticket_number","title","priority","status","department","assigned_agent","sla_status","actions"]}', '2026-09-24T10:00:00Z');
+
+INSERT OR IGNORE INTO system_presets (preset_key, preset_name, category, config_json, updated_by, updated_at) VALUES
+('theme', 'Enterprise Blue', 'theme', '{"preset_name":"Enterprise Blue","theme_mode":"dark","primary_color":"#3b82f6","accent_color":"#8b5cf6","slack_notifications":1,"teams_notifications":1,"email_notifications":1}', 'default-user', '2026-09-24T10:00:00Z'),
+('worklist', 'Standard Operations', 'worklist', '{"preset_name":"Standard Operations","density":"comfortable","page_size":20,"sort_field":"created_at","sort_order":"desc","columns":["ticket_number","title","priority","status","department","assigned_agent","sla_status","actions"]}', 'default-user', '2026-09-24T10:00:00Z');
 
 INSERT OR IGNORE INTO audit_ledger (id, entity_type, entity_id, action, actor, from_status, to_status, payload_checksum, previous_hash, current_hash, timestamp) VALUES
 ('audit-0001', 'SYSTEM', 'GENESIS', 'SYSTEM_INITIALIZATION', 'SYSTEM_BOOTSTRAP', NULL, 'ACTIVE', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '00000000000000000000000000000000000000000000000000000000000000', '8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4', '2026-09-24T08:00:00Z');

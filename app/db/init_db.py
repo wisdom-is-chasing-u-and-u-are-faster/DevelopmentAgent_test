@@ -27,6 +27,16 @@ def init_database():
         if schema_file.exists():
             with open(schema_file, "r", encoding="utf-8") as f:
                 conn.executescript(f.read())
+        
+        # Migration guard for existing SQLite databases
+        cur = conn.cursor()
+        cur.execute("PRAGMA table_info(user_settings)")
+        cols = {row["name"] for row in cur.fetchall()}
+        if "primary_color" not in cols:
+            cur.execute("ALTER TABLE user_settings ADD COLUMN primary_color TEXT NOT NULL DEFAULT '#3b82f6'")
+        if "worklist_layout_json" not in cols:
+            cur.execute("ALTER TABLE user_settings ADD COLUMN worklist_layout_json TEXT")
+
         if seed_file.exists():
             with open(seed_file, "r", encoding="utf-8") as f:
                 conn.executescript(f.read())
