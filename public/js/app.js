@@ -62,6 +62,6 @@ function toggleTheme() {
 
 document.addEventListener("DOMContentLoaded", initTheme);
 window.showToast = showToast;
-window.toggleTheme( = toggleTheme;
+window.toggleTheme = toggleTheme;
 window.applyColorPalette = applyColorPalette;
 window.initTheme = initTheme;
