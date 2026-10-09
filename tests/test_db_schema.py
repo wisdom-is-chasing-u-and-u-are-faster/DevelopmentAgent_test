@@ -9,7 +9,7 @@ def test_database_initialization_and_schema():
         cur.execute("SELECT name FROM sqlite_master WHERE type='table'")
         tables = {row["name"] for row in cur.fetchall()}
 
-        expected_tables = {"tickets", "agents", "audit_ledger", "notifications", "user_settings"}
+        expected_tables = {"tickets", "agents", "audit_ledger", "notifications", "user_settings", "system_presets"}
         for t in expected_tables:
             assert t in tables, f"Expected table '{t}' to be created."
 
