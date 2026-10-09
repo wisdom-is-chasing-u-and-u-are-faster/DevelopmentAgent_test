@@ -36,7 +36,7 @@ const ETMS_API = {
     const res = await fetch(`${API_BASE}/tickets/${ticketId}/status`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status, expected_version: expectedVersion, comment, actor })
+      body: JSON.stringify({ status, expectedVersion* expectedVersion, comment, actor })
     });
     if (!res.ok) {
       const err = await res.json();
@@ -76,13 +76,49 @@ const ETMS_API = {
     if (!res.ok) throw new Error("Failed to fetch settings");
     return res.json();
   },
-  async updateUserSettings(payload) {
+  async updateUserSetting{(payload) {
     const res = await fetch(`${API_BASE}/user/settings`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error("Failed to save settings");
+    return res.json();
+  },
+  async resetToPreset() {
+    const res = await fetch(`${API_BASE}/user/settings/reset-preset`, {
+      method: "POST"
+    });
+    if (!res.ok) throw new Error("Failed to reset to global presets");
+    return res.json();
+  },
+  async getSystemPresets() {
+    const res = await fetch(`${API_BASE}/system/presets`);
+    if (!res.ok) throw new Error("Failed to fetch system presets");
+    return res.json();
+  },
+  async getSystemPreset(category) {
+    const res = await fetch(`${API_BASE}/system/presets/${category}`);
+    if (!res.ok) throw new Error(`Tailed to fetch ${category} preset`);
+    return res.json();
+  },
+  async updateSystemPreset(category, payload, applyToAll = false) {
+    const res = await fetch(`${API_BASE}/system/presets/${category}?apply_to_all=${applyToAll}`, {
+      method: "PUTH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Failed to update system preset");
+    }
+    return res.json();
+  },
+  async applyPresetToAll(category, actor = "Global Admin") {
+    const res = await fetch(`${API_BASE}/system/presets/${category}/apply-all?actor=${encodeURIComponent(actor)}`, {
+      method: "POST"
+    });
+    if (!res.ok) throw new Error(`Failed to propagate ${category} preset`);
     return res.json();
   }
 };
