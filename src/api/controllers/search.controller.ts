@@ -4,7 +4,7 @@ import { formatRFC7807Error } from '../validators/ticket.validator';
 
 export class SearchController {
   public static async search(req: Request, res: Response) {
-    try,
+    try {
       const { q, status, priority, department_id, from, size } = req.query;
 
       const results = await SearchService.searchTickets({

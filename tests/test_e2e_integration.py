@@ -31,6 +31,7 @@ def test_static_frontend_mounting():
     assert res.status_code == 200
     assert "Enterprise Ticketing Management Platform" in res.text
     assert "tab-dashboard" in res.text
+    assert "tab-settings" in res.text
 
 
 def test_static_js_and_css_serving():
@@ -41,6 +42,7 @@ def test_static_js_and_css_serving():
     api_res = client.get("/js/api.js")
     assert api_res.status_code == 200
     assert "export const api" in api_res.text
+    assert "getActiveSettings" in api_res.text
 
 
 def test_full_lifecycle_flow():
@@ -80,3 +82,9 @@ def test_full_lifecycle_flow():
     assert audit_res.status_code == 200
     assert audit_res.json()["chain_valid"] is True
     assert len(audit_res.json()["entries"]) >= 2
+
+    # 6. Verify settings hydration
+    settings_res = client.get("/api/v1/settings/active")
+    assert settings_res.status_code == 200
+    assert settings_res.json()["theme"] is not None
+    assert settings_res.json()["worklist_layout"] is not None

@@ -112,7 +112,19 @@ CREATE TABLE IF NOT EXISTS idempotency_records (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 9. Indexes for Query Acceleration
+-- 9. UI Presets Table (Theme & Worklist Layout Configurations)
+CREATE TABLE IF NOT EXISTS ui_presets (
+    id VARCHAR(64) PRIMARY KEY,
+    preset_type VARCHAR(32) NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    config_json TEXT NOT NULL,
+    is_global_default BOOLEAN DEFAULT FALSE,
+    created_by VARCHAR(128) DEFAULT 'global-admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 10. Indexes for Query Acceleration
 CREATE INDEX IF NOT EXISTS idx_tickets_status ON tickets(status);
 CREATE INDEX IF NOT EXISTS idx_tickets_priority ON tickets(priority);
 CREATE INDEX IF NOT EXISTS idx_tickets_department ON tickets(department_id);
@@ -120,3 +132,4 @@ CREATE INDEX IF NOT EXISTS idx_tickets_assigned_agent ON tickets(assigned_agent_
 CREATE INDEX IF NOT EXISTS idx_tickets_created_at ON tickets(created_at);
 CREATE INDEX IF NOT EXISTS idx_audit_ticket_id ON audit_ledger(ticket_id);
 CREATE INDEX IF NOT EXISTS idx_agent_skills_agent_id ON agent_skills(agent_id);
+CREATE INDEX IF NOT EXISTS idx_ui_presets_type ON ui_presets(preset_type);

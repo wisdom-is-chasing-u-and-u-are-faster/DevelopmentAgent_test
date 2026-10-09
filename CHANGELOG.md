@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-09-29
+
+### Added
+- **Global Theme & Color Preset Manager (`ARCH-1517`)**: Global administrator configuration of system theme color palettes (`--primary`, `--bg-primary`, `--bg-secondary`, `--bg-card`, `--border`, `--text-primary`, `--text-muted`) with organization-wide transfer (`POST /api/v1/settings/presets/{id}/apply-global`) and dynamic client-side CSS hydration.
+- **Worklist Layout Customization & Global Default Presets (`ARCH-1517`)**: Custom column visibility (Ticket #, Title, Category, Priority, Status, Agent, SLA Deadline, Created Date, Actions), table density selector (Compact / Normal / Comfortable), custom sorting, and "Save for All like Preset" feature enabling global administrators to enforce organization-wide default triage views.
+- **Settings & Presets REST API (`/api/v1/settings/*`)**: Full CRUD and active configuration endpoints (`/api/v1/settings/active`, `/api/v1/settings/presets`) supporting both FastAPI and Express runtimes.
+
 ## [1.0.0] - 2026-09-28
 
 ### Added
@@ -18,17 +25,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Cryptographic Audit Ledger (`ARCH-1523`, `ARCH-1533`, `ARCH-1546`)**: SHA-256 hash chaining engine for tamper-evident compliance.
 - **Modern Full-Stack Web Console (`ARCH-1527`, `ARCH-1532`, `ARCH-1534`, `ARCH-1543`)**: Unified interactive frontend featuring Requester Intake, Agent Workbench, Triage Dashboard, and Audit Drawer.
 - **STRIDE Security Verification Suite (`ARCH-1549`)**: Automated tests verifying SQL injection immunity, XSS mitigation, and tenant authorization.
-
-## [Unreleased]
-
-### Added
-- **[fleet]** Automated feature implementation
-  - *Key modifications:*
-    - `.env.example`
-    - `docker-compose.yml`
-    - `requirements.txt`
-    - `pyproject.toml`
-    - `db/schema.sql`
-    - `db/seed.sql`
-    - `app/db/__init__.py`
-    - `app/db/init_db.py`

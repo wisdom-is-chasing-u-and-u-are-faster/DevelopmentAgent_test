@@ -8,6 +8,7 @@ import { idempotencyMiddleware } from './middleware/idempotency.middleware';
 import { TicketController } from './api/controllers/ticket.controller';
 import { StatusController } from './api/controllers/status.controller';
 import { SearchController } from './api/controllers/search.controller';
+import { SettingsController } from './api/controllers/settings.controller';
 import { pool } from './db/client';
 import { CryptoService } from './services/crypto.service';
 
@@ -54,7 +55,13 @@ app.patch('/api/v1/tickets/:id/status', authMiddleware, StatusController.updateS
 app.get('/api/v1/search', authMiddleware, SearchController.search);
 app.get('/api/v1/tickets/search', authMiddleware, SearchController.search);
 
-// 6. Audit Ledger & SHA-256 Checksum Inspector API
+// 6. Settings & Presets APIs
+app.get('/api/v1/settings/active', authMiddleware, SettingsController.getActiveSettings);
+app.get('/api/v1/settings/presets', authMiddleware, SettingsController.listPresets);
+app.post('/api/v1/settings/presets', authMiddleware, SettingsController.createPreset);
+app.post('/api/v1/settings/presets/:id/apply-global', authMiddleware, SettingsController.applyGlobalPreset);
+
+// 7. Audit Ledger & SHA-256 Checksum Inspector API
 app.get('/api/v1/audit/:ticketId', authMiddleware, async (req, res) => {
   try {
     const { ticketId } = req.params;

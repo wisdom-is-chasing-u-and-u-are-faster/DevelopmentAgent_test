@@ -21,16 +21,34 @@
             <button class="tab-btn" data-tab="tab-intake">📝 Requester Intake</button>
             <button class="tab-btn" data-tab="tab-workbench">🛠️ Agent Workbench</button>
             <button class="tab-btn" data-tab="tab-search">🔍 Global Search</button>
+            <button class="tab-btn" data-tab="tab-settings">⚙️ Settings & Presets</button>
         </nav>
     </header>
 
     <main class="main-container">
         <div id="app-banner" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem;"></div>
 
-        <!-- 1. Command Center / Triage Dashboard (ARCH-1534) -->
+        <!-- 1. Command Center / Triage Dashboard (ARCH-1534 + Worklist Layout Presets) -->
         <section id="tab-dashboard" class="tab-content active">
             <div class="card">
-                <div class="card-title">Live Incident & Outage Queue</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+                    <div class="card-title" style="margin-bottom:0;">Live Incident & Outage Queue</div>
+                    <div class="toolbar-group" style="margin-bottom:0; padding:0.4rem 0.75rem;">
+                        <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Layout Preset:</span>
+                        <select id="worklist-preset-select" style="padding:0.35rem 0.5rem; font-size:0.8rem;">
+                            <option value="">Loading presets...</option>
+                        </select>
+                        <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600; margin-left:0.5rem;">Density:</span>
+                        <div style="display:inline-flex; gap:0.25rem;">
+                            <button class="btn btn-secondary density-btn" data-density="compact" style="padding:0.25rem 0.5rem; font-size:0.75rem;">Compact</button>
+                            <button class="btn btn-secondary density-btn active" data-density="normal" style="padding:0.25rem 0.5rem; font-size:0.75rem;">Normal</button>
+                            <button class="btn btn-secondary density-btn" data-density="comfortable" style="padding:0.25rem 0.5rem; font-size:0.75rem;">Comfortable</button>
+                        </div>
+                        <button class="btn btn-secondary" id="open-layout-modal-btn" style="padding:0.35rem 0.65rem; font-size:0.8rem;">⚙️ Customize Columns</button>
+                        <button class="btn btn-primary" id="save-layout-all-btn" style="padding:0.35rem 0.65rem; font-size:0.8rem;">🌐 Save for All</button>
+                    </div>
+                </div>
+
                 <div class="form-grid" style="margin-bottom: 1rem;">
                     <div class="form-group">
                         <label for="filter-query">Filter Keyword</label>
@@ -62,17 +80,9 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ticket #</th>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Assigned Agent</th>
-                                <th>Action</th>
-                            </tr>
+                    <table id="dashboard-table" class="density-normal">
+                        <thead id="dashboard-table-head">
+                            <!-- Injected dynamically based on active worklist layout -->
                         </thead>
                         <tbody id="dashboard-table-body">
                             <!-- Injected dynamically via app.js -->
@@ -206,7 +216,251 @@
                 <div id="search-results"></div>
             </div>
         </section>
+
+        <!-- 5. Settings & Global Presets Management (Feature 1 & 2) -->
+        <section id="tab-settings" class="tab-content">
+            <!-- Theme Color Presets (Feature 1) -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+                    <div class="card-title" style="margin-bottom:0;">🎨 Global Admin Theme & Color Presets</div>
+                    <div>
+                        <button class="btn btn-primary" id="theme-transfer-global-btn">🌐 Transfer & Save for All (Global Default)</button>
+                        <button class="btn btn-secondary" id="theme-save-preset-btn">💾 Save as New Preset</button>
+                    </div>
+                </div>
+                <p style="color:var(--text-muted); font-size:0.875rem; margin-bottom:1rem;">
+                    Global Administrators can define the organization-wide theme color palette. Applying as global default transfers the preset to all operators across all workspaces.
+                </p>
+
+                <div class="form-grid" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="theme-preset-select">Choose Saved Theme Preset</label>
+                        <select id="theme-preset-select">
+                            <option value="">Loading presets...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="theme-preset-name">Preset Name</label>
+                        <input type="text" id="theme-preset-name" placeholder="e.g. Enterprise Dark Navy">
+                    </div>
+                </div>
+
+                <div class="card-title" style="font-size:0.95rem;">Theme Color Palette Customizer</div>
+                <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    <div class="form-group">
+                        <label for="color-primary">Primary Brand Color</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-primary" value="#3b82f6" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-primary" value="#3b82f6" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-primary-hover">Primary Hover</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-primary-hover" value="#2563eb" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-primary-hover" value="#2563eb" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-bg-primary">Background Primary</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-bg-primary" value="#0f172a" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-bg-primary" value="#0f172a" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-bg-secondary">Background Secondary</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-bg-secondary" value="#1e293b" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-bg-secondary" value="#1e293b" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-bg-card">Card Background</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-bg-card" value="#334155" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-bg-card" value="#334155" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-border">Border Color</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-border" value="#475569" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-border" value="#475569" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-text-primary">Text Primary</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-text-primary" value="#f8fafc" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-text-primary" value="#f8fafc" style="flex:1;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color-text-muted">Text Muted</label>
+                        <div style="display:flex; gap:0.5rem; align-items:center;">
+                            <input type="color" id="color-text-muted" value="#94a3b8" style="width:40px; height:38px; padding:2px; cursor:pointer;">
+                            <input type="text" id="hex-text-muted" value="#94a3b8" style="flex:1;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:1.5rem; display:flex; gap:0.75rem;">
+                    <button class="btn btn-secondary" id="theme-preview-local-btn">👁️ Preview Locally</button>
+                    <button class="btn btn-secondary" id="theme-reset-defaults-btn">🔄 Reset to System Defaults</button>
+                </div>
+            </div>
+
+            <!-- Worklist Layout Presets (Feature 2) -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+                    <div class="card-title" style="margin-bottom:0;">📋 Worklist Layout Settings & Presets</div>
+                    <div>
+                        <button class="btn btn-primary" id="layout-transfer-global-btn">🌐 Save for All like Preset (Global Default)</button>
+                        <button class="btn btn-secondary" id="layout-save-new-preset-btn">💾 Save as New Layout Preset</button>
+                    </div>
+                </div>
+                <p style="color:var(--text-muted); font-size:0.875rem; margin-bottom:1rem;">
+                    Configure default columns, density, sorting, and pagination for the live triage worklist. Saving as preset for all applies this layout globally across all operators.
+                </p>
+
+                <div class="form-grid" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="settings-layout-preset-select">Choose Saved Layout Preset</label>
+                        <select id="settings-layout-preset-select">
+                            <option value="">Loading layout presets...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-layout-preset-name">Layout Preset Name</label>
+                        <input type="text" id="settings-layout-preset-name" placeholder="e.g. SRE Escalation Matrix">
+                    </div>
+                </div>
+
+                <div class="card-title" style="font-size:0.95rem;">Visible Columns Selection</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem; margin-bottom:1.5rem;">
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="ticket_number" checked> Ticket Number
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="title" checked> Title
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="category" checked> Category
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="priority" checked> Priority
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="status" checked> Status
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="assigned_agent_name" checked> Assigned Agent
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="sla_deadline_resolution"> SLA Resolve Deadline
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="created_at"> Created Date
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" class="col-toggle" value="actions" checked> Action Buttons
+                    </label>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="settings-layout-density">Row Density</label>
+                        <select id="settings-layout-density">
+                            <option value="compact">Compact (High Information Density)</option>
+                            <option value="normal" selected>Normal (Standard Spacing)</option>
+                            <option value="comfortable">Comfortable (Relaxed Row Height)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-layout-sort-by">Default Sort Column</label>
+                        <select id="settings-layout-sort-by">
+                            <option value="created_at" selected>Created Date</option>
+                            <option value="priority">Priority</option>
+                            <option value="status">Status</option>
+                            <option value="sla_deadline_resolution">SLA Resolve Deadline</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-layout-sort-order">Default Sort Direction</label>
+                        <select id="settings-layout-sort-order">
+                            <option value="desc" selected>Descending (Newest / Highest First)</option>
+                            <option value="asc">Ascending (Oldest / Earliest First)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-layout-page-size">Default Page Size</label>
+                        <select id="settings-layout-page-size">
+                            <option value="10">10 Tickets</option>
+                            <option value="20" selected>20 Tickets</option>
+                            <option value="50">50 Tickets</option>
+                            <option value="100">100 Tickets</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top:1.5rem; display:flex; gap:0.75rem;">
+                    <button class="btn btn-secondary" id="layout-apply-local-btn">👁️ Apply Layout View</button>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Column Customization Modal Dialog -->
+    <div id="layout-modal" class="modal-backdrop">
+        <div class="modal">
+            <h3 style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+                <span>⚙️ Customize Worklist Columns & Layout</span>
+                <button class="btn btn-secondary" onclick="closeLayoutModal()" style="padding:0.25rem 0.5rem;">✕</button>
+            </h3>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin-bottom:1rem;">
+                Toggle column visibility and density for your live queue.
+            </p>
+
+            <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:0.75rem; margin-bottom:1.5rem;">
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-ticket-number" value="ticket_number" checked> Ticket Number
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-title" value="title" checked> Title
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-category" value="category" checked> Category
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-priority" value="priority" checked> Priority
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-status" value="status" checked> Status
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-agent" value="assigned_agent_name" checked> Assigned Agent
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-sla" value="sla_deadline_resolution"> SLA Resolve Deadline
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-created" value="created_at"> Created Date
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                    <input type="checkbox" id="modal-col-actions" value="actions" checked> Action Buttons
+                </label>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+                <button class="btn btn-primary" id="modal-save-all-btn">🌐 Save for All like Preset</button>
+                <div style="display:flex; gap:0.5rem;">
+                    <button class="btn btn-secondary" onclick="closeLayoutModal()">Cancel</button>
+                    <button class="btn btn-success" id="modal-apply-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Concurrency Conflict Modal Dialog (ARCH-1532) -->
     <div id="conflict-modal" class="modal-backdrop">

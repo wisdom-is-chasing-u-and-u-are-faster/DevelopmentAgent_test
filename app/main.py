@@ -16,6 +16,7 @@ from app.api.sla import router as sla_router
 from app.api.audit import router as audit_router
 from app.api.notifications import router as notifications_router
 from app.api.search import router as search_router
+from app.api.settings import router as settings_router
 
 
 @asynccontextmanager
@@ -59,6 +60,7 @@ app.include_router(sla_router, prefix="/api/v1")
 app.include_router(audit_router, prefix="/api/v1")
 app.include_router(notifications_router, prefix="/api/v1")
 app.include_router(search_router, prefix="/api/v1")
+app.include_router(settings_router, prefix="/api/v1")
 
 # Mount Static Frontend Assets
 public_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "public")

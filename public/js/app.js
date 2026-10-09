@@ -1,20 +1,48 @@
 /**
  * ETMS Main Interactive Application Controller
- * Wires UI views, event handlers, and client API services
+ * Wires UI views, event handlers, client API services, Global Theme Presets & Worklist Layouts
  */
 
 import { api } from './api.js';
 
 let currentTicket = null;
 let allCategories = [];
+let allThemePresets = [];
+let allLayoutPresets = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+// Default active layout configuration
+let currentLayout = {
+    visible_columns: ["ticket_number", "title", "category", "priority", "status", "assigned_agent_name", "actions"],
+    density: "normal",
+    sort_by: "created_at",
+    sort_order: "desc",
+    page_size: 20
+};
+
+// Column dictionary definition
+const COLUMN_DEFS = {
+    ticket_number: { label: "Ticket #", render: (t) => `<strong>${escapeHtml(t.ticket_number)}</strong>` },
+    title: { label: "Title", render: (t) => escapeHtml(t.title) },
+    category: { label: "Category", render: (t) => escapeHtml(t.category) },
+    priority: { label: "Priority", render: (t) => `<span class="badge badge-${t.priority.toLowerCase()}">${t.priority}</span>` },
+    status: { label: "Status", render: (t) => `<span class="badge badge-${t.status.toLowerCase()}">${t.status}</span>` },
+    assigned_agent_name: { label: "Assigned Agent", render: (t) => t.assigned_agent_name || '<em>Unassigned</em>' },
+    sla_deadline_resolution: { label: "SLA Resolve Deadline", render: (t) => t.sla_deadline_resolution ? new Date(t.sla_deadline_resolution).toLocaleString() : '-' },
+    created_at: { label: "Created Date", render: (t) => t.created_at ? new Date(t.created_at).toLocaleString() : '-' },
+    actions: { label: "Actions", render: (t) => `<button class="btn btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="openWorkbench('${t.id}')">Inspect</button>` }
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
     initNavigation();
+    initColorPickersSync();
+    await hydrateActiveSettings();
     loadCategories();
     loadDashboardTickets();
     initIntakeForm();
     initSearchConsole();
     initWorkbenchControls();
+    initLayoutControls();
+    initSettingsTab();
 });
 
 function initNavigation() {
@@ -30,10 +58,468 @@ function initNavigation() {
 
             if (tabId === 'tab-dashboard') loadDashboardTickets();
             if (tabId === 'tab-search') executeSearch();
+            if (tabId === 'tab-settings') loadSettingsPresets();
         });
     });
 }
 
+// ----------------------------------------------------------------------------
+// 1. Theme & Color Presets Management (Feature 1)
+// ----------------------------------------------------------------------------
+function initColorPickersSync() {
+    const colorFields = ['primary', 'primary-hover', 'bg-primary', 'bg-secondary', 'bg-card', 'border', 'text-primary', 'text-muted'];
+    colorFields.forEach(field => {
+        const picker = document.getElementById(`color-${field}`);
+        const hex = document.getElementById(`hex-${field}`);
+        if (picker && hex) {
+            picker.addEventListener('input', () => {
+                hex.value = picker.value;
+            });
+            hex.addEventListener('input', () => {
+                if (/^#[0-9A-F]{6}$/i.test(hex.value)) {
+                    picker.value = hex.value;
+                }
+            });
+        }
+    });
+}
+
+function applyThemeColors(config) {
+    if (!config) return;
+    const root = document.documentElement;
+    if (config.primary) root.style.setProperty('--primary', config.primary);
+    if (config.primary_hover) root.style.setProperty('--primary-hover', config.primary_hover);
+    if (config.bg_primary) root.style.setProperty('--bg-primary', config.bg_primary);
+    if (config.bg_secondary) root.style.setProperty('--bg-secondary', config.bg_secondary);
+    if (config.bg_card) root.style.setProperty('--bg-card', config.bg_card);
+    if (config.text_primary) root.style.setProperty('--text-primary', config.text_primary);
+    if (config.text_muted) root.style.setProperty('--text-muted', config.text_muted);
+    if (config.border) root.style.setProperty('--border', config.border);
+    if (config.success) root.style.setProperty('--success', config.success);
+    if (config.warning) root.style.setProperty('--warning', config.warning);
+    if (config.danger) root.style.setProperty('--danger', config.danger);
+
+    // Sync input controls if visible
+    populateThemeInputs(config);
+}
+
+function populateThemeInputs(config) {
+    const setVal = (field, val) => {
+        const picker = document.getElementById(`color-${field}`);
+        const hex = document.getElementById(`hex-${field}`);
+        if (picker && val) picker.value = val;
+        if (hex && val) hex.value = val;
+    };
+    if (config.primary) setVal('primary', config.primary);
+    if (config.primary_hover) setVal('primary-hover', config.primary_hover);
+    if (config.bg_primary) setVal('bg-primary', config.bg_primary);
+    if (config.bg_secondary) setVal('bg-secondary', config.bg_secondary);
+    if (config.bg_card) setVal('bg-card', config.bg_card);
+    if (config.border) setVal('border', config.border);
+    if (config.text_primary) setVal('text-primary', config.text_primary);
+    if (config.text_muted) setVal('text-muted', config.text_muted);
+}
+
+function getThemeInputsConfig() {
+    return {
+        primary: document.getElementById('hex-primary')?.value || '#3b82f6',
+        primary_hover: document.getElementById('hex-primary-hover')?.value || '#2563eb',
+        bg_primary: document.getElementById('hex-bg-primary')?.value || '#0f172a',
+        bg_secondary: document.getElementById('hex-bg-secondary')?.value || '#1e293b',
+        bg_card: document.getElementById('hex-bg-card')?.value || '#334155',
+        border: document.getElementById('hex-border')?.value || '#475569',
+        text_primary: document.getElementById('hex-text-primary')?.value || '#f8fafc',
+        text_muted: document.getElementById('hex-text-muted')?.value || '#94a3b8',
+        success: '#10b981',
+        warning: '#f59e0b',
+        danger: '#ef4444'
+    };
+}
+
+async function hydrateActiveSettings() {
+    try {
+        const active = await api.getActiveSettings();
+        if (active.theme && active.theme.config) {
+            applyThemeColors(active.theme.config);
+        }
+        if (active.worklist_layout && active.worklist_layout.config) {
+            applyWorklistLayout(active.worklist_layout.config);
+        }
+    } catch (e) {
+        console.warn('Could not load active presets from backend, using defaults', e);
+    }
+}
+
+// ----------------------------------------------------------------------------
+// 2. Worklist Layout Settings & Presets Management (Feature 2)
+// ----------------------------------------------------------------------------
+function applyWorklistLayout(config) {
+    if (!config) return;
+    currentLayout = { ...currentLayout, ...config };
+
+    // Apply Density Class
+    const table = document.getElementById('dashboard-table');
+    if (table) {
+        table.className = `density-${currentLayout.density || 'normal'}`;
+    }
+
+    // Update density buttons active state
+    document.querySelectorAll('.density-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.density === currentLayout.density);
+    });
+
+    // Re-render table headers
+    renderDashboardTableHeaders();
+}
+
+function renderDashboardTableHeaders() {
+    const thead = document.getElementById('dashboard-table-head');
+    if (!thead) return;
+
+    const visibleCols = currentLayout.visible_columns || Object.keys(COLUMN_DEFS);
+    let html = '<tr>';
+    visibleCols.forEach(colKey => {
+        const def = COLUMN_DEFS[colKey];
+        if (def) {
+            html += `<th>${def.label}</th>`;
+        }
+    });
+    html += '</tr>';
+    thead.innerHTML = html;
+}
+
+function initLayoutControls() {
+    // Density buttons
+    document.querySelectorAll('.density-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const density = btn.dataset.density;
+            currentLayout.density = density;
+            applyWorklistLayout(currentLayout);
+        });
+    });
+
+    // Preset dropdown on Dashboard
+    const presetSelect = document.getElementById('worklist-preset-select');
+    if (presetSelect) {
+        presetSelect.addEventListener('change', () => {
+            const selectedId = presetSelect.value;
+            const found = allLayoutPresets.find(p => p.id === selectedId);
+            if (found && found.config) {
+                applyWorklistLayout(found.config);
+                loadDashboardTickets();
+            }
+        });
+    }
+
+    // Modal triggers
+    document.getElementById('open-layout-modal-btn')?.addEventListener('click', openLayoutModal);
+
+    // Save for All from Dashboard
+    document.getElementById('save-layout-all-btn')?.addEventListener('click', async () => {
+        try {
+            const select = document.getElementById('worklist-preset-select');
+            const currentPresetId = select?.value;
+            if (currentPresetId) {
+                const res = await api.applyGlobalPreset(currentPresetId);
+                showBanner(res.message, 'success');
+            } else {
+                // Save current layout as global
+                const newPreset = await api.createPreset({
+                    preset_type: 'WORKLIST_LAYOUT',
+                    name: 'Custom Global Default Layout',
+                    config: currentLayout,
+                    is_global_default: true
+                });
+                showBanner(`Saved '${newPreset.name}' as Global Default for all operators!`, 'success');
+                await loadSettingsPresets();
+            }
+        } catch (err) {
+            showBanner(`Error: ${err.message}`, 'danger');
+        }
+    });
+
+    // Layout modal handlers
+    document.getElementById('modal-apply-btn')?.addEventListener('click', () => {
+        updateLayoutFromModal();
+        closeLayoutModal();
+        loadDashboardTickets();
+    });
+
+    document.getElementById('modal-save-all-btn')?.addEventListener('click', async () => {
+        updateLayoutFromModal();
+        closeLayoutModal();
+        try {
+            const res = await api.createPreset({
+                preset_type: 'WORKLIST_LAYOUT',
+                name: 'Custom Global Layout Preset',
+                config: currentLayout,
+                is_global_default: true
+            });
+            showBanner(`Preset '${res.name}' saved and applied for all users!`, 'success');
+            loadSettingsPresets();
+            loadDashboardTickets();
+        } catch (err) {
+            showBanner(`Save error: ${err.message}`, 'danger');
+        }
+    });
+}
+
+function openLayoutModal() {
+    const modal = document.getElementById('layout-modal');
+    if (!modal) return;
+
+    // Check checkboxes according to currentLayout.visible_columns
+    const cols = currentLayout.visible_columns || [];
+    ['ticket_number', 'title', 'category', 'priority', 'status', 'assigned_agent_name', 'sla_deadline_resolution', 'created_at', 'actions'].forEach(c => {
+        const chk = document.querySelector(`#layout-modal input[value="${c}"]`);
+        if (chk) chk.checked = cols.includes(c);
+    });
+
+    modal.style.display = 'flex';
+}
+
+window.closeLayoutModal = function() {
+    const modal = document.getElementById('layout-modal');
+    if (modal) modal.style.display = 'none';
+};
+
+function updateLayoutFromModal() {
+    const checkedCols = [];
+    document.querySelectorAll('#layout-modal input[type="checkbox"]:checked').forEach(chk => {
+        checkedCols.push(chk.value);
+    });
+    if (checkedCols.length === 0) {
+        checkedCols.push('ticket_number', 'title', 'actions');
+    }
+    currentLayout.visible_columns = checkedCols;
+    applyWorklistLayout(currentLayout);
+}
+
+// ----------------------------------------------------------------------------
+// 3. Settings & Presets Tab Interactive Logic
+// ----------------------------------------------------------------------------
+async function loadSettingsPresets() {
+    try {
+        const themeData = await api.getPresets('THEME_COLOR');
+        allThemePresets = themeData.presets || [];
+
+        const layoutData = await api.getPresets('WORKLIST_LAYOUT');
+        allLayoutPresets = layoutData.presets || [];
+
+        // Populate Dashboard Layout Preset dropdown
+        const dashSelect = document.getElementById('worklist-preset-select');
+        if (dashSelect) {
+            dashSelect.innerHTML = '';
+            allLayoutPresets.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name + (p.is_global_default ? ' ★ (Global Default)' : '');
+                if (p.is_global_default) opt.selected = true;
+                dashSelect.appendChild(opt);
+            });
+        }
+
+        // Populate Settings Theme Preset dropdown
+        const themeSelect = document.getElementById('theme-preset-select');
+        if (themeSelect) {
+            themeSelect.innerHTML = '<option value="">Select a Theme Preset to load...</option>';
+            allThemePresets.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name + (p.is_global_default ? ' ★ (Global Default)' : '');
+                themeSelect.appendChild(opt);
+            });
+        }
+
+        // Populate Settings Layout Preset dropdown
+        const layoutSelect = document.getElementById('settings-layout-preset-select');
+        if (layoutSelect) {
+            layoutSelect.innerHTML = '<option value="">Select a Layout Preset to load...</option>';
+            allLayoutPresets.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name + (p.is_global_default ? ' ★ (Global Default)' : '');
+                layoutSelect.appendChild(opt);
+            });
+        }
+    } catch (err) {
+        console.error('Failed to load presets', err);
+    }
+}
+
+function initSettingsTab() {
+    // Theme preset dropdown change
+    document.getElementById('theme-preset-select')?.addEventListener('change', (e) => {
+        const presetId = e.target.value;
+        const preset = allThemePresets.find(p => p.id === presetId);
+        if (preset && preset.config) {
+            document.getElementById('theme-preset-name').value = preset.name;
+            applyThemeColors(preset.config);
+        }
+    });
+
+    // Preview Theme Locally
+    document.getElementById('theme-preview-local-btn')?.addEventListener('click', () => {
+        const config = getThemeInputsConfig();
+        applyThemeColors(config);
+        showBanner('Theme applied locally for preview.', 'info');
+    });
+
+    // Reset Defaults
+    document.getElementById('theme-reset-defaults-btn')?.addEventListener('click', () => {
+        const defaultSlate = {
+            primary: '#3b82f6',
+            primary_hover: '#2563eb',
+            bg_primary: '#0f172a',
+            bg_secondary: '#1e293b',
+            bg_card: '#334155',
+            border: '#475569',
+            text_primary: '#f8fafc',
+            text_muted: '#94a3b8'
+        };
+        applyThemeColors(defaultSlate);
+        showBanner('Reset to default Enterprise Slate palette.', 'info');
+    });
+
+    // Save as New Theme Preset
+    document.getElementById('theme-save-preset-btn')?.addEventListener('click', async () => {
+        const name = document.getElementById('theme-preset-name')?.value.trim() || 'Custom Theme Preset';
+        const config = getThemeInputsConfig();
+        try {
+            const created = await api.createPreset({
+                preset_type: 'THEME_COLOR',
+                name,
+                config,
+                is_global_default: false
+            });
+            showBanner(`Theme preset '${created.name}' saved successfully!`, 'success');
+            await loadSettingsPresets();
+        } catch (err) {
+            showBanner(`Error: ${err.message}`, 'danger');
+        }
+    });
+
+    // Transfer & Save for All (Global Default) - Feature 1
+    document.getElementById('theme-transfer-global-btn')?.addEventListener('click', async () => {
+        const name = document.getElementById('theme-preset-name')?.value.trim() || 'Global Organization Theme';
+        const config = getThemeInputsConfig();
+        try {
+            const created = await api.createPreset({
+                preset_type: 'THEME_COLOR',
+                name,
+                config,
+                is_global_default: true
+            });
+            applyThemeColors(config);
+            showBanner(`🌐 Global Admin: Theme '${created.name}' has been transferred and activated for ALL users!`, 'success');
+            await loadSettingsPresets();
+        } catch (err) {
+            showBanner(`Error: ${err.message}`, 'danger');
+        }
+    });
+
+    // Settings Layout preset dropdown change
+    document.getElementById('settings-layout-preset-select')?.addEventListener('change', (e) => {
+        const presetId = e.target.value;
+        const preset = allLayoutPresets.find(p => p.id === presetId);
+        if (preset && preset.config) {
+            document.getElementById('settings-layout-preset-name').value = preset.name;
+            const cfg = preset.config;
+            if (cfg.density) document.getElementById('settings-layout-density').value = cfg.density;
+            if (cfg.sort_by) document.getElementById('settings-layout-sort-by').value = cfg.sort_by;
+            if (cfg.sort_order) document.getElementById('settings-layout-sort-order').value = cfg.sort_order;
+            if (cfg.page_size) document.getElementById('settings-layout-page-size').value = cfg.page_size;
+
+            const cols = cfg.visible_columns || [];
+            document.querySelectorAll('#tab-settings .col-toggle').forEach(chk => {
+                chk.checked = cols.includes(chk.value);
+            });
+        }
+    });
+
+    // Apply Layout View from Settings Tab
+    document.getElementById('layout-apply-local-btn')?.addEventListener('click', () => {
+        const cols = [];
+        document.querySelectorAll('#tab-settings .col-toggle:checked').forEach(chk => cols.push(chk.value));
+        const density = document.getElementById('settings-layout-density').value;
+        const sortBy = document.getElementById('settings-layout-sort-by').value;
+        const sortOrder = document.getElementById('settings-layout-sort-order').value;
+        const pageSize = parseInt(document.getElementById('settings-layout-page-size').value);
+
+        currentLayout = {
+            visible_columns: cols.length ? cols : ['ticket_number', 'title', 'actions'],
+            density,
+            sort_by: sortBy,
+            sort_order: sortOrder,
+            page_size: pageSize
+        };
+
+        applyWorklistLayout(currentLayout);
+        showBanner('Worklist layout updated locally.', 'info');
+    });
+
+    // Save as New Layout Preset
+    document.getElementById('layout-save-new-preset-btn')?.addEventListener('click', async () => {
+        const name = document.getElementById('settings-layout-preset-name')?.value.trim() || 'Custom Layout Preset';
+        const cols = [];
+        document.querySelectorAll('#tab-settings .col-toggle:checked').forEach(chk => cols.push(chk.value));
+
+        const config = {
+            visible_columns: cols.length ? cols : ['ticket_number', 'title', 'actions'],
+            density: document.getElementById('settings-layout-density').value,
+            sort_by: document.getElementById('settings-layout-sort-by').value,
+            sort_order: document.getElementById('settings-layout-sort-order').value,
+            page_size: parseInt(document.getElementById('settings-layout-page-size').value)
+        };
+
+        try {
+            const created = await api.createPreset({
+                preset_type: 'WORKLIST_LAYOUT',
+                name,
+                config,
+                is_global_default: false
+            });
+            showBanner(`Layout preset '${created.name}' saved successfully!`, 'success');
+            await loadSettingsPresets();
+        } catch (err) {
+            showBanner(`Error: ${err.message}`, 'danger');
+        }
+    });
+
+    // Save for All like Preset (Global Default) - Feature 2
+    document.getElementById('layout-transfer-global-btn')?.addEventListener('click', async () => {
+        const name = document.getElementById('settings-layout-preset-name')?.value.trim() || 'Global Default Layout';
+        const cols = [];
+        document.querySelectorAll('#tab-settings .col-toggle:checked').forEach(chk => cols.push(chk.value));
+
+        const config = {
+            visible_columns: cols.length ? cols : ['ticket_number', 'title', 'actions'],
+            density: document.getElementById('settings-layout-density').value,
+            sort_by: document.getElementById('settings-layout-sort-by').value,
+            sort_order: document.getElementById('settings-layout-sort-order').value,
+            page_size: parseInt(document.getElementById('settings-layout-page-size').value)
+        };
+
+        try {
+            const created = await api.createPreset({
+                preset_type: 'WORKLIST_LAYOUT',
+                name,
+                config,
+                is_global_default: true
+            });
+            currentLayout = config;
+            applyWorklistLayout(currentLayout);
+            showBanner(`🌐 Global Admin: Worklist Layout preset '${created.name}' saved and activated for ALL operators!`, 'success');
+            await loadSettingsPresets();
+        } catch (err) {
+            showBanner(`Error: ${err.message}`, 'danger');
+        }
+    });
+}
+
+// ----------------------------------------------------------------------------
+// 4. Ticket Queue / Dashboard Dynamic Loading
+// ----------------------------------------------------------------------------
 async function loadCategories() {
     try {
         const data = await api.getCategories();
@@ -47,7 +533,7 @@ async function loadCategories() {
                 select.innerHTML += `<option value="${c.name}" data-priority="${c.default_priority}" data-dept="${c.department_id}">${c.name} (${c.department_name})</option>`;
             });
 
-            select.addEventListener('change', (e) => {
+            select.addEventListener('change', () => {
                 const opt = select.selectedOptions[0];
                 if (opt && opt.dataset.priority) {
                     const prioSelect = document.getElementById('intake-priority');
@@ -110,42 +596,43 @@ async function loadDashboardTickets() {
     const tbody = document.getElementById('dashboard-table-body');
     if (!tbody) return;
 
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Loading queue...</td></tr>';
+    const visibleCols = currentLayout.visible_columns || Object.keys(COLUMN_DEFS);
+    renderDashboardTableHeaders();
+
+    tbody.innerHTML = `<tr><td colspan="${visibleCols.length}" style="text-align:center;">Loading queue...</td></tr>`;
 
     try {
         const statusFilter = document.getElementById('filter-status')?.value || '';
         const priorityFilter = document.getElementById('filter-priority')?.value || '';
         const queryFilter = document.getElementById('filter-query')?.value || '';
 
-        const data = await api.getTickets({ status: statusFilter, priority: priorityFilter, query: queryFilter });
+        const data = await api.getTickets({
+            status: statusFilter,
+            priority: priorityFilter,
+            query: queryFilter,
+            limit: currentLayout.page_size || 20
+        });
         const items = data.items || [];
 
         if (items.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No tickets in current queue.</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="${visibleCols.length}" style="text-align:center;">No tickets in current queue.</td></tr>`;
             return;
         }
 
         tbody.innerHTML = '';
         items.forEach(t => {
-            const prioClass = `badge-${t.priority.toLowerCase()}`;
-            const statusClass = `badge-${t.status.toLowerCase()}`;
-
-            tbody.innerHTML += `
-                <tr>
-                    <td><strong>${t.ticket_number}</strong></td>
-                    <td>${escapeHtml(t.title)}</td>
-                    <td>${escapeHtml(t.category)}</td>
-                    <td><span class="badge ${prioClass}">${t.priority}</span></td>
-                    <td><span class="badge ${statusClass}">${t.status}</span></td>
-                    <td>${t.assigned_agent_name || '<em>Unassigned</em>'}</td>
-                    <td>
-                        <button class="btn btn-secondary" onclick="openWorkbench('${t.id}')">Inspect</button>
-                    </td>
-                </tr>
-            `;
+            let rowHtml = '<tr>';
+            visibleCols.forEach(colKey => {
+                const def = COLUMN_DEFS[colKey];
+                if (def) {
+                    rowHtml += `<td>${def.render(t)}</td>`;
+                }
+            });
+            rowHtml += '</tr>';
+            tbody.innerHTML += rowHtml;
         });
     } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="7" style="color:red; text-align:center;">${err.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${visibleCols.length}" style="color:red; text-align:center;">${err.message}</td></tr>`;
     }
 }
 
@@ -168,7 +655,6 @@ function renderWorkbenchDetails(ticket) {
     document.getElementById('wb-status').innerText = ticket.status;
     document.getElementById('wb-assigned').innerText = ticket.assigned_agent_name || 'Unassigned';
     document.getElementById('wb-version').innerText = ticket.version;
-    document.getElementById('wb-requester').innerText = ticket.requester_email;
 
     loadSLAWidget(ticket.id);
     loadAuditHistory(ticket.id);

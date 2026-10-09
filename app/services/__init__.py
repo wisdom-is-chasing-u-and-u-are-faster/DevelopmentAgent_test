@@ -7,6 +7,7 @@ from app.services.notification_service import NotificationService
 from app.services.search_service import SearchService
 from app.services.audit_engine import AuditEngine
 from app.services.rls_middleware import RLSEnforcer, SessionContext
+from app.services.settings_service import SettingsService
 
 __all__ = [
     "IdempotencyService",
@@ -18,4 +19,5 @@ __all__ = [
     "AuditEngine",
     "RLSEnforcer",
     "SessionContext",
+    "SettingsService",
 ]

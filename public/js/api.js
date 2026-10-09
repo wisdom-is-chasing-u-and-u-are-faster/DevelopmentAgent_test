@@ -122,6 +122,69 @@ export const api = {
     async getHealth() {
         const res = await fetch('/health');
         return await res.json();
+    },
+
+    // Global Settings & Presets APIs
+    async getActiveSettings() {
+        const res = await fetch(`${API_BASE}/settings/active`);
+        if (!res.ok) throw new Error('Failed to load active system settings');
+        return await res.json();
+    },
+
+    async getPresets(presetType = null) {
+        const url = new URL(`${window.location.origin}${API_BASE}/settings/presets`);
+        if (presetType) {
+            url.searchParams.append('preset_type', presetType);
+        }
+        const res = await fetch(url.toString());
+        if (!res.ok) throw new Error('Failed to list presets');
+        return await res.json();
+    },
+
+    async getPreset(presetId) {
+        const res = await fetch(`${API_BASE}/settings/presets/${presetId}`);
+        if (!res.ok) throw new Error(`Failed to fetch preset ${presetId}`);
+        return await res.json();
+    },
+
+    async createPreset(payload) {
+        const res = await fetch(`${API_BASE}/settings/presets`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to create preset');
+        return data;
+    },
+
+    async updatePreset(presetId, payload) {
+        const res = await fetch(`${API_BASE}/settings/presets/${presetId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to update preset');
+        return data;
+    },
+
+    async applyGlobalPreset(presetId) {
+        const res = await fetch(`${API_BASE}/settings/presets/${presetId}/apply-global`, {
+            method: 'POST'
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to apply preset globally');
+        return data;
+    },
+
+    async deletePreset(presetId) {
+        const res = await fetch(`${API_BASE}/settings/presets/${presetId}`, {
+            method: 'DELETE'
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to delete preset');
+        return data;
     }
 };
 

@@ -1,12 +1,40 @@
-import { ApiClient } from './api.js';
+import { api } from './api.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+let activeLayout = {
+  density: 'normal',
+  visible_columns: ['ticket_number', 'title', 'priority', 'status', 'category', 'sla_deadline_resolution', 'actions']
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
   const queueBody = document.getElementById('queueBody');
   const refreshBtn = document.getElementById('refreshBtn');
 
+  // Hydrate global theme and layout preset
+  try {
+    const active = await api.getActiveSettings();
+    if (active.theme && active.theme.config) {
+      const root = document.documentElement;
+      const c = active.theme.config;
+      if (c.primary) root.style.setProperty('--primary', c.primary);
+      if (c.bg_primary) root.style.setProperty('--bg-primary', c.bg_primary);
+      if (c.bg_secondary) root.style.setProperty('--bg-secondary', c.bg_secondary);
+      if (c.text_primary) root.style.setProperty('--text-primary', c.text_primary);
+      if (c.text_muted) root.style.setProperty('--text-muted', c.text_muted);
+      if (c.border) root.style.setProperty('--border', c.border);
+    }
+    if (active.worklist_layout && active.worklist_layout.config) {
+      activeLayout = { ...activeLayout, ...active.worklist_layout.config };
+      const tbl = document.querySelector('table');
+      if (tbl) tbl.className = `table density-${activeLayout.density || 'normal'}`;
+    }
+  } catch (e) {
+    console.warn('Could not load global active settings', e);
+  }
+
   async function loadQueue() {
     try {
-      const tickets = await ApiClient.listTickets(100);
+      const data = await api.getTickets({ limit: 100 });
+      const tickets = data.items || [];
 
       document.getElementById('statTotal').textContent = tickets.length;
       document.getElementById('statTriage').textContent = tickets.filter(t => t.status === 'SUBMITTED').length;
@@ -25,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <td><span class="badge badge-${t.priority.toLowerCase()}">${t.priority}</span></td>
           <td><strong>${t.status}</strong></td>
           <td>${t.category}</td>
-          <td>${new Date(t.sla_resolve_deadline).toLocaleString()}</td>
+          <td>${t.created_at ? new Date(t.created_at).toLocaleString() : '-'}</td>
           <td>
-            <a href="/workbench.html?id=${t.ticket_id}" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.85rem;">Triage</a>
+            <a href="/?id=${t.id}" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.85rem;">Triage</a>
           </td>
         </tr>
       `).join('');
@@ -36,6 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  refreshBtn.addEventListener('click', loadQueue);
+  if (refreshBtn) refreshBtn.addEventListener('click', loadQueue);
   loadQueue();
 });
