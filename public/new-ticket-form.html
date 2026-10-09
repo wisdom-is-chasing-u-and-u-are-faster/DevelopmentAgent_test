@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Ticket - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link active">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/ticket-queue.html" class="btn btn-secondary btn-sm">← Back to Queue</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:800px;">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Create Incident or Service Request</h1>
+        <p class="page-subtitle">Submit a new ticket with automatic idempotent ingestion and SLA tracking.</p>
+      </div>
+    </div>
+
+    <div class="table-card" style="padding:2rem;">
+      <form id="new-ticket-form">
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+          <div class="form-group">
+            <label class="form-label" for="ticket-title">Incident / Request Title *</label>
+            <input type="text" id="ticket-title" class="form-control" required placeholder="e.g. Primary Cloud SQL read replica interruption">
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="ticket-priority">Priority & Severity *</label>
+              <select id="ticket-priority" class="form-control" required>
+                <option value="P1">P1 (Critical Outage - 2h SLA)</option>
+                <option value="P2">P2 (Major Incident - 4h SLA)</option>
+                <option value="P3" selected>P3 (Standard Incident - 8h SLA)</option>
+                <option value="P4">P4 (Low Request - 24h SLA)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticket-department">Department *</label>
+              <select id="ticket-department" class="form-control" required>
+                <option value="Database">Database</option>
+                <option value="Infrastructure" selected>Infrastructure</option>
+                <option value="Applications">Applications</option>
+                <option value="Security">Security</option>
+                <option value="DevOps">DevOps</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ticket-category">Category *</label>
+            <select id="ticket-category" class="form-control" required>
+              <option value="Outage">Outage / Downtime</option>
+              <option value="Performance" selected>Performance Degradation</option>
+              <option value="Access Request">Access / RBAC Request</option>
+              <option value="Maintenance">Infrastructure Maintenance</option>
+              <option value="Configuration">Configuration Bug</option>
+            </select>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="requester-name">Requester Full Name *</label>
+              <input type="text" id="requester-name" class="form-control" required value="Prasanna Deshpande">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="requester-email">Requester Corporate Email *</label>
+              <input type="email" id="requester-email" class="form-control" required value="prasanna_deshpande1@persistent.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ticket-description">Detailed Description & Symptoms *</label>
+            <textarea id="ticket-description" class="form-control" rows="5" required placeholder="Describe the incident symptoms, impact, and affected systems..."></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:1rem;">
+            <a href="/ticket-queue.html" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/intake_form.js"></script>
+</body>
+</html>

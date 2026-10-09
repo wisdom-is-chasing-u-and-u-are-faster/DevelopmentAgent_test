@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Ledger - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link active">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/new-ticket-form.html" class="btn btn-primary btn-sm">+ Create Incident</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Cryptographic SHA-256 Audit Ledger</h1>
+        <p class="page-subtitle">Immutable, append-only tamper-evident verification ledger for compliance.</p>
+      </div>
+      <div id="chain-status">
+        <span class="badge badge-resolved">Verifying Hash Chain...</span>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp (UTC)</th>
+              <th>Entity ID</th>
+              <th>Action</th>
+              <th>Actor</th>
+              <th>Previous SHA-256 Block</th>
+              <th>Current SHA-256 Hash</th>
+            </tr>
+          </thead>
+          <tbody id="audit-table-body">
+            <tr><td colspan="6" style="text-align:center; padding:2rem;">Loading audit trail...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/audit.js"></script>
+</body>
+</html>

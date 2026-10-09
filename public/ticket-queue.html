@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Queue - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link active">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/new-ticket-form.html" class="btn btn-primary btn-sm">+ Create Incident</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Enterprise Support & Incident Queue</h1>
+        <p class="page-subtitle">Triage, dispatch, and manage tickets across all 7 lifecycle states.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <div id="results-count" class="badge badge-primary">Loading...</div>
+        <button id="btn-open-layout" class="btn btn-secondary btn-sm" onclick="openLayoutModal()">
+          ⚙️ Worklist Layout & Presets
+        </button>
+      </div>
+    </div>
+
+    <div class="table-card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label" for="search-query">Live Text Filter</label>
+          <input type="text" id="search-query" class="form-control" placeholder="Search by ID, keyword, or summary...">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="filter-status">Status Lifecycle</label>
+          <select id="filter-status" class="form-control">
+            <option value="ALL">All States</option>
+            <option value="NEW">NEW</option>
+            <option value="TRIAGED">TRIAGED</option>
+            <option value="ASSIGNED">ASSIGNED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="PENDING_CUSTOMER">PENDING_CUSTOMER</option>
+            <option value="RESOLVED">RESOLVED</option>
+            <option value="CLOSED">CLOSED</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="filter-priority">Severity / Priority</label>
+          <select id="filter-priority" class="form-control">
+            <option value="ALL">All Severities</option>
+            <option value="P1">P1 (Critical Outage - 2h SLA)</option>
+            <option value="P2">P2 (Major Incident - 4h SLA)</option>
+            <option value="P3">P3 (Standard Request - 8h SLA)</option>
+            <option value="P4">P4 (Low Priority - 24h SLA)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="filter-department">Department</label>
+          <select id="filter-department" class="form-control">
+            <option value="ALL">All Departments</option>
+            <option value="Database">Database</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Applications">Applications</option>
+            <option value="Security">Security</option>
+            <option value="DevOps">DevOps</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-responsive">
+        <table id="tickets-table" class="table-comfortable">
+          <thead id="tickets-table-head">
+            <tr>
+              <th>Ticket #</th>
+              <th>Incident Summary</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Department</th>
+              <th>Assigned Specialist</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tickets-table-body">
+            <tr><td colspan="7" style="text-align:center; padding:2rem;">Loading tickets...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Worklist Layout & Preset Modal -->
+    <div id="layout-modal" class="modal-overlay" style="display:none;">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="font-size:1.25rem;">⚙️</span>
+            <h3 style="font-weight:700; font-size:1.125rem;">Worklist Layout & Preset Settings</h3>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeLayoutModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <label class="form-label" style="margin-bottom:0.5rem;">Visible Columns</label>
+            <div class="column-toggle-grid">
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-ticket_number" checked disabled>
+                <span>Ticket # (Locked)</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-title" checked>
+                <span>Summary</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-priority" checked>
+                <span>Priority</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-status" checked>
+                <span>Status</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-department" checked>
+                <span>Department</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-category">
+                <span>Category</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-assigned_agent" checked>
+                <span>Assigned Agent</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-sla_status" checked>
+                <span>SLA Status</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-version">
+                <span>Version</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-created_at">
+                <span>Created At</span>
+              </label>
+              <label class="column-toggle-item">
+                <input type="checkbox" id="col-actions" checked>
+                <span>Actions</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label" style="margin-bottom:0.5rem;">Row Density</label>
+            <div class="density-options">
+              <button type="button" class="density-btn" id="density-compact" onclick="setDensity('compact')">Compact</button>
+              <button type="button" class="density-btn active" id="density-comfortable" onclick="setDensity('comfortable')">Comfortable</button>
+              <button type="button" class="density-btn" id="density-spacious" onclick="setDensity('spacious')">Spacious</button>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="layout-page-size">Tickets Per Page</label>
+              <select id="layout-page-size" class="form-control">
+                <option value="10">10 Tickets</option>
+                <option value="20" selected>20 Tickets (Standard)</option>
+                <option value="50">50 Tickets</option>
+                <option value="100">100 Tickets</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="layout-sort-field">Default Sort Field</label>
+              <select id="layout-sort-field" class="form-control">
+                <option value="created_at" selected>Creation Date</option>
+                <option value="priority">Priority Severity</option>
+                <option value="status">Lifecycle Status</option>
+                <option value="sla_elapsed_hours">SLA Elapsed Hours</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="admin-layout-box" style="background:var(--primary-light); border:1px solid var(--primary); padding:1rem; border-radius:var(--radius);">
+            <div style="font-weight:700; font-size:0.875rem; margin-bottom:0.25rem;">👑 Global Admin Preset Transfer</div>
+            <p style="font-size:0.8125rem; color:var(--text-secondary);">
+              Saving this layout for all sets it as the enterprise default preset and propagates it to all agents and operators.
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="resetWorklistPreset()">↺ Reset to Org Preset</button>
+          <div style="display:flex; gap:0.5rem;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="savePersonalLayout()">Save My Layout</button>
+            <button type="button" id="btn-save-all" class="btn btn-primary btn-sm" onclick="saveLayoutForAll()">👑 Save for All (Preset)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: etms-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: etms_user
+      POSTGRES_PASSWORD: etms_password
+      POSTGRES_DB: etms_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+
+  api:
+    build: .
+    container_name: etms-api
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://etms_user:etms_password@db:5432/etms_db
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

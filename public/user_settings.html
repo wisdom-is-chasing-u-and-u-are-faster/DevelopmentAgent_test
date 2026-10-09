@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Settings - Enterprise Ticketing Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>ETMS Core</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+      <li><a href="/ticket-queue.html" class="nav-link">Ticket Queue</a></li>
+      <li><a href="/advanced-search.html" class="nav-link">Search</a></li>
+      <li><a href="/new-ticket-form.html" class="nav-link">New Ticket</a></li>
+      <li><a href="/audit.html" class="nav-link">Audit Ledger</a></li>
+      <li><a href="/user_settings.html" class="nav-link active">Settings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌓 Theme</button>
+      <a href="/new-ticket-form.html" class="btn btn-primary btn-sm">+ Create Incident</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:880px;">
+    <div class="page-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <h1 class="page-title">Enterprise System & User Preferences</h1>
+          <span id="role-badge" class="badge badge-admin">Operations Lead</span>
+        </div>
+        <p class="page-subtitle">Configure SLA escalation channels, theme palettes, and organization-wide presets.</p>
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-preset" onclick="handleResetToPreset()">
+          ↺ Reset to Admin Preset
+        </button>
+      </div>
+    </div>
+
+    <div class="table-card" style="padding:2rem;">
+      <form id="settings-form">
+        <div style="display:flex; flex-direction:column; gap:1.75rem;">
+          
+          <!-- Section 1: Notification Channels -->
+          <div>
+            <h3 style="font-size:1.125rem; font-weight:700; margin-bottom:0.75rem;">Notification Dispatch Channels</h3>
+            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+              <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+                <input type="checkbox" id="notif-slack" checked>
+                <span>Slack Escalation Webhook (Milestones: 50%, 75%, 100%)</span>
+              </label>
+              <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+                <input type="checkbox" id="notif-teams" checked>
+                <span>Microsoft Teams Webhook Alerts</span>
+              </label>
+              <label style="display:flex; align-items:center; gap:0.75rem; font-size:0.9375rem; cursor:pointer;">
+                <input type="checkbox" id="notif-email" checked>
+                <span>Corporate Email Dispatch Notifications</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section 2: Display & Color Presets -->
+          <div style="border-top:1px solid var(--border-color); padding-top:1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <h3 style="font-size:1.125rem; font-weight:700;">Theme & Color Presets</h3>
+              <span style="font-size:0.8125rem; color:var(--text-secondary);">Dynamic real-time theme propagation</span>
+            </div>
+
+            <div class="form-grid" style="margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label class="form-label" for="theme-select">Interface Theme</label>
+                <select id="theme-select" class="form-control" onchange="previewThemeChange()">
+                  <option value="dark" selected>Dark Enterprise</option>
+                  <option value="light">Light Crisp</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="custom-color-input">Active Primary Color</label>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                  <input type="color" id="color-picker" value="#3b82f6" style="width:42px; height:38px; border:none; border-radius:var(--radius); cursor:pointer; background:none;">
+                  <input type="text" id="custom-color-input" class="form-control" value="#3b82f6" placeholder="#3b82f6">
+                </div>
+              </div>
+            </div>
+
+            <label class="form-label" style="margin-bottom:0.5rem;">Corporate Color Presets</label>
+            <div class="preset-grid" id="preset-grid">
+              <div class="preset-card active" data-color="#3b82f6" data-name="Enterprise Blue" onclick="selectPresetColor('#3b82f6', this)">
+                <span class="swatch-circle" style="background:#3b82f6;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Enterprise Blue</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#3b82f6 (Default)</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#10b981" data-name="Emerald Cyber" onclick="selectPresetColor('#10b981', this)">
+                <span class="swatch-circle" style="background:#10b981;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Emerald Cyber</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#10b981</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#8b5cf6" data-name="Royal Amethyst" onclick="selectPresetColor('#8b5cf6', this)">
+                <span class="swatch-circle" style="background:#8b5cf6;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Royal Amethyst</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#8b5cf6</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#ef4444" data-name="Crimson Alert" onclick="selectPresetColor('#ef4444', this)">
+                <span class="swatch-circle" style="background:#ef4444;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Crimson Alert</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#ef4444</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#f59e0b" data-name="Amber Horizon" onclick="selectPresetColor('#f59e0b', this)">
+                <span class="swatch-circle" style="background:#f59e0b;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Amber Horizon</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#f59e0b</div>
+                </div>
+              </div>
+              <div class="preset-card" data-color="#06b6d4" data-name="Ocean Twilight" onclick="selectPresetColor('#06b6d4', this)">
+                <span class="swatch-circle" style="background:#06b6d4;"></span>
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem;">Ocean Twilight</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">#06b6d4</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Global Admin Control Center -->
+          <div id="admin-preset-box" style="border:1px solid var(--primary); background:var(--primary-light); border-radius:var(--radius-lg); padding:1.25rem;">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+              <span style="font-size:1.25rem;">👑</span>
+              <h4 style="font-weight:700; font-size:1rem;">Global Admin Preset Transfer Center</h4>
+            </div>
+            <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem; line-height:1.5;">
+              As a Global Admin, you can save these settings as the organization-wide preset. Clicking <strong>"Transfer Preset to All Users"</strong> will immediately push and enforce these colors, theme, and notification channels across all user profiles.
+            </p>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="saveAsGlobalPreset(false)">
+                💾 Save as Default Preset
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="saveAsGlobalPreset(true)">
+                🚀 Transfer Preset to All Users
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 4: Worklist Layout Shortcut -->
+          <div style="border-top:1px solid var(--border-color); padding-top:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <h4 style="font-weight:700; font-size:0.9375rem;">Worklist Table & Layout Settings</h4>
+              <p style="font-size:0.8125rem; color:var(--text-secondary);">Customize column visibility, density, and save organization layout presets.</p>
+            </div>
+            <a href="/ticket-queue.html?open_layout=true" class="btn btn-secondary btn-sm">
+              ⚙️ Manage Worklist Layout Preset →
+            </a>
+          </div>
+
+          <!-- Form Actions -->
+          <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:1rem; border-top:1px solid var(--border-color); padding-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">Save Personal Settings</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    let activeColor = "#3b82f6";
+
+    function selectPresetColor(colorHex, element) {
+      activeColor = colorHex;
+      document.getElementById('custom-color-input').value = colorHex;
+      document.getElementById('color-picker').value = colorHex;
+      document.querySelectorAll('#preset-grid .preset-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+      applyColorPalette(colorHex);
+    }
+
+    function previewThemeChange() {
+      const th = document.getElementById('theme-select').value;
+      document.documentElement.setAttribute('data-theme', th);
+    }
+
+    async function loadSettings() {
+      try {
+        const s = await ETMS_API.getUserSettings();
+        document.getElementById('notif-slack').checked = s.slack_notifications;
+        document.getElementById('notif-teams').checked = s.teams_notifications;
+        document.getElementById('notif-email').checked = s.email_notifications;
+        document.getElementById('theme-select').value = s.theme;
+        
+        if (s.primary_color) {
+          activeColor = s.primary_color;
+          document.getElementById('custom-color-input').value = s.primary_color;
+          document.getElementById('color-picker').value = s.primary_color;
+          applyColorPalette(s.primary_color);
+
+          // highlight matching preset card if exists
+          document.querySelectorAll('#preset-grid .preset-card').forEach(c => {
+            if (c.getAttribute('data-color').toLowerCase() === s.primary_color.toLowerCase()) {
+              c.classList.add('active');
+            } else {
+              c.classList.remove('active');
+            }
+          });
+        }
+
+        const roleBadge = document.getElementById('role-badge');
+        if (roleBadge) {
+          roleBadge.textContent = s.role;
+        }
+
+        const adminBox = document.getElementById('admin-preset-box');
+        if (adminBox) {
+          adminBox.style.display = s.is_global_admin ? 'block' : 'none';
+        }
+      } catch (e) {
+        showToast(e.message, 'error');
+      }
+    }
+
+    async function saveAsGlobalPreset(propagateToAll = false) {
+      const color = document.getElementById('custom-color-input').value.trim() || activeColor;
+      const theme = document.getElementById('theme-select').value;
+      const payload = {
+        preset_name: "Global Corporate Preset",
+        category: "theme",
+        apply_to_all: propagateToAll,
+        actor: "Global Admin",
+        config: {
+          theme_mode: theme,
+          primary_color: color,
+          slack_notifications: document.getElementById('notif-slack').checked,
+          teams_notifications: document.getElementById('notif-teams').checked,
+          email_notifications: document.getElementById('notif-email').checked
+        }
+      };
+
+      try {
+        const res = await ETMS_API.updateSystemPreset("theme", payload, propagateToAll);
+        applyColorPalette(color);
+        showToast(res.message, 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function handleResetToPreset() {
+      if (!confirm("Are you sure you want to reset your preferences to the Global Admin presets?")) return;
+      try {
+        const res = await ETMS_API.resetToPreset();
+        showToast(res.message, 'success');
+        await loadSettings();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadSettings();
+
+      const picker = document.getElementById('color-picker');
+      const textInput = document.getElementById('custom-color-input');
+      
+      picker.addEventListener('input', (e) => {
+        textInput.value = e.target.value;
+        activeColor = e.target.value;
+        applyColorPalette(activeColor);
+      });
+      textInput.addEventListener('change', (e) => {
+        const val = e.target.value.trim();
+        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          picker.value = val;
+          activeColor = val;
+          applyColorPalette(activeColor);
+        }
+      });
+
+      document.getElementById('settings-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          slack_notifications: document.getElementById('notif-slack').checked,
+          teams_notifications: document.getElementById('notif-teams').checked,
+          email_notifications: document.getElementById('notif-email').checked,
+          theme: document.getElementById('theme-select').value,
+          primary_color: document.getElementById('custom-color-input').value.trim() || activeColor
+        };
+        try {
+          await ETMS_API.updateUserSettings(payload);
+          document.documentElement.setAttribute('data-theme', payload.theme);
+          localStorage.setItem('etms-theme', payload.theme);
+          applyColorPalette(payload.primary_color);
+          showToast('Personal settings saved successfully!', 'success');
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
