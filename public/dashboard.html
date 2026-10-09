@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Command Center - Live Queue Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span>🎫</span> Enterprise Ticketing System
+    </a>
+    <div class="nav-links">
+      <a href="/">Submit Ticket</a>
+      <a href="/dashboard.html" class="active">Triage Queue</a>
+      <a href="/workbench.html">Agent Workbench</a>
+      <a href="/search.html">Global Search</a>
+      <a href="/audit.html">Audit Ledger</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>Live Incident & Request Triage Queue</h2>
+        <button id="refreshBtn" class="btn btn-secondary">🔄 Refresh Queue</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="background: #e8f0fe; padding: 1rem; border-radius: 8px; text-align: center;">
+          <h3 id="statTotal" style="color: #1967d2;">0</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Total Tickets</p>
+        </div>
+        <div style="background: #fef7e0; padding: 1rem; border-radius: 8px; text-align: center;">
+          <h3 id="statTriage" style="color: #b06000;">0</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Unassigned / Submitted</p>
+        </div>
+        <div style="background: #e6f4ea; padding: 1rem; border-radius: 8px; text-align: center;">
+          <h3 id="statProgress" style="color: #137333;">0</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">In Progress</p>
+        </div>
+        <div style="background: #fce8e6; padding: 1rem; border-radius: 8px; text-align: center;">
+          <h3 id="statP1" style="color: #c5221f;">0</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Critical (P1)</p>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ticket #</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>SLA Resolve Deadline</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="queueBody">
+          <tr><td colspan="7" style="text-align: center;">Loading tickets...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>

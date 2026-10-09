@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit History & SHA-256 Cryptographic Inspector</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .hash-code { font-family: monospace; font-size: 0.8rem; background: #eee; padding: 2px 4px; border-radius: 3px; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span>🎫</span> Enterprise Ticketing System
+    </a>
+    <div class="nav-links">
+      <a href="/">Submit Ticket</a>
+      <a href="/dashboard.html">Triage Queue</a>
+      <a href="/workbench.html">Agent Workbench</a>
+      <a href="/search.html">Global Search</a>
+      <a href="/audit.html" class="active">Audit Ledger</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>Cryptographic Audit Ledger Inspector</h2>
+        <div id="chainStatusBadge"></div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+        <label for="auditTicketId"><strong>Ticket ID:</strong></label>
+        <input type="text" id="auditTicketId" class="form-control" style="width: 350px;" placeholder="UUID of ticket...">
+        <button id="inspectBtn" class="btn btn-primary">Inspect Hash Chain</button>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Seq #</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+            <th>Diff Payload</th>
+            <th>Previous SHA-256 Hash</th>
+            <th>Current SHA-256 Hash</th>
+          </tr>
+        </thead>
+        <tbody id="auditTableBody">
+          <tr><td colspan="6" style="text-align: center;">Enter a Ticket ID or navigate from Workbench to inspect audit history.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module" src="/js/audit.js"></script>
+</body>
+</html>
