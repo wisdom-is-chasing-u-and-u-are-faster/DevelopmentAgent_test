@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Turn Trajectory & Trace Inspector — Agent Eval Platform</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: var(--space-4);
+            height: calc(100vh - 120px);
+        }
+        .trajectory-pane {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .filter-header {
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        .trajectory-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+        .trajectory-item {
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .trajectory-item:hover {
+            background-color: var(--bg-surface-alt);
+        }
+        .trajectory-item.active {
+            background-color: var(--primary-light);
+            border-left: 3px solid var(--primary);
+        }
+        .trj-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-1);
+        }
+        .trj-id {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+        }
+        .trj-agent {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .trj-meta {
+            font-size: var(--text-xs);
+            color: var(--text-subtle);
+            margin-top: 4px;
+        }
+        .detail-pane {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow-y: auto;
+            padding: var(--space-5);
+        }
+        .turn-card {
+            background-color: var(--bg-surface-alt);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+        }
+        .turn-speaker {
+            font-size: var(--text-xs);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--space-1);
+            letter-spacing: 0.05em;
+        }
+        .turn-thought {
+            background-color: rgba(99, 102, 241, 0.08);
+            border-left: 3px solid var(--primary);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-2);
+            font-style: italic;
+            font-size: var(--text-sm);
+            color: var(--text-main);
+        }
+        .turn-content {
+            font-size: var(--text-sm);
+            color: var(--text-main);
+            margin-bottom: var(--space-2);
+        }
+        .turn-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: var(--space-2);
+        }
+        .tool-call {
+            background: var(--bg-page);
+            padding: var(--space-2);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            border: 1px solid var(--border-light);
+        }
+        .judge-summary {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--status-success-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+        .judge-score {
+            font-size: var(--text-base);
+            font-weight: 700;
+            margin-bottom: var(--space-1);
+        }
+        .judge-reasoning {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+        }
+        .a2a-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        .a2a-card-item {
+            background-color: var(--bg-page);
+            border: 1px solid var(--border-light);
+            border-left: 3px solid var(--cyan);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+        }
+        .a2a-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-1);
+        }
+        .a2a-intent {
+            font-size: var(--text-xs);
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        .a2a-flow {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            margin-bottom: var(--space-2);
+        }
+        .a2a-payload {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            background-color: var(--bg-surface);
+            padding: var(--space-2);
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body data-page="trajectories">
+    <div class="app-container" id="trajectories-view">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Agent Eval Platform</div>
+                <div class="sidebar-subtitle">Enterprise SDLC Platform</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-item">Platform Overview</a>
+                <a href="/dashboard.html" class="nav-item">Dashboard</a>
+                <a href="/trajectories.html" class="nav-item active">Trajectories & Traces</a>
+                <a href="/datasets.html" class="nav-item">Benchmark Datasets</a>
+                <a href="/new-run.html" class="nav-item">New Evaluation Run</a>
+                <a href="/annotations.html" class="nav-item">Human Annotations</a>
+            </nav>
+            <div class="sidebar-footer">
+                <span id="health-indicator" class="status-badge status-healthy">Checking Health...</span>
+            </div>
+        </aside>
+
+        <main class="page-content">
+            <header class="page-header">
+                <div>
+                    <h2>Multi-Turn Trajectory & Trace Inspector</h2>
+                    <p class="text-muted">Analyze chain-of-thought deliberations, tool calls, and A2A collaboration cards.</p>
+                </div>
+            </header>
+
+            <div class="split-layout">
+                <!-- Trajectory Selection & Filters -->
+                <div class="trajectory-pane">
+                    <div class="filter-header">
+                        <input type="text" id="filter-search" class="form-input" placeholder="Search trace by agent/ID...">
+                        <select id="filter-status" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="completed">Completed</option>
+                            <option value="running">Running</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+                    <div class="trajectory-list" id="trajectory-list">
+                        <div class="loading-state">Loading trajectories from API...</div>
+                    </div>
+                </div>
+
+                <!-- Trace Details View -->
+                <div class="detail-pane" id="trace-detail-view">
+                    <div class="empty-state">Select a trajectory from the left pane to inspect execution trace.</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
