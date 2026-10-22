@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Evaluation & Comparative Analytics Dashboard — Agent Eval Platform</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+</head>
+<body data-page="dashboard">
+    <div class="app-container" id="dashboard-view">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Agent Eval Platform</div>
+                <div class="sidebar-subtitle">Enterprise SDLC Platform</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-item">Platform Overview</a>
+                <a href="/dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="/trajectories.html" class="nav-item">Trajectories & Traces</a>
+                <a href="/datasets.html" class="nav-item">Benchmark Datasets</a>
+                <a href="/new-run.html" class="nav-item">New Evaluation Run</a>
+                <a href="/annotations.html" class="nav-item">Human Annotations</a>
+            </nav>
+            <div class="sidebar-footer">
+                <span id="health-indicator" class="status-badge status-healthy">Checking Health...</span>
+            </div>
+        </aside>
+
+        <main class="page-content">
+            <header class="page-header">
+                <div>
+                    <h2>Evaluation Leaderboard & Live Telemetry</h2>
+                    <p class="text-muted">Real-time benchmark scoring, pass rates, and A2A collaboration telemetry.</p>
+                </div>
+                <div class="page-actions">
+                    <a href="/new-run.html" class="btn btn-accent btn-sm">+ Trigger Benchmark Run</a>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- KPI Telemetry Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total A2A Cards Exchanged</div>
+                        <div class="stat-value" id="metric-total-cards">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Collaboration Precision</div>
+                        <div class="stat-value" id="metric-precision-rate">--%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg P95 Latency</div>
+                        <div class="stat-value" id="metric-avg-latency">-- ms</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Judge Consensus Rate</div>
+                        <div class="stat-value" id="metric-consensus-rate">--%</div>
+                    </div>
+                </div>
+
+                <!-- Agent Leaderboard -->
+                <div class="card mb-6">
+                    <div class="card-header">
+                        <h3>Agent Performance Leaderboard</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Agent Name</th>
+                                    <th>Model Backbone</th>
+                                    <th>Benchmark Pass Rate</th>
+                                    <th>P95 Latency</th>
+                                    <th>Runs Evaluated</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agent-leaderboard-body">
+                                <tr><td colspan="6" class="loading-state">Loading live agent leaderboard from API...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Recent Evaluation Runs -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Active & Recent Evaluation Runs</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Run Name</th>
+                                    <th>Mode</th>
+                                    <th>Status</th>
+                                    <th>Pass Rate</th>
+                                    <th>Progress</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-runs-body">
+                                <tr><td colspan="6" class="loading-state">Loading evaluation runs from API...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Evaluation Platform — Home</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <style>
+        .portal-hero {
+            padding: var(--space-8) var(--space-4);
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-page) 100%);
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: var(--space-6);
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-4);
+            padding: var(--space-4);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .nav-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .nav-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+        .nav-card h3 {
+            color: var(--text-main);
+            margin-bottom: var(--space-2);
+        }
+        .nav-card p {
+            color: var(--text-muted);
+            margin-bottom: var(--space-4);
+        }
+    </style>
+</head>
+<body data-page="home">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Agent Eval Platform</div>
+                <div class="sidebar-subtitle">Enterprise SDLC Platform</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-item active">Platform Overview</a>
+                <a href="/dashboard.html" class="nav-item">Dashboard</a>
+                <a href="/trajectories.html" class="nav-item">Trajectories & Traces</a>
+                <a href="/datasets.html" class="nav-item">Benchmark Datasets</a>
+                <a href="/new-run.html" class="nav-item">New Evaluation Run</a>
+                <a href="/annotations.html" class="nav-item">Human Annotations</a>
+            </nav>
+            <div class="sidebar-footer">
+                <span id="health-indicator" class="status-badge status-healthy">Checking Health...</span>
+            </div>
+        </aside>
+
+        <main class="page-content">
+            <div class="portal-hero">
+                <h1>AI Agent Evaluation & Benchmark Platform</h1>
+                <p class="text-muted">Multi-Agent Swarm, Trajectory Trace Inspection, and Human-in-the-Loop Curation</p>
+            </div>
+
+            <div class="portal-grid">
+                <a href="/dashboard.html" class="nav-card">
+                    <div>
+                        <h3>Leaderboard & Analytics</h3>
+                        <p>Monitor real-time pass rates, latency benchmarks, and active evaluation runs across models.</p>
+                    </div>
+                    <span class="btn btn-primary btn-sm">Launch Dashboard &rarr;</span>
+                </a>
+
+                <a href="/trajectories.html" class="nav-card">
+                    <div>
+                        <h3>Trajectory & Trace Viewer</h3>
+                        <p>Inspect multi-turn CoT steps, tool calls, and Agent-to-Agent (A2A) delegation card handoffs.</p>
+                    </div>
+                    <span class="btn btn-secondary btn-sm">Inspect Traces &rarr;</span>
+                </a>
+
+                <a href="/datasets.html" class="nav-card">
+                    <div>
+                        <h3>Golden Benchmark Datasets</h3>
+                        <p>Manage golden test cases, domain evaluations, and import standardized test suites.</p>
+                    </div>
+                    <span class="btn btn-secondary btn-sm">View Datasets &rarr;</span>
+                </a>
+
+                <a href="/new-run.html" class="nav-card">
+                    <div>
+                        <h3>Trigger Evaluation Run</h3>
+                        <p>Configure single-agent, multi-agent swarm, or comparative benchmark evaluations.</p>
+                    </div>
+                    <span class="btn btn-accent btn-sm">New Run &rarr;</span>
+                </a>
+
+                <a href="/annotations.html" class="nav-card">
+                    <div>
+                        <h3>Human Annotation Queue</h3>
+                        <p>Review ambiguous traces, submit evaluator verdicts, and curate golden datasets.</p>
+                    </div>
+                    <span class="btn btn-secondary btn-sm">Review Queue &rarr;</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
