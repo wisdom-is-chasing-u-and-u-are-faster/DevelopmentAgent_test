@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badges & Achievements - Enterprise Fitness Challenge</title>
+    <link rel="stylesheet" href="css/tokens.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="challenge_list.html" class="logo">Fit<span class="gradient-text">Challenge</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="challenge_list.html">Challenges</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="social_feed.html">Feed</a></li>
+                    <li><a href="user_profile.html" class="active">Profile</a></li>
+                    <li><a href="admin_challenge_management.html">Admin</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></button>
+                <a href="user_profile.html" class="btn btn-secondary">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container">
+        <h1 class="mb-4">Badges & Achievements</h1>
+        <p class="text-secondary mb-5">Review your earned badges and discover new ones to unlock.</p>
+
+        <h2 class="mb-4">Earned Badges</h2>
+        <div class="grid-container grid-cols-4">
+            <div class="card text-center">
+                <h3 class="gradient-text">Stepathon: 1M</h3>
+                <p class="text-secondary">Log 1,000,000 steps in a single challenge.</p>
+                <p class="mt-2"><small>Earned: July 25, 2024</small></p>
+            </div>
+            <div class="card text-center">
+                <h3 class="gradient-text">Streak: 7-Day</h3>
+                <p class="text-secondary">Complete a workout 7 days in a row.</p>
+                <p class="mt-2"><small>Earned: July 23, 2024</small></p>
+            </div>
+             <div class="card text-center">
+                <h3 class="gradient-text">Perfect Month</h3>
+                <p class="text-secondary">Log at least one activity every day for a full month.</p>
+                <p class="mt-2"><small>Earned: June 30, 2024</small></p>
+            </div>
+        </div>
+
+        <h2 class="mb-4 mt-5">Available Badges</h2>
+        <div class="grid-container grid-cols-4">
+            <div class="card text-center" style="opacity: 0.6;">
+                <h3>Streak: 30-Day</h3>
+                <p class="text-secondary">Complete a workout 30 days in a row.</p>
+            </div>
+            <div class="card text-center" style="opacity: 0.6;">
+                <h3>Cycle King</h3>
+                <p class="text-secondary">Log 500km of cycling in a single month.</p>
+            </div>
+            <div class="card text-center" style="opacity: 0.6;">
+                <h3>Team Player</h3>
+                <p class="text-secondary">Finish in the top 10 of a team-based challenge.</p>
+            </div>
+            <div class="card text-center" style="opacity: 0.6;">
+                <h3>Early Bird</h3>
+                <p class="text-secondary">Log 20 activities before 7 AM in one month.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-column"><h4>Challenges</h4><ul><li><a href="challenge_list.html">Browse Challenges</a></li><li><a href="leaderboard.html">Global Leaderboard</a></li></ul></div>
+            <div class="footer-column"><h4>Account</h4><ul><li><a href="user_profile.html">My Profile</a></li><li><a href="connected_apps.html">Connected Apps</a></li><li><a href="privacy_settings.html">Privacy Settings</a></li><li><a href="badges.html">My Badges</a></li></ul></div>
+            <div class="footer-column"><h4>Administration</h4><ul><li><a href="admin_challenge_management.html">Manage Challenges</a></li><li><a href="admin_user_management.html">Manage Users</a></li></ul></div>
+            <div class="footer-column"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2024 Enterprise Fitness Challenge Platform. All rights reserved.</p><p><a href="account_deletion.html">Data Management & Account Deletion</a></p></div>
+    </footer>
+    <script>const themeToggle = document.getElementById('theme-toggle'); themeToggle.addEventListener('click', () => { const currentTheme = document.documentElement.getAttribute('data-theme'); if (currentTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'light'); } else { document.documentElement.setAttribute('data-theme', 'dark'); } });</script>
+    <script src="js/api.js"></script>
+</body>
+</html>

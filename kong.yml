@@ -1,0 +1,24 @@
+_format_version: "3.0"
+
+services:
+  - name: telemetry-ingest-service
+    url: http://localhost:8081
+    routes:
+      - name: telemetry-ingest-route
+        paths:
+          - /api/v1/telemetry/ingest
+        methods:
+          - POST
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5000
+          policy: local
+
+  - name: fitness-backend-service
+    url: http://localhost:8080
+    routes:
+      - name: fitness-api-route
+        paths:
+          - /api/v1
+        strip_path: false
