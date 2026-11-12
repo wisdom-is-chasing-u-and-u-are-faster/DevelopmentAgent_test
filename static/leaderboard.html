@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Enterprise Fitness Challenge</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <style>
+        .leaderboard-tabs { margin-bottom: var(--space-3); display: flex; gap: var(--space-2); }
+        .leaderboard-tabs .btn.active { background: var(--primary-color); color: #fff; }
+        .leaderboard-user-highlight td { background-color: color-mix(in srgb, var(--accent-color-2) 15%, transparent); font-weight: 600; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; margin-right: var(--space-2); }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="challenge_list.html" class="logo">Fit<span class="gradient-text">Challenge</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="challenge_list.html">Challenges</a></li>
+                    <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+                    <li><a href="social_feed.html">Feed</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="admin_challenge_management.html">Admin</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></button>
+                <a href="user_profile.html" class="btn btn-secondary">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="mb-1">Q3 '24 Corporate Stepathon</h1>
+                <p class="text-secondary">Leaderboard tracking total steps.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="leaderboard-tabs">
+                    <button class="btn btn-secondary active" data-ranking-type="global">Global</button>
+                    <button class="btn btn-secondary">Local (Your Division)</button>
+                    <button class="btn btn-secondary">Relative (+/- 5)</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Participant</th>
+                        <th>Total Steps</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-tbody">
+                    <tr>
+                        <td>1</td>
+                        <td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=user1" alt="Avatar for D. Hasting" class="avatar"><span>D. Hasting</span></td>
+                        <td>2,105,432</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=user2" alt="Avatar for S. Chen" class="avatar"><span>S. Chen</span></td>
+                        <td>2,088,101</td>
+                    </tr>
+                     <tr>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                    <tr class="leaderboard-user-highlight">
+                        <td>56</td>
+                        <td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=you" alt="Your Avatar" class="avatar"><span>You (A. User)</span></td>
+                        <td>1,503,987</td>
+                    </tr>
+                     <tr>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                    <tr>
+                        <td>1250</td>
+                        <td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=user1250" alt="Avatar for Z. Miller" class="avatar"><span>Z. Miller</span></td>
+                        <td>801,234</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-column"><h4>Challenges</h4><ul><li><a href="challenge_list.html">Browse Challenges</a></li><li><a href="leaderboard.html">Global Leaderboard</a></li></ul></div>
+            <div class="footer-column"><h4>Account</h4><ul><li><a href="user_profile.html">My Profile</a></li><li><a href="connected_apps.html">Connected Apps</a></li><li><a href="privacy_settings.html">Privacy Settings</a></li><li><a href="badges.html">My Badges</a></li></ul></div>
+            <div class="footer-column"><h4>Administration</h4><ul><li><a href="admin_challenge_management.html">Manage Challenges</a></li><li><a href="admin_user_management.html">Manage Users</a></li></ul></div>
+            <div class="footer-column"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2024 Enterprise Fitness Challenge Platform. All rights reserved.</p><p><a href="account_deletion.html">Data Management & Account Deletion</a></p></div>
+    </footer>
+    <script>const themeToggle = document.getElementById('theme-toggle'); themeToggle.addEventListener('click', () => { const currentTheme = document.documentElement.getAttribute('data-theme'); if (currentTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'light'); } else { document.documentElement.setAttribute('data-theme', 'dark'); } });</script>
+    <script src="js/api.js"></script>
+</body>
+</html>

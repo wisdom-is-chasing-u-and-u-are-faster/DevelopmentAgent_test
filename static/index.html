@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Fitness Challenge Platform</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <style>
+        /* Styles for single-page navigation */
+        main > section { display: none; }
+        main > section:target, main > section.active { display: block; }
+        .leaderboard-tabs { margin-bottom: var(--space-3); display: flex; gap: var(--space-2); }
+        .leaderboard-tabs .btn.active { background: var(--primary-color); color: #fff; }
+        .leaderboard-user-highlight td { background-color: color-mix(in srgb, var(--accent-color-2) 15%, transparent); font-weight: 600; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; margin-right: var(--space-2); }
+        .feed-item .avatar { width: 48px; height: 48px; }
+        .feed-item-header { display: flex; align-items: center; gap: var(--space-2); }
+        .feed-item-content .map-placeholder { background: var(--border-color); border-radius: var(--radius-md); height: 200px; display: flex; align-items: center; justify-content: center; font-style: italic; color: var(--text-color-secondary); }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="#challenge_list" class="logo">Fit<span class="gradient-text">Challenge</span></a>
+            <nav class="main-nav">
+                <ul id="main-nav-list">
+                    <li><a href="#challenge_list">Challenges</a></li>
+                    <li><a href="#leaderboard">Leaderboard</a></li>
+                    <li><a href="#social_feed">Feed</a></li>
+                    <li><a href="#user_profile">Profile</a></li>
+                    <li><a href="#admin_challenge_management">Admin</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></button>
+                <a href="#user_profile" class="btn btn-secondary">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Screen: Challenge List -->
+        <section id="challenge_list" class="container">
+            <div class="hero">
+                <div class="eyebrow">, </div>
+                <h1>Find Your <span class="gradient-text">Next Challenge</span></h1>
+                <p class="sub-headline">Browse active and upcoming corporate fitness challenges. Enroll and start competing with your colleagues.</p>
+            </div>
+            <div class="grid-container grid-cols-3">
+                <div class="card"><div class="card-header"><h3>Q3 '24 Corporate Stepathon</h3><span class="badge badge-success">Active</span></div><p class="text-secondary mb-3">An individual challenge to see who can log the most steps this quarter.</p><div class="d-flex justify-content-between align-items-center"><a href="#challenge_details" class="btn btn-primary">View Details</a><span class="text-secondary">Ends Oct 1, 2024</span></div></div>
+                <div class="card"><div class="card-header"><h3>EMEA vs AMER Team Battle</h3><span class="badge badge-success">Active</span></div><p class="text-secondary mb-3">A team-based challenge pitting regions against each other. Requires corporate team code.</p><div class="d-flex justify-content-between align-items-center"><a href="#challenge_details" class="btn btn-primary">View Details</a><span class="text-secondary">Ends Sep 15, 2024</span></div></div>
+                <div class="card"><div class="card-header"><h3>Bay Area Cycling Climb</h3><span class="badge badge-primary">Upcoming</span></div><p class="text-secondary mb-3">Log the most elevation gain on your bike. Limited to employees in the San Francisco Bay Area.</p><div class="d-flex justify-content-between align-items-center"><a href="#challenge_details" class="btn btn-secondary">Preview</a><span class="text-secondary">Starts Aug 20, 2024</span></div></div>
+                <div class="card"><div class="card-header"><h3>Global Marathon Relay</h3><span class="badge badge-danger">Capacity Full</span></div><p class="text-secondary mb-3">Enrollment capacity has been reached.</p><div class="d-flex justify-content-between align-items-center"><a href="#challenge_details" class="btn btn-secondary" aria-disabled="true">View Details</a><span class="text-secondary">Ended</span></div></div>
+            </div>
+        </section>
+
+        <!-- Screen: Connected Apps -->
+        <section id="connected_apps" class="container">
+            <div class="card"><div class="card-header"><h1>Connected Apps</h1><p class="text-secondary">Manage connections to third-party fitness platforms.</p></div><div class="grid-container grid-cols-2">
+                <div class="card"><div class="d-flex justify-content-between align-items-center"><h3>Apple HealthKit</h3><span class="badge badge-success">Connected</span></div><p class="text-secondary mt-1 mb-3">Syncs workout data automatically.</p><button class="btn btn-danger">Disconnect</button></div>
+                <div class="card"><div class="d-flex justify-content-between align-items-center"><h3>Google Health Connect</h3><span class="badge badge-primary">Not Connected</span></div><p class="text-secondary mt-1 mb-3">Connect to sync data.</p><button class="btn btn-primary">Connect</button></div>
+                <div class="card"><div class="d-flex justify-content-between align-items-center"><h3>Garmin Connect</h3><span class="badge badge-primary">Not Connected</span></div><p class="text-secondary mt-1 mb-3">Sync your activities.</p><button class="btn btn-primary">Connect</button></div>
+                <div class="card"><div class="d-flex justify-content-between align-items-center"><h3>Strava</h3><span class="badge badge-success">Connected</span></div><p class="text-secondary mt-1 mb-3">Your latest activities will be synced.</p><button class="btn btn-danger">Disconnect</button></div>
+            </div></div>
+        </section>
+
+        <!-- Screen: Challenge Details -->
+        <section id="challenge_details" class="container">
+             <div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="mb-1">EMEA vs AMER Team Battle</h1><p class="text-secondary">Team-based challenge details.</p></div><span class="badge badge-success" style="font-size: 1rem;">Active</span></div>
+             <div class="grid-container grid-cols-3"><div class="card" style="grid-column: span 2;"><div class="card-header"><h3>Challenge Rules</h3></div><p>Total steps of all members in a region are summed up. The region with the highest average step count wins.</p><ul class="mt-3"><li><strong>Metric:</strong> Total Steps</li><li><strong>Duration:</strong> Aug 1, 2024 - Sep 15, 2024</li><li><strong>Participants:</strong> All employees in EMEA and AMER regions.</li></ul></div><div class="card"><div class="card-header"><h3>Enrollment</h3></div><p class="text-secondary mb-3">Enter your corporate team code.</p><div class="form-group"><label for="team-code-index">Corporate Team Code</label><input type="text" id="team-code-index" class="form-control" placeholder="e.g., EMEA-FINANCE"></div><button class="btn btn-primary" style="width: 100%;">Enroll Now</button><p class="text-secondary text-center mt-2" style="font-size: 0.8rem;">1,250 / 2,000 Capacity Filled</p></div></div>
+             <div class="card mt-4"><div class="card-header"><h3>Current Standings</h3></div><p>For detailed rankings, see the <a href="#leaderboard">full leaderboard</a>.</p></div>
+        </section>
+
+        <!-- Screen: Leaderboard -->
+        <section id="leaderboard" class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="mb-1">Q3 '24 Corporate Stepathon</h1><p class="text-secondary">Leaderboard tracking total steps.</p></div></div>
+            <div class="card"><div class="card-header"><div class="leaderboard-tabs"><button class="btn btn-secondary active">Global</button><button class="btn btn-secondary">Local</button><button class="btn btn-secondary">Relative (+/- 5)</button></div></div>
+            <table class="table"><thead><tr><th>Rank</th><th>Participant</th><th>Total Steps</th></tr></thead><tbody>
+                <tr><td>1</td><td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=user1" alt="Avatar for D. Hasting" class="avatar"><span>D. Hasting</span></td><td>2,105,432</td></tr>
+                <tr><td>2</td><td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=user2" alt="Avatar for S. Chen" class="avatar"><span>S. Chen</span></td><td>2,088,101</td></tr>
+                <tr><td>...</td><td>...</td><td>...</td></tr>
+                <tr class="leaderboard-user-highlight"><td>56</td><td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=you" alt="Your Avatar" class="avatar"><span>You (A. User)</span></td><td>1,503,987</td></tr>
+                <tr><td>...</td><td>...</td><td>...</td></tr>
+                <tr><td>1250</td><td class="d-flex align-items-center"><img src="https://i.pravatar.cc/40?u=user1250" alt="Avatar for Z. Miller" class="avatar"><span>Z. Miller</span></td><td>801,234</td></tr>
+            </tbody></table></div>
+        </section>
+
+        <!-- Screen: Social Feed -->
+        <section id="social_feed" class="container" style="max-width: 800px;">
+            <h1 class="mb-4">Activity Feed</h1><p class="text-secondary mb-4">See what your colleagues are sharing.</p>
+            <div class="card feed-item mb-4"><div class="feed-item-header mb-3"><img src="https://i.pravatar.cc/48?u=user2" alt="Avatar for S. Chen" class="avatar"><div><h4 class="mb-0">S. Chen</h4><p class="text-secondary" style="font-size: var(--font-size-caption);">2 hours ago</p></div></div><div class="feed-item-content"><p>Great morning run! GPS track near my home is masked.</p><div class="map-placeholder mt-3"><span>Masked GPS Track Visualization</span></div></div></div>
+            <div class="card feed-item mb-4"><div class="feed-item-header mb-3"><img src="https://i.pravatar.cc/48?u=user1" alt="Avatar for D. Hasting" class="avatar"><div><h4 class="mb-0">D. Hasting</h4><p class="text-secondary" style="font-size: var(--font-size-caption);">8 hours ago</p></div></div><div class="feed-item-content"><p>Hit a new personal record on my evening cycle!</p></div></div>
+        </section>
+
+        <!-- Screen: User Profile -->
+        <section id="user_profile" class="container">
+            <h1 class="mb-4">User Profile & Settings</h1>
+            <div class="grid-container grid-cols-3">
+                <div class="card" style="grid-column: span 2;"><div class="card-header"><h3>Profile Information</h3></div><form><div class="form-group"><label for="screenName-index">Screen Name</label><input type="text" id="screenName-index" class="form-control" value="A. User"></div><div class="form-group"><label for="avatarUrl-index">Avatar URL</label><input type="url" id="avatarUrl-index" class="form-control" value="https://i.pravatar.cc/150?u=you"></div><button type="submit" class="btn btn-primary">Save Changes</button></form></div>
+                <div class="card"><div class="card-header"><h3>Stats</h3></div><div class="mb-4"><h4>Workout Streaks</h4><p><strong>Current Daily Streak:</strong> 7 days</p><p><strong>Longest Weekly Streak:</strong> 4 weeks</p></div><div><h4>Recent Badges</h4><div class="d-flex gap-2 mt-2"><span class="badge badge-primary">Streak: 7-Day</span><span class="badge badge-success">Stepathon: 1M Steps</span></div><a href="#badges" class="d-block mt-3">View all badges</a></div></div>
+            </div>
+        </section>
+
+        <!-- Screen: Badges -->
+        <section id="badges" class="container">
+            <h1 class="mb-4">Badges & Achievements</h1><p class="text-secondary mb-5">Review your earned badges and discover new ones.</p>
+            <h2 class="mb-4">Earned Badges</h2>
+            <div class="grid-container grid-cols-4">
+                <div class="card text-center"><h3 class="gradient-text">Stepathon: 1M</h3><p class="text-secondary">Log 1,000,000 steps.</p><p class="mt-2"><small>Earned: July 25, 2024</small></p></div>
+                <div class="card text-center"><h3 class="gradient-text">Streak: 7-Day</h3><p class="text-secondary">Workout 7 days in a row.</p><p class="mt-2"><small>Earned: July 23, 2024</small></p></div>
+                <div class="card text-center"><h3 class="gradient-text">Perfect Month</h3><p class="text-secondary">Log an activity every day for a month.</p><p class="mt-2"><small>Earned: June 30, 2024</small></p></div>
+            </div>
+            <h2 class="mb-4 mt-5">Available Badges</h2>
+            <div class="grid-container grid-cols-4">
+                <div class="card text-center" style="opacity: 0.6;"><h3>Streak: 30-Day</h3><p class="text-secondary">Workout 30 days in a row.</p></div>
+                <div class="card text-center" style="opacity: 0.6;"><h3>Cycle King</h3><p class="text-secondary">Log 500km of cycling in a month.</p></div>
+            </div>
+        </section>
+
+        <!-- Screen: Privacy Settings -->
+        <section id="privacy_settings" class="container">
+            <h1 class="mb-4">Privacy Settings</h1>
+            <div class="card"><div class="card-header"><h3>Sensitive Locations for GPS Masking</h3><p class="text-secondary">Mask GPS points within a 500m radius of these locations.</p></div>
+            <div class="grid-container grid-cols-2"><div><h4>Add a New Location</h4><form><div class="form-group"><label for="locationName-index">Location Name</label><input type="text" id="locationName-index" class="form-control" placeholder="e.g., Home, Office"></div><div class="form-group"><label for="locationAddress-index">Address</label><input type="text" id="locationAddress-index" class="form-control" placeholder="Search for an address"></div><div class="map-placeholder mt-3 mb-3" style="height: 150px;"><span>Map to confirm address</span></div><button type="submit" class="btn btn-primary">Save Location</button></form></div>
+            <div><h4>Your Saved Locations</h4><table class="table"><thead><tr><th>Name</th><th>Action</th></tr></thead><tbody><tr><td>Home</td><td><button class="btn btn-danger">Delete</button></td></tr><tr><td>Office</td><td><button class="btn btn-danger">Delete</button></td></tr></tbody></table></div></div></div>
+        </section>
+
+        <!-- Screen: Account Deletion -->
+        <section id="account_deletion" class="container" style="max-width: 800px;">
+            <h1 class="mb-4">Account & Data Deletion</h1>
+            <div class="card" style="border-color: var(--color-danger);"><div class="card-header"><h3>Self-Service Data Deletion</h3><p class="text-secondary">Request deletion of your data in compliance with GDPR/CCPA.</p></div>
+            <div style="padding: var(--space-2); margin-bottom: var(--space-3); border-radius: var(--radius-md); background-color: color-mix(in srgb, var(--color-danger) 15%, transparent);"><h4 style="color: var(--color-danger);">Warning: This action is irreversible.</h4><p>Proceeding will permanently delete your account and all associated data.</p></div>
+            <div class="form-group"><label style="display: flex; align-items: center; gap: var(--space-1);"><input type="checkbox" id="confirm-deletion-index" style="width: 1.2em; height: 1.2em;"><span>I understand and wish to proceed.</span></label></div>
+            <button id="delete-button-index" class="btn btn-danger" disabled>Permanently Delete My Account</button></div>
+        </section>
+
+        <!-- Screen: Admin Challenge Management -->
+        <section id="admin_challenge_management" class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="mb-1">Challenge Management</h1><p class="text-secondary">Create, configure, publish, and terminate challenges.</p></div><button class="btn btn-primary">Create New Challenge</button></div>
+            <div class="card"><div class="card-header"><h3>Existing Challenges</h3></div>
+            <table class="table"><thead><tr><th>Name</th><th>Status</th><th>Enrollment (Capacity)</th><th>Actions</th></tr></thead>
+            <tbody>
+                <tr><td>Q3 '24 Corporate Stepathon</td><td><span class="badge badge-success">Active</span></td><td>18,450 / 25,000</td><td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Terminate</button></td></tr>
+                <tr><td>EMEA vs AMER Team Battle</td><td><span class="badge badge-success">Active</span></td><td>1,250 / 2,000</td><td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Terminate</button></td></tr>
+                <tr><td>Bay Area Cycling Climb</td><td><span class="badge badge-primary">Upcoming</span></td><td>0 / 500</td><td><button class="btn btn-secondary">Edit</button> <button class="btn btn-secondary">Publish</button></td></tr>
+                <tr><td>Global Marathon Relay</td><td><span class="badge text-secondary">Ended</span></td><td>1,000 / 1,000</td><td><button class="btn btn-secondary" disabled>Edit</button></td></tr>
+            </tbody></table></div>
+        </section>
+
+        <!-- Screen: Admin User Management -->
+        <section id="admin_user_management" class="container">
+             <h1 class="mb-1">User Management</h1><p class="text-secondary mb-4">Manage user accounts and assign roles based on RBAC.</p>
+             <div class="card"><div class="card-header"><div class="form-group"><label for="userSearch-index">Search for User</label><input type="search" id="userSearch-index" class="form-control" placeholder="Search by name or email..."></div></div>
+             <table class="table"><thead><tr><th>User</th><th>Role</th><th>Actions</th></tr></thead><tbody>
+                <tr><td>D. Hasting</td><td><select class="form-control"><option>Athlete</option><option selected>Team Captain</option><option>Challenge Admin</option><option>Security Auditor</option></select></td><td><button class="btn btn-primary">Save</button></td></tr>
+                <tr><td>S. Chen</td><td><select class="form-control"><option selected>Athlete</option><option>Team Captain</option><option>Challenge Admin</option><option>Security Auditor</option></select></td><td><button class="btn btn-primary">Save</button></td></tr>
+                <tr><td>A. Admin</td><td><select class="form-control"><option>Athlete</option><option>Team Captain</option><option selected>Challenge Admin</option><option>Security Auditor</option></select></td><td><button class="btn btn-primary">Save</button></td></tr>
+                <tr><td>S. Auditor</td><td><select class="form-control"><option>Athlete</option><option>Team Captain</option><option>Challenge Admin</option><option selected>Security Auditor</option></select></td><td><button class="btn btn-primary">Save</button></td></tr>
+             </tbody></table></div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-column"><h4>Challenges</h4><ul><li><a href="#challenge_list">Browse Challenges</a></li><li><a href="#leaderboard">Global Leaderboard</a></li></ul></div>
+            <div class="footer-column"><h4>Account</h4><ul><li><a href="#user_profile">My Profile</a></li><li><a href="#connected_apps">Connected Apps</a></li><li><a href="#privacy_settings">Privacy Settings</a></li><li><a href="#badges">My Badges</a></li></ul></div>
+            <div class="footer-column"><h4>Administration</h4><ul><li><a href="#admin_challenge_management">Manage Challenges</a></li><li><a href="#admin_user_management">Manage Users</a></li></ul></div>
+            <div class="footer-column"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2024 Enterprise Fitness Challenge Platform. All rights reserved.</p><p><a href="#account_deletion">Data Management & Account Deletion</a></p></div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+
+        // Account Deletion Checkbox
+        const confirmCheckbox = document.getElementById('confirm-deletion-index');
+        const deleteButton = document.getElementById('delete-button-index');
+        if(confirmCheckbox && deleteButton) {
+            confirmCheckbox.addEventListener('change', () => {
+                deleteButton.disabled = !confirmCheckbox.checked;
+            });
+        }
+
+        // Single-Page Navigation
+        const mainNavLinks = document.querySelectorAll('#main-nav-list a');
+        const sections = document.querySelectorAll('main > section');
+
+        function setActiveLink(hash) {
+            mainNavLinks.forEach(link => {
+                if (link.getAttribute('href') === hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        
+        function showSection() {
+            let hash = window.location.hash || '#challenge_list';
+            if (hash.length > 1) {
+                // Deactivate all sections
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // Activate target section
+                const targetSection = document.querySelector(hash);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                } else {
+                    // Fallback to the first section if hash is invalid
+                    document.querySelector('#challenge_list').classList.add('active');
+                    hash = '#challenge_list';
+                }
+            } else {
+                 document.querySelector('#challenge_list').classList.add('active');
+                 hash = '#challenge_list';
+            }
+            setActiveLink(hash);
+        }
+
+        window.addEventListener('hashchange', showSection);
+        showSection(); // Initial load
+    });
+    </script>
+    <script src="js/api.js"></script>
+</body>
+</html>
